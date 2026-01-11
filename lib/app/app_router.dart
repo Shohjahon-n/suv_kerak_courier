@@ -1,27 +1,105 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/storage/app_preferences.dart';
+import '../features/auth/presentation/pages/login_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
+import '../features/menu/presentation/pages/about_page.dart';
+import '../features/menu/presentation/pages/bottle_balance_page.dart';
+import '../features/menu/presentation/pages/cash_report_page.dart';
+import '../features/menu/presentation/pages/cash_report_models.dart';
+import '../features/menu/presentation/pages/cash_report_result_page.dart';
+import '../features/menu/presentation/pages/orders_page.dart';
+import '../features/menu/presentation/pages/security_page.dart';
+import '../features/onboarding/presentation/pages/language_selection_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 
 class AppRouter {
   AppRouter._();
 
-  static GoRouter create() {
+  static GoRouter create({required AppPreferences preferences}) {
+    final hasSession = preferences.hasSession;
+    final initialLocation = preferences.hasLocale
+        ? (hasSession ? '/home' : '/login')
+        : '/language';
+
     return GoRouter(
-      initialLocation: '/',
+      initialLocation: initialLocation,
+      redirect: (context, state) {
+        final hasLocale = preferences.hasLocale;
+        final hasSessionNow = preferences.hasSession;
+        final location = state.matchedLocation;
+        final isLanguageRoute = location == '/language';
+        if (!hasLocale && !isLanguageRoute) {
+          return '/language';
+        }
+        if (hasLocale && hasSessionNow && location == '/login') {
+          return '/home';
+        }
+        if (hasLocale && !hasSessionNow && location == '/home') {
+          return '/login';
+        }
+        return null;
+      },
       routes: [
         GoRoute(
-          path: '/',
+          path: '/language',
+          name: 'language',
+          builder: (context, state) => const LanguageSelectionPage(),
+        ),
+        GoRoute(
+          path: '/login',
+          name: 'login',
+          builder: (context, state) => const LoginPage(),
+        ),
+        GoRoute(
+          path: '/home',
           name: 'home',
           builder: (context, state) => const HomePage(),
-          routes: [
-            GoRoute(
-              path: 'settings',
-              name: 'settings',
-              builder: (context, state) => const SettingsPage(),
-            ),
-          ],
+        ),
+        GoRoute(
+          path: '/orders',
+          name: 'orders',
+          builder: (context, state) => const OrdersPage(),
+        ),
+        GoRoute(
+          path: '/cash-report',
+          name: 'cash-report',
+          builder: (context, state) => const CashReportPage(),
+        ),
+        GoRoute(
+          path: '/cash-report/periodic',
+          name: 'cash-report-periodic',
+          builder: (context, state) => CashReportResultPage(
+            request: state.extra as CashReportRequest?,
+          ),
+        ),
+        GoRoute(
+          path: '/cash-report/online',
+          name: 'cash-report-online',
+          builder: (context, state) => CashReportResultPage(
+            request: state.extra as CashReportRequest?,
+          ),
+        ),
+        GoRoute(
+          path: '/bottle-balance',
+          name: 'bottle-balance',
+          builder: (context, state) => const BottleBalancePage(),
+        ),
+        GoRoute(
+          path: '/settings',
+          name: 'settings',
+          builder: (context, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '/security',
+          name: 'security',
+          builder: (context, state) => const SecurityPage(),
+        ),
+        GoRoute(
+          path: '/about',
+          name: 'about',
+          builder: (context, state) => const AboutPage(),
         ),
       ],
       errorBuilder: (context, state) {

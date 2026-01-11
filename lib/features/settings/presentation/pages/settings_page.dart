@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/localization/locale_cubit.dart';
+import '../../../../core/security/pin_pad.dart';
+import '../../../../core/security/security_cubit.dart';
+import '../../../../core/theme/theme_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -10,7 +13,32 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     final currentLocale = context.select((LocaleCubit cubit) => cubit.state);
+    final themeMode = context.select((ThemeCubit cubit) => cubit.state);
+
+    final languages = [
+      _LanguageOption(
+        locale: const Locale('en'),
+        label: l10n.languageEnglish,
+        flag: '🇬🇧',
+      ),
+      _LanguageOption(
+        locale: const Locale('ru'),
+        label: l10n.languageRussian,
+        flag: '🇷🇺',
+      ),
+      _LanguageOption(
+        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Latn'),
+        label: l10n.languageUzbekLatin,
+        flag: '🇺🇿',
+      ),
+      _LanguageOption(
+        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Cyrl'),
+        label: l10n.languageUzbekCyrillic,
+        flag: '🇺🇿',
+      ),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -19,39 +47,360 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text(
-            l10n.languageTitle,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          _SectionTitle(title: l10n.languageTitle),
           const SizedBox(height: 8),
-          ...AppLocalizations.supportedLocales.map(
-            (locale) => RadioListTile<Locale>(
-              value: locale,
-              groupValue: currentLocale,
-              title: Text(_languageLabel(l10n, locale)),
-              onChanged: (value) {
-                if (value == null) {
+          ...languages.map(
+            (option) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: _LanguageTile(
+                option: option,
+                selected: _isSameLocale(option.locale, currentLocale),
+                onTap: () {
+                  context.read<LocaleCubit>().setLocale(option.locale);
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _SectionTitle(title: l10n.themeModeTitle),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: colorScheme.outline.withOpacity(0.3),
+              ),
+            ),
+            child: SegmentedButton<ThemeMode>(
+              segments: [
+                ButtonSegment(
+                  value: ThemeMode.light,
+                  label: Text(l10n.themeModeLight),
+                  icon: const Icon(Icons.light_mode_outlined),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.dark,
+                  label: Text(l10n.themeModeDark),
+                  icon: const Icon(Icons.dark_mode_outlined),
+                ),
+              ],
+              selected: {themeMode},
+              showSelectedIcon: false,
+              onSelectionChanged: (selection) async {
+                if (selection.isEmpty) {
                   return;
                 }
-                context.read<LocaleCubit>().setLocale(value);
+                await context.read<ThemeCubit>().setMode(selection.first);
               },
             ),
+          ),
+          const SizedBox(height: 24),
+          _SectionTitle(title: l10n.securityTitle),
+          const SizedBox(height: 8),
+          BlocBuilder<SecurityCubit, SecurityState>(
+            builder: (context, state) {
+              return Column(
+                children: [
+                  _ToggleTile(
+                    title: l10n.securityPinTitle,
+                    value: state.pinEnabled,
+                    onChanged: (enabled) async {
+                      final cubit = context.read<SecurityCubit>();
+                      if (enabled) {
+                        final pin = await _showPinSetupDialog(context);
+                        if (!context.mounted) {
+                          return;
+                        }
+                        if (pin == null) {
+                          return;
+                        }
+                        await cubit.enablePin(pin);
+                      } else {
+                        await cubit.disablePin();
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  _ToggleTile(
+                    title: l10n.securityBiometricTitle,
+                    value: state.biometricEnabled,
+                    onChanged: (enabled) async {
+                      final cubit = context.read<SecurityCubit>();
+                      if (enabled) {
+                        final available = await cubit.canUseBiometrics();
+                        if (!context.mounted) {
+                          return;
+                        }
+                        if (!available) {
+                          _showToast(context, l10n.biometricUnavailable);
+                          return;
+                        }
+                      }
+                      await cubit.setBiometricEnabled(enabled);
+                    },
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  String _languageLabel(AppLocalizations l10n, Locale locale) {
-    if (locale.languageCode == 'ru') {
-      return l10n.languageRussian;
+  bool _isSameLocale(Locale a, Locale b) {
+    if (a.languageCode != b.languageCode) {
+      return false;
     }
-    if (locale.languageCode == 'uz' && locale.scriptCode == 'Cyrl') {
-      return l10n.languageUzbekCyrillic;
+    if (a.scriptCode != null || b.scriptCode != null) {
+      return a.scriptCode == b.scriptCode;
     }
-    if (locale.languageCode == 'uz') {
-      return l10n.languageUzbekLatin;
+    return true;
+  }
+
+  Future<String?> _showPinSetupDialog(BuildContext context) async {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => const _PinSetupDialog(),
+    );
+  }
+
+  void _showToast(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+}
+
+class _PinSetupDialog extends StatefulWidget {
+  const _PinSetupDialog();
+
+  @override
+  State<_PinSetupDialog> createState() => _PinSetupDialogState();
+}
+
+class _PinSetupDialogState extends State<_PinSetupDialog> {
+  static const int _pinLength = 4;
+
+  String _input = '';
+  String? _firstPin;
+  String? _errorText;
+
+  bool get _isConfirming => _firstPin != null;
+
+  void _addDigit(String digit) {
+    if (_input.length >= _pinLength) {
+      return;
     }
-    return l10n.languageEnglish;
+    setState(() {
+      _input = '$_input$digit';
+      _errorText = null;
+    });
+    if (_input.length == _pinLength) {
+      _handleComplete();
+    }
+  }
+
+  void _removeDigit() {
+    if (_input.isEmpty) {
+      return;
+    }
+    setState(() {
+      _input = _input.substring(0, _input.length - 1);
+    });
+  }
+
+  void _handleComplete() {
+    final l10n = AppLocalizations.of(context);
+    if (_firstPin == null) {
+      setState(() {
+        _firstPin = _input;
+        _input = '';
+      });
+      return;
+    }
+    if (_input == _firstPin) {
+      Navigator.of(context).pop(_input);
+      return;
+    }
+    setState(() {
+      _errorText = l10n.pinSetupErrorMismatch;
+      _firstPin = null;
+      _input = '';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final stepLabel =
+        _isConfirming ? l10n.pinSetupConfirmLabel : l10n.pinSetupLabel;
+
+    return AlertDialog(
+      title: Text(l10n.pinSetupTitle),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            l10n.pinSetupSubtitle,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            stepLabel,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+          const SizedBox(height: 12),
+          PinDots(length: _pinLength, filled: _input.length),
+          if (_errorText != null) ...[
+            const SizedBox(height: 10),
+            Text(
+              _errorText!,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: colorScheme.error,
+                  ),
+            ),
+          ],
+          const SizedBox(height: 12),
+          PinKeypad(
+            onDigit: _addDigit,
+            onBackspace: _removeDigit,
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.pinSetupCancel),
+        ),
+      ],
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w700,
+          ),
+    );
+  }
+}
+
+class _LanguageOption {
+  const _LanguageOption({
+    required this.locale,
+    required this.label,
+    required this.flag,
+  });
+
+  final Locale locale;
+  final String label;
+  final String flag;
+}
+
+class _LanguageTile extends StatelessWidget {
+  const _LanguageTile({
+    required this.option,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final _LanguageOption option;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          decoration: BoxDecoration(
+            color: selected
+                ? colorScheme.primaryContainer
+                : colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: selected
+                  ? colorScheme.primary.withOpacity(0.4)
+                  : colorScheme.outline.withOpacity(0.3),
+            ),
+          ),
+          child: Row(
+            children: [
+              Text(option.flag, style: const TextStyle(fontSize: 22)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  option.label,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
+              if (selected)
+                Icon(
+                  Icons.check_circle,
+                  color: colorScheme.primary,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ToggleTile extends StatelessWidget {
+  const _ToggleTile({
+    required this.title,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String title;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: colorScheme.outline.withOpacity(0.3),
+        ),
+      ),
+      child: SwitchListTile.adaptive(
+        title: Text(title),
+        value: value,
+        onChanged: onChanged,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+      ),
+    );
   }
 }

@@ -8,6 +8,9 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'app_router.dart';
 import '../core/localization/app_localizations.dart';
 import '../core/localization/locale_cubit.dart';
+import '../core/security/security_cubit.dart';
+import '../core/security/security_gate.dart';
+import '../core/storage/app_preferences.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/theme_cubit.dart';
 
@@ -16,10 +19,12 @@ class App extends StatefulWidget {
     super.key,
     required this.talker,
     required this.dio,
+    required this.preferences,
   });
 
   final Talker talker;
   final Dio dio;
+  final AppPreferences preferences;
 
   @override
   State<App> createState() => _AppState();
@@ -31,7 +36,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    _router = AppRouter.create();
+    _router = AppRouter.create(preferences: widget.preferences);
   }
 
   @override
@@ -40,11 +45,23 @@ class _AppState extends State<App> {
       providers: [
         RepositoryProvider.value(value: widget.talker),
         RepositoryProvider.value(value: widget.dio),
+        RepositoryProvider.value(value: widget.preferences),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (_) => ThemeCubit()),
-          BlocProvider(create: (_) => LocaleCubit()),
+          BlocProvider(
+            create: (context) => ThemeCubit(
+              context.read<AppPreferences>(),
+            ),
+          ),
+          BlocProvider(create: (context) => LocaleCubit(
+                context.read<AppPreferences>(),
+              )),
+          BlocProvider(
+            create: (context) => SecurityCubit(
+              context.read<AppPreferences>(),
+            ),
+          ),
         ],
         child: BlocBuilder<ThemeCubit, ThemeMode>(
           builder: (context, themeMode) {
@@ -67,10 +84,11 @@ class _AppState extends State<App> {
                   ],
                   routerConfig: _router,
                   builder: (context, child) {
-                    return TalkerWrapper(
+                    final content = TalkerWrapper(
                       talker: widget.talker,
                       child: child ?? const SizedBox.shrink(),
                     );
+                    return SecurityGate(child: content);
                   },
                 );
               },

@@ -20,7 +20,11 @@ class DioClient {
       TalkerDioLogger(
         talker: talker,
         settings: const TalkerDioLoggerSettings(
-          printResponseData: false,
+          printResponseData: true,
+          printRequestData: true,
+          printRequestHeaders: true,
+          printResponseMessage: true,
+          printResponseTime: true,
         ),
       ),
     );
