@@ -6,10 +6,17 @@ import '../features/auth/presentation/pages/login_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/menu/presentation/pages/about_page.dart';
 import '../features/menu/presentation/pages/bottle_balance_page.dart';
+import '../features/menu/presentation/pages/bottle_balance_models.dart';
+import '../features/menu/presentation/pages/bottle_balance_result_page.dart';
 import '../features/menu/presentation/pages/cash_report_page.dart';
 import '../features/menu/presentation/pages/cash_report_models.dart';
 import '../features/menu/presentation/pages/cash_report_result_page.dart';
+import '../features/menu/presentation/pages/delivered_orders_models.dart';
+import '../features/menu/presentation/pages/delivered_orders_report_page.dart';
+import '../features/menu/presentation/pages/orders_map_models.dart';
+import '../features/menu/presentation/pages/orders_map_page.dart';
 import '../features/menu/presentation/pages/orders_page.dart';
+import '../features/menu/presentation/pages/pending_orders_page.dart';
 import '../features/menu/presentation/pages/security_page.dart';
 import '../features/onboarding/presentation/pages/language_selection_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
@@ -63,6 +70,25 @@ class AppRouter {
           builder: (context, state) => const OrdersPage(),
         ),
         GoRoute(
+          path: '/orders/pending',
+          name: 'orders-pending',
+          builder: (context, state) => const PendingOrdersPage(),
+        ),
+        GoRoute(
+          path: '/orders/delivered-range',
+          name: 'orders-delivered-range',
+          builder: (context, state) => DeliveredOrdersReportPage(
+            request: state.extra as DeliveredOrdersRequest?,
+          ),
+        ),
+        GoRoute(
+          path: '/orders/map',
+          name: 'orders-map',
+          builder: (context, state) => OrdersMapPage(
+            request: state.extra as OrdersMapRequest?,
+          ),
+        ),
+        GoRoute(
           path: '/cash-report',
           name: 'cash-report',
           builder: (context, state) => const CashReportPage(),
@@ -85,6 +111,20 @@ class AppRouter {
           path: '/bottle-balance',
           name: 'bottle-balance',
           builder: (context, state) => const BottleBalancePage(),
+        ),
+        GoRoute(
+          path: '/bottle-balance/empty',
+          name: 'bottle-balance-empty',
+          builder: (context, state) => BottleBalanceResultPage(
+            request: state.extra as BottleBalanceRequest?,
+          ),
+        ),
+        GoRoute(
+          path: '/bottle-balance/full-water',
+          name: 'bottle-balance-full-water',
+          builder: (context, state) => BottleBalanceResultPage(
+            request: state.extra as BottleBalanceRequest?,
+          ),
         ),
         GoRoute(
           path: '/settings',

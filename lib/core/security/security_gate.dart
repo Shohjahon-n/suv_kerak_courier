@@ -34,12 +34,6 @@ class _SecurityGateState extends State<SecurityGate>
     }
     if (state == AppLifecycleState.resumed) {
       context.read<SecurityCubit>().refreshSession();
-      return;
-    }
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused ||
-        state == AppLifecycleState.hidden) {
-      context.read<SecurityCubit>().lockIfNeeded();
     }
   }
 
