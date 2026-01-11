@@ -17,7 +17,7 @@ class PinDots extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         length,
-        (index) {
+            (index) {
           final isFilled = index < filled;
           return AnimatedContainer(
             duration: const Duration(milliseconds: 150),
@@ -54,54 +54,55 @@ class PinKeypad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const keys = <_PinKeyData>[
-      _PinKeyData.digit('1'),
-      _PinKeyData.digit('2'),
-      _PinKeyData.digit('3'),
-      _PinKeyData.digit('4'),
-      _PinKeyData.digit('5'),
-      _PinKeyData.digit('6'),
-      _PinKeyData.digit('7'),
-      _PinKeyData.digit('8'),
-      _PinKeyData.digit('9'),
-      _PinKeyData.spacer(),
-      _PinKeyData.digit('0'),
-      _PinKeyData.backspace(),
-    ];
-
     return SizedBox(
-      height: 260,
-      child: GridView.builder(
-        primary: false,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: keys.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 1.1,
-        ),
-        itemBuilder: (context, index) {
-          final key = keys[index];
-          if (key.isSpacer) {
-            return const SizedBox.shrink();
-          }
+      width: 280,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Row 1: 1, 2, 3
+          _buildRow(['1', '2', '3']),
+          const SizedBox(height: 12),
+          // Row 2: 4, 5, 6
+          _buildRow(['4', '5', '6']),
+          const SizedBox(height: 12),
+          // Row 3: 7, 8, 9
+          _buildRow(['7', '8', '9']),
+          const SizedBox(height: 12),
+          // Row 4: empty, 0, backspace
+          _buildRow([null, '0', 'backspace']),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRow(List<String?> keys) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: keys.map((key) {
+        if (key == null) {
+          return const SizedBox(width: 70, height: 70);
+        }
+        if (key == 'backspace') {
           return _PinKeyButton(
-            digit: key.digit,
-            isBackspace: key.isBackspace,
-            onPressed: key.isBackspace ? onBackspace : () => onDigit(key.digit!),
+            isBackspace: true,
+            onPressed: onBackspace,
             enabled: enabled,
           );
-        },
-      ),
+        }
+        return _PinKeyButton(
+          digit: key,
+          isBackspace: false,
+          onPressed: () => onDigit(key),
+          enabled: enabled,
+        );
+      }).toList(),
     );
   }
 }
 
 class _PinKeyButton extends StatelessWidget {
   const _PinKeyButton({
-    required this.digit,
+    this.digit,
     required this.isBackspace,
     required this.onPressed,
     required this.enabled,
@@ -119,54 +120,38 @@ class _PinKeyButton extends StatelessWidget {
     final foreground = colorScheme.onSurface;
     final background = colorScheme.surfaceVariant;
     final borderColor = colorScheme.outline.withOpacity(0.35);
+
     final child = isBackspace
         ? Icon(Icons.backspace_outlined, color: foreground)
         : Text(
-            digit ?? '',
-            style: textTheme.titleLarge?.copyWith(
-              color: foreground,
-              fontWeight: FontWeight.w600,
-            ),
-          );
+      digit ?? '',
+      style: textTheme.titleLarge?.copyWith(
+        color: foreground,
+        fontWeight: FontWeight.w600,
+      ),
+    );
 
     return Opacity(
       opacity: enabled ? 1 : 0.5,
-      child: Material(
-        color: Colors.transparent,
-        child: Ink(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: background,
-            border: Border.all(color: borderColor),
-          ),
-          child: InkWell(
-            customBorder: const CircleBorder(),
-            onTap: enabled ? onPressed : null,
-            child: Center(child: child),
+      child: SizedBox(
+        width: 70,
+        height: 70,
+        child: Material(
+          color: Colors.transparent,
+          child: Ink(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: background,
+              border: Border.all(color: borderColor),
+            ),
+            child: InkWell(
+              customBorder: const CircleBorder(),
+              onTap: enabled ? onPressed : null,
+              child: Center(child: child),
+            ),
           ),
         ),
       ),
     );
   }
-}
-
-class _PinKeyData {
-  const _PinKeyData._({
-    required this.digit,
-    required this.isBackspace,
-    required this.isSpacer,
-  });
-
-  const _PinKeyData.digit(String value)
-      : this._(digit: value, isBackspace: false, isSpacer: false);
-
-  const _PinKeyData.backspace()
-      : this._(digit: null, isBackspace: true, isSpacer: false);
-
-  const _PinKeyData.spacer()
-      : this._(digit: null, isBackspace: false, isSpacer: true);
-
-  final String? digit;
-  final bool isBackspace;
-  final bool isSpacer;
 }

@@ -240,49 +240,57 @@ class _PinSetupDialogState extends State<_PinSetupDialog> {
     final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final stepLabel =
-        _isConfirming ? l10n.pinSetupConfirmLabel : l10n.pinSetupLabel;
+    _isConfirming ? l10n.pinSetupConfirmLabel : l10n.pinSetupLabel;
 
-    return AlertDialog(
-      title: Text(l10n.pinSetupTitle),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.pinSetupSubtitle,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            stepLabel,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-          const SizedBox(height: 12),
-          PinDots(length: _pinLength, filled: _input.length),
-          if (_errorText != null) ...[
-            const SizedBox(height: 10),
+    return Dialog(
+      child: Container(
+        width: 320,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Text(
-              _errorText!,
+              l10n.pinSetupTitle,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              l10n.pinSetupSubtitle,
+              style: Theme.of(context).textTheme.bodySmall,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              stepLabel,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.error,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 12),
+            PinDots(length: _pinLength, filled: _input.length),
+            if (_errorText != null) ...[
+              const SizedBox(height: 10),
+              Text(
+                _errorText!,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: colorScheme.error,
+                ),
+              ),
+            ],
+            const SizedBox(height: 20),
+            PinKeypad(
+              onDigit: _addDigit,
+              onBackspace: _removeDigit,
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.pinSetupCancel),
             ),
           ],
-          const SizedBox(height: 12),
-          PinKeypad(
-            onDigit: _addDigit,
-            onBackspace: _removeDigit,
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.pinSetupCancel),
         ),
-      ],
+      ),
     );
   }
 }
