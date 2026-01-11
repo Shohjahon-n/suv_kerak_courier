@@ -1,0 +1,16 @@
+{
+  "@@locale": "uz_Cyrl",
+  "appTitle": "Suv Kerak Courier",
+  "homeTitle": "Курьер панели",
+  "homeSubtitle": "Курьер функцияларини ишлаб чиқишга тайёр.",
+  "counterLabel": "Ҳисоблагич",
+  "openSettings": "Созламаларни очиш",
+  "themeLight": "Ёруғ мавзуга ўтиш",
+  "themeDark": "Қоронғи мавзуга ўтиш",
+  "settingsTitle": "Созламалар",
+  "languageTitle": "Тил",
+  "languageEnglish": "Инглизча",
+  "languageRussian": "Русча",
+  "languageUzbekLatin": "Ўзбек (Лотин)",
+  "languageUzbekCyrillic": "Ўзбек (Кирил)"
+}

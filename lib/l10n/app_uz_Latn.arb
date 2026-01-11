@@ -1,0 +1,16 @@
+{
+  "@@locale": "uz_Latn",
+  "appTitle": "Suv Kerak Courier",
+  "homeTitle": "Kuryer paneli",
+  "homeSubtitle": "Kuryer funksiyalarini ishlab chiqishga tayyor.",
+  "counterLabel": "Hisoblagich",
+  "openSettings": "Sozlamalarni ochish",
+  "themeLight": "Yorug' mavzuga o'tish",
+  "themeDark": "Qorong'i mavzuga o'tish",
+  "settingsTitle": "Sozlamalar",
+  "languageTitle": "Til",
+  "languageEnglish": "Inglizcha",
+  "languageRussian": "Ruscha",
+  "languageUzbekLatin": "O'zbek (Lotin)",
+  "languageUzbekCyrillic": "O'zbek (Kiril)"
+}

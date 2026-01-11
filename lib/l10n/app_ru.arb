@@ -1,0 +1,16 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Suv Kerak Courier",
+  "homeTitle": "Панель курьера",
+  "homeSubtitle": "Готово для разработки функций курьера.",
+  "counterLabel": "Счётчик",
+  "openSettings": "Открыть настройки",
+  "themeLight": "Переключить на светлую тему",
+  "themeDark": "Переключить на тёмную тему",
+  "settingsTitle": "Настройки",
+  "languageTitle": "Язык",
+  "languageEnglish": "Английский",
+  "languageRussian": "Русский",
+  "languageUzbekLatin": "Узбекский (латиница)",
+  "languageUzbekCyrillic": "Узбекский (кириллица)"
+}

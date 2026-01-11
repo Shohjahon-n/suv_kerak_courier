@@ -1,0 +1,16 @@
+{
+  "@@locale": "en",
+  "appTitle": "Suv Kerak Courier",
+  "homeTitle": "Courier Dashboard",
+  "homeSubtitle": "Ready for courier feature development.",
+  "counterLabel": "Counter",
+  "openSettings": "Open settings",
+  "themeLight": "Switch to light theme",
+  "themeDark": "Switch to dark theme",
+  "settingsTitle": "Settings",
+  "languageTitle": "Language",
+  "languageEnglish": "English",
+  "languageRussian": "Russian",
+  "languageUzbekLatin": "Uzbek (Latin)",
+  "languageUzbekCyrillic": "Uzbek (Cyrillic)"
+}
