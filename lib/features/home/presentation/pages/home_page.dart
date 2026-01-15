@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/theme/theme_cubit.dart';
+import '../../../../core/widgets/adaptive_grid.dart';
+import '../../../../core/widgets/responsive_spacing.dart';
 import '../bloc/home_cubit.dart';
 import '../bloc/home_state.dart';
 
@@ -114,23 +116,25 @@ class HomeView extends StatelessWidget {
     return RefreshIndicator(
       onRefresh: () => context.read<HomeCubit>().load(),
       child: ListView(
-        padding: const EdgeInsets.all(18),
+        padding: ResponsiveSpacing.pagePadding(context),
         physics: const AlwaysScrollableScrollPhysics(),
         children: [
           Row(
             children: [
               Icon(Icons.badge_outlined, color: colorScheme.primary),
               const SizedBox(width: 8),
-              Text(
-                '${l10n.homeCourierIdLabel}: ${dashboard.courierId}',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: FontWeight.w600,
-                    ),
+              Expanded(
+                child: Text(
+                  '${l10n.homeCourierIdLabel}: ${dashboard.courierId}',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: ResponsiveSpacing.verticalSpacing(context, base: 16)),
           _DashboardHighlightCard(
             title: l10n.homeLastActiveLabel,
             value: lastActive,
@@ -138,14 +142,13 @@ class HomeView extends StatelessWidget {
             background: colorScheme.surfaceVariant,
             foreground: colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(height: 14),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 1.25,
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 14)),
+          AdaptiveGrid(
+            minItemWidth: 145,
+            maxColumns: 2,
+            baseChildAspectRatio: 1.3,
+            crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 12),
+            mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 12),
             children: [
               _DashboardStatCard(
                 title: l10n.homeCashBalanceLabel,
@@ -177,7 +180,7 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: ResponsiveSpacing.verticalSpacing(context, base: 24)),
           Text(
             l10n.mainMenuTitle,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -185,14 +188,13 @@ class HomeView extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
           ),
-          const SizedBox(height: 12),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 1.1,
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+          AdaptiveGrid(
+            minItemWidth: 130,
+            maxColumns: 2,
+            baseChildAspectRatio: 1.3,
+            crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
+            mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
             children: [
               _MenuCard(
                 title: l10n.menuOrders,
@@ -258,11 +260,15 @@ class _DashboardStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final cardPadding = ResponsiveSpacing.cardPadding(context);
+    final iconSz = ResponsiveSpacing.iconSize(context, base: 22);
+    final radius = ResponsiveSpacing.borderRadius(context, base: 18);
+
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: cardPadding,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(radius),
         boxShadow: [
           BoxShadow(
             color: colorScheme.shadow.withOpacity(0.12),
@@ -274,22 +280,26 @@ class _DashboardStatCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: foreground, size: 22),
-          const SizedBox(height: 8),
+          Icon(icon, color: foreground, size: iconSz),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: foreground,
                   fontWeight: FontWeight.w700,
                 ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: foreground.withOpacity(0.8),
                   fontWeight: FontWeight.w600,
                 ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -314,23 +324,26 @@ class _DashboardHighlightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final padding = ResponsiveSpacing.largePadding(context);
+    final radius = ResponsiveSpacing.borderRadius(context, base: 18);
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: padding,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(radius),
       ),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(ResponsiveSpacing.spacing(context, base: 10)),
             decoration: BoxDecoration(
               color: foreground.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
             ),
-            child: Icon(icon, color: foreground),
+            child: Icon(icon, color: foreground, size: ResponsiveSpacing.iconSize(context, base: 24)),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: ResponsiveSpacing.spacing(context, base: 14)),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,13 +354,15 @@ class _DashboardHighlightCard extends StatelessWidget {
                         color: foreground.withOpacity(0.8),
                       ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
                 Text(
                   value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         color: foreground,
                         fontWeight: FontWeight.w700,
                       ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -372,17 +387,21 @@ class _MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final radius = ResponsiveSpacing.borderRadius(context, base: 14);
+    final padding = ResponsiveSpacing.cardPadding(context);
+    final iconSz = ResponsiveSpacing.iconSize(context, base: 24);
+
     return Material(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(radius),
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(radius),
         child: Ink(
-          padding: const EdgeInsets.all(14),
+          padding: padding,
           decoration: BoxDecoration(
             color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: colorScheme.outline.withOpacity(0.3),
             ),
@@ -397,8 +416,8 @@ class _MenuCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: colorScheme.primary, size: 26),
-              const SizedBox(height: 10),
+              Icon(icon, color: colorScheme.primary, size: iconSz),
+              SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
               Text(
                 title,
                 textAlign: TextAlign.center,
@@ -406,6 +425,8 @@ class _MenuCard extends StatelessWidget {
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.w600,
                     ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

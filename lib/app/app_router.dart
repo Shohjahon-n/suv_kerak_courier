@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/storage/app_preferences.dart';
+import '../features/auth/presentation/pages/forgot_password_otp_page.dart';
+import '../features/auth/presentation/pages/forgot_password_start_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/menu/presentation/pages/about_page.dart';
@@ -13,7 +15,6 @@ import '../features/menu/presentation/pages/cash_report_models.dart';
 import '../features/menu/presentation/pages/cash_report_result_page.dart';
 import '../features/menu/presentation/pages/delivered_orders_models.dart';
 import '../features/menu/presentation/pages/delivered_orders_report_page.dart';
-import '../features/menu/presentation/pages/orders_map_models.dart';
 import '../features/menu/presentation/pages/orders_map_page.dart';
 import '../features/menu/presentation/pages/orders_page.dart';
 import '../features/menu/presentation/pages/pending_orders_page.dart';
@@ -60,6 +61,23 @@ class AppRouter {
           builder: (context, state) => const LoginPage(),
         ),
         GoRoute(
+          path: '/forgot-password',
+          name: 'forgot-password',
+          builder: (context, state) => const ForgotPasswordStartPage(),
+        ),
+        GoRoute(
+          path: '/forgot-password/otp/:courierId',
+          name: 'forgot-password-otp',
+          builder: (context, state) {
+            final courierId =
+                int.tryParse(state.pathParameters['courierId'] ?? '');
+            if (courierId == null) {
+              return const ForgotPasswordStartPage();
+            }
+            return ForgotPasswordOtpPage(courierId: courierId);
+          },
+        ),
+        GoRoute(
           path: '/home',
           name: 'home',
           builder: (context, state) => const HomePage(),
@@ -84,9 +102,7 @@ class AppRouter {
         GoRoute(
           path: '/orders/map',
           name: 'orders-map',
-          builder: (context, state) => OrdersMapPage(
-            request: state.extra as OrdersMapRequest?,
-          ),
+          builder: (context, state) => const OrdersMapPage(),
         ),
         GoRoute(
           path: '/cash-report',

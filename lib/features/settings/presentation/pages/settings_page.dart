@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/localization/locale_cubit.dart';
 import '../../../../core/security/pin_pad.dart';
 import '../../../../core/security/security_cubit.dart';
+import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/theme/theme_cubit.dart';
+import '../../../../core/widgets/responsive_spacing.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -14,6 +17,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final currentLocale = context.select((LocaleCubit cubit) => cubit.state);
     final themeMode = context.select((ThemeCubit cubit) => cubit.state);
 
@@ -45,7 +49,7 @@ class SettingsPage extends StatelessWidget {
         title: Text(l10n.settingsTitle),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: ResponsiveSpacing.pagePadding(context),
         children: [
           _SectionTitle(title: l10n.languageTitle),
           const SizedBox(height: 8),
@@ -63,12 +67,12 @@ class SettingsPage extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _SectionTitle(title: l10n.themeModeTitle),
-          const SizedBox(height: 8),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: ResponsiveSpacing.cardPadding(context),
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
               border: Border.all(
                 color: colorScheme.outline.withOpacity(0.3),
               ),
@@ -122,6 +126,34 @@ class SettingsPage extends StatelessWidget {
                       }
                     },
                   ),
+                  if (state.pinEnabled) ...[
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () async {
+                          final result = await _showChangePinDialog(context);
+                          if (!context.mounted) return;
+                          if (result == null) return;
+
+                          final cubit = context.read<SecurityCubit>();
+                          final success = await cubit.changePin(
+                            result.oldPin,
+                            result.newPin,
+                          );
+
+                          if (!context.mounted) return;
+                          if (success) {
+                            _showToast(context, l10n.pinChangeSuccess);
+                          } else {
+                            _showToast(context, l10n.pinChangeError);
+                          }
+                        },
+                        icon: const Icon(Icons.edit_outlined),
+                        label: Text(l10n.changePinButton),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 12),
                   _ToggleTile(
                     title: l10n.securityBiometricTitle,
@@ -145,6 +177,32 @@ class SettingsPage extends StatelessWidget {
               );
             },
           ),
+          const SizedBox(height: 24),
+          _SectionTitle(title: l10n.profileTitle),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
+          Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
+              border: Border.all(
+                color: colorScheme.outline.withOpacity(0.3),
+              ),
+            ),
+            child: ListTile(
+              leading: Icon(
+                Icons.logout,
+                color: colorScheme.error,
+              ),
+              title: Text(
+                l10n.logoutButton,
+                style: textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.error,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              onTap: () => _logout(context),
+            ),
+          ),
         ],
       ),
     );
@@ -167,6 +225,13 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
+  Future<_ChangePinResult?> _showChangePinDialog(BuildContext context) async {
+    return showDialog<_ChangePinResult>(
+      context: context,
+      builder: (context) => const _ChangePinDialog(),
+    );
+  }
+
   void _showToast(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -175,7 +240,168 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _logout(BuildContext context) async {
+    final preferences = context.read<AppPreferences>();
+    final securityCubit = context.read<SecurityCubit>();
+    await preferences.clearSession();
+    securityCubit.reset();
+    if (!context.mounted) {
+      return;
+    }
+    context.go('/login');
+  }
 }
+
+class _ChangePinResult {
+  const _ChangePinResult({required this.oldPin, required this.newPin});
+
+  final String oldPin;
+  final String newPin;
+}
+
+class _ChangePinDialog extends StatefulWidget {
+  const _ChangePinDialog();
+
+  @override
+  State<_ChangePinDialog> createState() => _ChangePinDialogState();
+}
+
+class _ChangePinDialogState extends State<_ChangePinDialog> {
+  static const int _pinLength = 4;
+
+  String _input = '';
+  String? _oldPin;
+  String? _firstNewPin;
+  String? _errorText;
+
+  _PinStep get _currentStep {
+    if (_oldPin == null) return _PinStep.oldPin;
+    if (_firstNewPin == null) return _PinStep.newPin;
+    return _PinStep.confirmNewPin;
+  }
+
+  void _addDigit(String digit) {
+    if (_input.length >= _pinLength) return;
+    setState(() {
+      _input = '$_input$digit';
+      _errorText = null;
+    });
+    if (_input.length == _pinLength) {
+      _handleComplete();
+    }
+  }
+
+  void _removeDigit() {
+    if (_input.isEmpty) return;
+    setState(() {
+      _input = _input.substring(0, _input.length - 1);
+    });
+  }
+
+  void _handleComplete() {
+    final l10n = AppLocalizations.of(context);
+
+    if (_oldPin == null) {
+      // First step: old PIN entered
+      setState(() {
+        _oldPin = _input;
+        _input = '';
+      });
+      return;
+    }
+
+    if (_firstNewPin == null) {
+      // Second step: new PIN entered
+      if (_input == _oldPin) {
+        setState(() {
+          _errorText = l10n.pinChangeSameError;
+          _input = '';
+        });
+        return;
+      }
+      setState(() {
+        _firstNewPin = _input;
+        _input = '';
+      });
+      return;
+    }
+
+    // Third step: confirm new PIN
+    if (_input == _firstNewPin) {
+      Navigator.of(context).pop(
+        _ChangePinResult(oldPin: _oldPin!, newPin: _input),
+      );
+      return;
+    }
+
+    setState(() {
+      _errorText = l10n.pinSetupErrorMismatch;
+      _firstNewPin = null;
+      _input = '';
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final stepLabel = switch (_currentStep) {
+      _PinStep.oldPin => l10n.pinChangeOldLabel,
+      _PinStep.newPin => l10n.pinChangeNewLabel,
+      _PinStep.confirmNewPin => l10n.pinSetupConfirmLabel,
+    };
+
+    return Dialog(
+      child: Container(
+        width: 320,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.changePinTitle,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              stepLabel,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            PinDots(length: _pinLength, filled: _input.length),
+            if (_errorText != null) ...[
+              const SizedBox(height: 10),
+              Text(
+                _errorText!,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: colorScheme.error,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+            const SizedBox(height: 20),
+            PinKeypad(
+              onDigit: _addDigit,
+              onBackspace: _removeDigit,
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(l10n.pinSetupCancel),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum _PinStep { oldPin, newPin, confirmNewPin }
 
 class _PinSetupDialog extends StatefulWidget {
   const _PinSetupDialog();
@@ -337,18 +563,24 @@ class _LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final radius = ResponsiveSpacing.borderRadius(context, base: 14);
+    final padding = ResponsiveSpacing.largePadding(context);
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(radius),
         child: Ink(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: EdgeInsets.symmetric(
+            horizontal: padding.left,
+            vertical: padding.top * 0.75,
+          ),
           decoration: BoxDecoration(
             color: selected
                 ? colorScheme.primaryContainer
                 : colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: selected
                   ? colorScheme.primary.withOpacity(0.4)
@@ -398,7 +630,7 @@ class _ToggleTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.3),
         ),

@@ -186,24 +186,43 @@ class _AboutPageState extends State<AboutPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: FilledButton.icon(
-                        onPressed: _shareApp,
-                        icon: const Icon(Icons.share_outlined),
-                        label: Text(l10n.aboutShareButton),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: _openUpdate,
-                        icon: const Icon(Icons.system_update_alt_outlined),
-                        label: Text(l10n.aboutUpdateButton),
-                      ),
-                    ),
-                  ],
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final textScale =
+                        MediaQuery.textScaleFactorOf(context);
+                    final stackButtons = constraints.maxWidth < 320 ||
+                        textScale >= 1.25;
+
+                    final shareButton = FilledButton.icon(
+                      onPressed: _shareApp,
+                      icon: const Icon(Icons.share_outlined),
+                      label: Text(l10n.aboutShareButton),
+                    );
+                    final updateButton = OutlinedButton.icon(
+                      onPressed: _openUpdate,
+                      icon: const Icon(Icons.system_update_alt_outlined),
+                      label: Text(l10n.aboutUpdateButton),
+                    );
+
+                    if (stackButtons) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          shareButton,
+                          const SizedBox(height: 12),
+                          updateButton,
+                        ],
+                      );
+                    }
+
+                    return Row(
+                      children: [
+                        Expanded(child: shareButton),
+                        const SizedBox(width: 12),
+                        Expanded(child: updateButton),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 _Card(

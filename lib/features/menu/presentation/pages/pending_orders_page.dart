@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
+import '../../../../core/widgets/adaptive_grid.dart';
+import '../../../../core/widgets/key_value_row.dart';
+import '../../../../core/widgets/responsive_spacing.dart';
 import 'pending_orders_models.dart';
 
 class PendingOrdersPage extends StatefulWidget {
@@ -169,14 +172,12 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
             label: Text(l10n.ordersMapButton),
           ),
         ),
-        const SizedBox(height: 12),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 1.5,
+        SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+        AdaptiveGrid(
+          minItemWidth: 145,
+          baseChildAspectRatio: 1.55,
+          crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
+          mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
           children: [
             _SummaryCard(
               title: l10n.ordersCountLabel,
@@ -218,7 +219,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage> {
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: ResponsiveSpacing.pagePadding(context),
         physics: const AlwaysScrollableScrollPhysics(),
         children: content,
       ),
@@ -260,23 +261,28 @@ class _SummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final padding = ResponsiveSpacing.cardPadding(context);
+    final radius = ResponsiveSpacing.borderRadius(context, base: 16);
+
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: padding,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(radius),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: foreground),
-          const SizedBox(height: 8),
+          Icon(icon, color: foreground, size: ResponsiveSpacing.iconSize(context, base: 22)),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
           Text(
             title,
             style: textTheme.bodySmall?.copyWith(
               color: foreground.withOpacity(0.8),
               fontWeight: FontWeight.w600,
             ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           const Spacer(),
           Text(
@@ -285,6 +291,8 @@ class _SummaryCard extends StatelessWidget {
               color: foreground,
               fontWeight: FontWeight.w700,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
@@ -317,11 +325,11 @@ class _OrderCard extends StatelessWidget {
         : item.paymentStatus;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: ResponsiveSpacing.spacing(context, base: 12)),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.2),
         ),
@@ -329,31 +337,13 @@ class _OrderCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.receipt_long_outlined,
-                size: 18,
-                color: colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  '${l10n.ordersOrderIdLabel}: '
-                  '${item.orderNumber.isEmpty ? l10n.notAvailable : item.orderNumber}',
-                  style: textTheme.titleSmall?.copyWith(
-                    color: colorScheme.onSurface,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              _CountPill(
-                label: l10n.ordersWaterCountLabel,
-                value: waterLabel,
-                background: colorScheme.primaryContainer,
-                foreground: colorScheme.onPrimaryContainer,
-              ),
-            ],
+          _OrderHeader(
+            label: '${l10n.ordersOrderIdLabel}: '
+                '${item.orderNumber.isEmpty ? l10n.notAvailable : item.orderNumber}',
+            countLabel: l10n.ordersWaterCountLabel,
+            countValue: waterLabel,
+            colorScheme: colorScheme,
+            textTheme: textTheme,
           ),
           const SizedBox(height: 8),
           Text(
@@ -420,28 +410,96 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
-        const SizedBox(width: 8),
-        Text(
-          '$label:',
-          style: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
+    return KeyValueRow(
+      icon: icon,
+      label: label,
+      value: value,
+      iconColor: colorScheme.onSurfaceVariant,
+      labelStyle: textTheme.bodySmall?.copyWith(
+        color: colorScheme.onSurfaceVariant,
+        fontWeight: FontWeight.w600,
+      ),
+      valueStyle: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface,
+      ),
+    );
+  }
+}
+
+class _OrderHeader extends StatelessWidget {
+  const _OrderHeader({
+    required this.label,
+    required this.countLabel,
+    required this.countValue,
+    required this.colorScheme,
+    required this.textTheme,
+  });
+
+  final String label;
+  final String countLabel;
+  final String countValue;
+  final ColorScheme colorScheme;
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScaleFactorOf(context);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final shouldStack = constraints.maxWidth < 280 || textScale >= 1.25;
+        final title = Text(
+          label,
+          style: textTheme.titleSmall?.copyWith(
+            color: colorScheme.onSurface,
             fontWeight: FontWeight.w600,
           ),
-        ),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            value,
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface,
+        );
+
+        final leading = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
             ),
-          ),
-        ),
-      ],
+            const SizedBox(width: 8),
+            Expanded(child: title),
+          ],
+        );
+
+        final pill = _CountPill(
+          label: countLabel,
+          value: countValue,
+          background: colorScheme.primaryContainer,
+          foreground: colorScheme.onPrimaryContainer,
+        );
+
+        if (shouldStack) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              leading,
+              const SizedBox(height: 8),
+              Align(alignment: Alignment.centerRight, child: pill),
+            ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 8),
+            Expanded(child: title),
+            pill,
+          ],
+        );
+      },
     );
   }
 }
@@ -509,10 +567,10 @@ class _MessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.3),
         ),

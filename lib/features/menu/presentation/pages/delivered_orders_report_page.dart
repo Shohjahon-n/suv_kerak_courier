@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
+import '../../../../core/widgets/adaptive_grid.dart';
+import '../../../../core/widgets/key_value_row.dart';
 import 'delivered_orders_models.dart';
 import 'pending_orders_models.dart';
 
@@ -193,13 +195,11 @@ class _DeliveredOrdersReportPageState
       content.addAll([
         _SectionTitle(title: l10n.ordersSummaryTitle),
         const SizedBox(height: 12),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+        AdaptiveGrid(
+          minItemWidth: 150,
+          baseChildAspectRatio: 1.5,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
-          childAspectRatio: 1.5,
           children: [
             _SummaryCard(
               title: l10n.ordersCountLabel,
@@ -391,31 +391,13 @@ class _OrderCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.receipt_long_outlined,
-                size: 18,
-                color: colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  '${l10n.ordersOrderIdLabel}: '
-                  '${item.orderNumber.isEmpty ? l10n.notAvailable : item.orderNumber}',
-                  style: textTheme.titleSmall?.copyWith(
-                    color: colorScheme.onSurface,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              _CountPill(
-                label: l10n.ordersWaterCountLabel,
-                value: waterLabel,
-                background: colorScheme.primaryContainer,
-                foreground: colorScheme.onPrimaryContainer,
-              ),
-            ],
+          _OrderHeader(
+            label: '${l10n.ordersOrderIdLabel}: '
+                '${item.orderNumber.isEmpty ? l10n.notAvailable : item.orderNumber}',
+            countLabel: l10n.ordersWaterCountLabel,
+            countValue: waterLabel,
+            colorScheme: colorScheme,
+            textTheme: textTheme,
           ),
           const SizedBox(height: 8),
           Text(
@@ -482,28 +464,96 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
-        const SizedBox(width: 8),
-        Text(
-          '$label:',
-          style: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
+    return KeyValueRow(
+      icon: icon,
+      label: label,
+      value: value,
+      iconColor: colorScheme.onSurfaceVariant,
+      labelStyle: textTheme.bodySmall?.copyWith(
+        color: colorScheme.onSurfaceVariant,
+        fontWeight: FontWeight.w600,
+      ),
+      valueStyle: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurface,
+      ),
+    );
+  }
+}
+
+class _OrderHeader extends StatelessWidget {
+  const _OrderHeader({
+    required this.label,
+    required this.countLabel,
+    required this.countValue,
+    required this.colorScheme,
+    required this.textTheme,
+  });
+
+  final String label;
+  final String countLabel;
+  final String countValue;
+  final ColorScheme colorScheme;
+  final TextTheme textTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScaleFactorOf(context);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final shouldStack = constraints.maxWidth < 280 || textScale >= 1.25;
+        final title = Text(
+          label,
+          style: textTheme.titleSmall?.copyWith(
+            color: colorScheme.onSurface,
             fontWeight: FontWeight.w600,
           ),
-        ),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            value,
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface,
+        );
+
+        final leading = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
             ),
-          ),
-        ),
-      ],
+            const SizedBox(width: 8),
+            Expanded(child: title),
+          ],
+        );
+
+        final pill = _CountPill(
+          label: countLabel,
+          value: countValue,
+          background: colorScheme.primaryContainer,
+          foreground: colorScheme.onPrimaryContainer,
+        );
+
+        if (shouldStack) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              leading,
+              const SizedBox(height: 8),
+              Align(alignment: Alignment.centerRight, child: pill),
+            ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.receipt_long_outlined,
+              size: 18,
+              color: colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(width: 8),
+            Expanded(child: title),
+            pill,
+          ],
+        );
+      },
     );
   }
 }

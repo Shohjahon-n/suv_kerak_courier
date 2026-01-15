@@ -3,82 +3,81 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/security/security_cubit.dart';
 import '../../../../core/storage/app_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgotPasswordOtpPage extends StatefulWidget {
+  const ForgotPasswordOtpPage({
+    super.key,
+    required this.courierId,
+  });
+
+  final int courierId;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPasswordOtpPage> createState() => _ForgotPasswordOtpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _courierIdController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FocusNode _courierFocus = FocusNode();
-  final FocusNode _passwordFocus = FocusNode();
-
+class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage> {
+  final TextEditingController _otpController = TextEditingController();
+  final FocusNode _otpFocus = FocusNode();
   bool _isLoading = false;
-  bool _obscurePassword = true;
+
+  static final Uri _botUri = Uri.parse('https://t.me/suv_kerak_bot');
 
   @override
   void dispose() {
-    _courierIdController.dispose();
-    _passwordController.dispose();
-    _courierFocus.dispose();
-    _passwordFocus.dispose();
+    _otpController.dispose();
+    _otpFocus.dispose();
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<void> _verifyOtp() async {
     if (_isLoading) {
       return;
     }
-
     final l10n = AppLocalizations.of(context);
-    final courierIdText = _courierIdController.text.trim();
-    final password = _passwordController.text;
+    final code = _otpController.text.trim();
 
-    if (courierIdText.isEmpty || password.isEmpty) {
-      _showToast(l10n.loginValidationEmpty);
-      return;
-    }
-
-    final courierId = int.tryParse(courierIdText);
-    if (courierId == null) {
-      _showToast(l10n.loginValidationId);
+    if (code.length != 4) {
+      _showToast(l10n.forgotPasswordOtpValidation);
       return;
     }
 
     setState(() => _isLoading = true);
-
     try {
       final dio = context.read<Dio>();
       final response = await dio.post(
-        '/couriers/login/',
+        '/bots/kuryer/forgot-password/verify/',
         data: {
-          'kuryer_id': courierId,
-          'password': password,
+          'kuryer_id': widget.courierId,
+          'code': code,
         },
       );
       final data = response.data;
       final ok = data is Map && data['ok'] == true;
       final detail = _stringValue(data, 'detail');
-
       if (!ok) {
-        _showToast(detail ?? l10n.loginErrorGeneric);
+        _showToast(detail ?? l10n.forgotPasswordOtpFailed);
         return;
       }
 
       final preferences = context.read<AppPreferences>();
       final responseCourierId = _intValue(data['kuryer_id']);
       final responseBusinessId = _intValue(data['business_id']);
+      final resolvedCourierId = responseCourierId ?? widget.courierId;
+      final resolvedBusinessId =
+          responseBusinessId ?? preferences.readBusinessId();
 
-      await preferences.setCourierId(responseCourierId ?? courierId);
-      await preferences.setBusinessId(responseBusinessId);
+      await preferences.setCourierId(resolvedCourierId);
+      if (resolvedBusinessId == null) {
+        _showToast(l10n.securitySessionMissing);
+        return;
+      }
+      await preferences.setBusinessId(resolvedBusinessId);
 
       if (!mounted) {
         return;
@@ -86,13 +85,26 @@ class _LoginPageState extends State<LoginPage> {
       context.read<SecurityCubit>().activateSession();
       context.go('/home');
     } on DioException catch (error) {
-      _showToast(_extractErrorDetail(error) ?? l10n.loginErrorGeneric);
+      _showToast(
+        _extractErrorDetail(error) ?? l10n.forgotPasswordOtpFailed,
+      );
     } catch (_) {
-      _showToast(l10n.loginErrorGeneric);
+      _showToast(l10n.forgotPasswordOtpFailed);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
       }
+    }
+  }
+
+  Future<void> _openBot() async {
+    final l10n = AppLocalizations.of(context);
+    final ok = await launchUrl(
+      _botUri,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!ok && mounted) {
+      _showToast(l10n.forgotPasswordOpenBotFailed);
     }
   }
 
@@ -133,10 +145,6 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void _showComingSoon() {
-    _showToast(AppLocalizations.of(context).comingSoon);
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -170,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight - 24,
@@ -179,8 +187,16 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          IconButton(
+                            onPressed: () => context.pop(),
+                            icon: const Icon(Icons.arrow_back),
+                            color: colorScheme.onBackground,
+                            tooltip: MaterialLocalizations.of(context)
+                                .backButtonTooltip,
+                          ),
+                          const SizedBox(height: 12),
                           Text(
-                            l10n.loginTitle,
+                            l10n.forgotPasswordOtpTitle,
                             style: textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: colorScheme.onBackground,
@@ -188,8 +204,15 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            l10n.loginSubtitle,
+                            l10n.forgotPasswordOtpSubtitle,
                             style: textTheme.bodyLarge?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            '${l10n.loginCourierIdLabel}: ${widget.courierId}',
+                            style: textTheme.bodyMedium?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
                           ),
@@ -210,52 +233,19 @@ class _LoginPageState extends State<LoginPage> {
                             child: Column(
                               children: [
                                 TextField(
-                                  controller: _courierIdController,
-                                  focusNode: _courierFocus,
-                                  enabled: !_isLoading,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.number,
-                                  autofillHints: const [
-                                    AutofillHints.username
-                                  ],
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  decoration: InputDecoration(
-                                    labelText: l10n.loginCourierIdLabel,
-                                    hintText: l10n.loginCourierIdHint,
-                                    prefixIcon:
-                                        const Icon(Icons.badge_outlined),
-                                    filled: true,
-                                    fillColor: colorScheme.surface,
-                                    border: inputBorder,
-                                    enabledBorder: inputBorder,
-                                    focusedBorder: inputBorder.copyWith(
-                                      borderSide: BorderSide(
-                                        color: colorScheme.primary,
-                                        width: 1.4,
-                                      ),
-                                    ),
-                                  ),
-                                  onSubmitted: (_) {
-                                    _passwordFocus.requestFocus();
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                TextField(
-                                  controller: _passwordController,
-                                  focusNode: _passwordFocus,
+                                  controller: _otpController,
+                                  focusNode: _otpFocus,
                                   enabled: !_isLoading,
                                   textInputAction: TextInputAction.done,
-                                  obscureText: _obscurePassword,
-                                  autofillHints: const [
-                                    AutofillHints.password
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                    LengthLimitingTextInputFormatter(4),
                                   ],
                                   decoration: InputDecoration(
-                                    labelText: l10n.loginPasswordLabel,
-                                    hintText: l10n.loginPasswordHint,
-                                    prefixIcon:
-                                        const Icon(Icons.lock_outline),
+                                    labelText: l10n.forgotPasswordOtpLabel,
+                                    hintText: l10n.forgotPasswordOtpHint,
+                                    prefixIcon: const Icon(Icons.sms_outlined),
                                     filled: true,
                                     fillColor: colorScheme.surface,
                                     border: inputBorder,
@@ -266,27 +256,14 @@ class _LoginPageState extends State<LoginPage> {
                                         width: 1.4,
                                       ),
                                     ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscurePassword =
-                                              !_obscurePassword;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        _obscurePassword
-                                            ? Icons.visibility_outlined
-                                            : Icons.visibility_off_outlined,
-                                      ),
-                                    ),
                                   ),
-                                  onSubmitted: (_) => _login(),
+                                  onSubmitted: (_) => _verifyOtp(),
                                 ),
                                 const SizedBox(height: 20),
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
-                                    onPressed: _isLoading ? null : _login,
+                                    onPressed: _isLoading ? null : _verifyOtp,
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 14,
@@ -307,25 +284,18 @@ class _LoginPageState extends State<LoginPage> {
                                               ),
                                             ),
                                           )
-                                        : Text(l10n.loginButton),
+                                        : Text(l10n.forgotPasswordOtpButton),
                                   ),
                                 ),
-                                const SizedBox(height: 8),
-                                Wrap(
-                                  alignment: WrapAlignment.spaceBetween,
-                                  runSpacing: 4,
-                                  spacing: 12,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          context.push('/forgot-password'),
-                                      child: Text(l10n.forgotPassword),
-                                    ),
-                                    TextButton(
-                                      onPressed: _showComingSoon,
-                                      child: Text(l10n.registerLink),
-                                    ),
-                                  ],
+                                const SizedBox(height: 12),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton.icon(
+                                    onPressed: _openBot,
+                                    icon: const Icon(Icons.send_outlined),
+                                    label:
+                                        Text(l10n.forgotPasswordOpenBotButton),
+                                  ),
                                 ),
                               ],
                             ),

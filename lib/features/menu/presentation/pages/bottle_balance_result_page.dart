@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
+import '../../../../core/widgets/adaptive_grid.dart';
+import '../../../../core/widgets/responsive_spacing.dart';
 import 'bottle_balance_models.dart';
 
 class BottleBalanceResultPage extends StatefulWidget {
@@ -271,7 +273,7 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
     return RefreshIndicator(
       onRefresh: _load,
       child: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: ResponsiveSpacing.pagePadding(context),
         physics: const AlwaysScrollableScrollPhysics(),
         children: content,
       ),
@@ -304,14 +306,13 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
           fontWeight: FontWeight.w700,
         ),
       ),
-      const SizedBox(height: 12),
-      GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 1.35,
+      SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+      AdaptiveGrid(
+        minItemWidth: 145,
+        maxColumns: 2,
+        baseChildAspectRatio: 1.4,
+        crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
+        mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
         children: [
           _SummaryCard(
             title: l10n.bottleBalanceOpeningBalanceLabel,
@@ -395,14 +396,13 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
           fontWeight: FontWeight.w700,
         ),
       ),
-      const SizedBox(height: 12),
-      GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        childAspectRatio: 1.35,
+      SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+      AdaptiveGrid(
+        minItemWidth: 145,
+        maxColumns: 2,
+        baseChildAspectRatio: 1.4,
+        crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
+        mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
         children: [
           _SummaryCard(
             title: l10n.fullWaterOpeningBalanceLabel,
@@ -480,10 +480,10 @@ class _RangeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -526,10 +526,10 @@ class _MessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.3),
         ),
@@ -579,11 +579,11 @@ class _BottleRowCard extends StatelessWidget {
     final balanceLabel = numberFormat.format(row.balance);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: ResponsiveSpacing.spacing(context, base: 12)),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.2),
         ),
@@ -591,31 +591,15 @@ class _BottleRowCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.event_outlined,
-                size: 16,
-                color: colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  dateLabel,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              _BalancePill(
-                label: l10n.bottleBalanceBalanceLabel,
-                value: balanceLabel,
-                background: colorScheme.surfaceVariant,
-                foreground: colorScheme.onSurfaceVariant,
-              ),
-            ],
+          _HeaderRow(
+            icon: Icons.event_outlined,
+            title: dateLabel,
+            trailing: _BalancePill(
+              label: l10n.bottleBalanceBalanceLabel,
+              value: balanceLabel,
+              background: colorScheme.surfaceVariant,
+              foreground: colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 10),
           Text(
@@ -626,26 +610,19 @@ class _BottleRowCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _AmountPill(
-                  label: l10n.bottleBalanceIncomeLabel,
-                  value: numberFormat.format(row.income),
-                  background: colorScheme.primaryContainer,
-                  foreground: colorScheme.onPrimaryContainer,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _AmountPill(
-                  label: l10n.bottleBalanceExpenseLabel,
-                  value: numberFormat.format(row.expense),
-                  background: colorScheme.errorContainer,
-                  foreground: colorScheme.onErrorContainer,
-                ),
-              ),
-            ],
+          _ResponsivePillRow(
+            leading: _AmountPill(
+              label: l10n.bottleBalanceIncomeLabel,
+              value: numberFormat.format(row.income),
+              background: colorScheme.primaryContainer,
+              foreground: colorScheme.onPrimaryContainer,
+            ),
+            trailing: _AmountPill(
+              label: l10n.bottleBalanceExpenseLabel,
+              value: numberFormat.format(row.expense),
+              background: colorScheme.errorContainer,
+              foreground: colorScheme.onErrorContainer,
+            ),
           ),
         ],
       ),
@@ -683,11 +660,11 @@ class _FullWaterRowCard extends StatelessWidget {
     final balanceLabel = numberFormat.format(row.balance);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: ResponsiveSpacing.spacing(context, base: 12)),
+      padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
           color: colorScheme.outline.withOpacity(0.2),
         ),
@@ -695,31 +672,15 @@ class _FullWaterRowCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.event_outlined,
-                size: 16,
-                color: colorScheme.onSurfaceVariant,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  dateLabel,
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              _BalancePill(
-                label: l10n.bottleBalanceBalanceLabel,
-                value: balanceLabel,
-                background: colorScheme.surfaceVariant,
-                foreground: colorScheme.onSurfaceVariant,
-              ),
-            ],
+          _HeaderRow(
+            icon: Icons.event_outlined,
+            title: dateLabel,
+            trailing: _BalancePill(
+              label: l10n.bottleBalanceBalanceLabel,
+              value: balanceLabel,
+              background: colorScheme.surfaceVariant,
+              foreground: colorScheme.onSurfaceVariant,
+            ),
           ),
           const SizedBox(height: 10),
           Text(
@@ -730,26 +691,19 @@ class _FullWaterRowCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: _AmountPill(
-                  label: l10n.bottleBalanceIncomeLabel,
-                  value: numberFormat.format(row.income),
-                  background: colorScheme.primaryContainer,
-                  foreground: colorScheme.onPrimaryContainer,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _AmountPill(
-                  label: l10n.bottleBalanceExpenseLabel,
-                  value: numberFormat.format(row.expense),
-                  background: colorScheme.errorContainer,
-                  foreground: colorScheme.onErrorContainer,
-                ),
-              ),
-            ],
+          _ResponsivePillRow(
+            leading: _AmountPill(
+              label: l10n.bottleBalanceIncomeLabel,
+              value: numberFormat.format(row.income),
+              background: colorScheme.primaryContainer,
+              foreground: colorScheme.onPrimaryContainer,
+            ),
+            trailing: _AmountPill(
+              label: l10n.bottleBalanceExpenseLabel,
+              value: numberFormat.format(row.expense),
+              background: colorScheme.errorContainer,
+              foreground: colorScheme.onErrorContainer,
+            ),
           ),
         ],
       ),
@@ -785,10 +739,10 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: ResponsiveSpacing.cardPadding(context),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -904,6 +858,106 @@ class _BalancePill extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _HeaderRow extends StatelessWidget {
+  const _HeaderRow({
+    required this.icon,
+    required this.title,
+    required this.trailing,
+  });
+
+  final IconData icon;
+  final String title;
+  final Widget trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final textScale = MediaQuery.textScaleFactorOf(context);
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final shouldStack = constraints.maxWidth < 280 || textScale >= 1.25;
+        final titleWidget = Text(
+          title,
+          style: textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
+            fontWeight: FontWeight.w600,
+          ),
+        );
+
+        final leading = Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
+            const SizedBox(width: 6),
+            Expanded(child: titleWidget),
+          ],
+        );
+
+        if (shouldStack) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              leading,
+              const SizedBox(height: 8),
+              Align(alignment: Alignment.centerRight, child: trailing),
+            ],
+          );
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon, size: 16, color: colorScheme.onSurfaceVariant),
+            const SizedBox(width: 6),
+            Expanded(child: titleWidget),
+            const SizedBox(width: 8),
+            trailing,
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ResponsivePillRow extends StatelessWidget {
+  const _ResponsivePillRow({
+    required this.leading,
+    required this.trailing,
+  });
+
+  final Widget leading;
+  final Widget trailing;
+
+  @override
+  Widget build(BuildContext context) {
+    final textScale = MediaQuery.textScaleFactorOf(context);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final shouldStack = constraints.maxWidth < 280 || textScale >= 1.25;
+        if (shouldStack) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              leading,
+              const SizedBox(height: 12),
+              trailing,
+            ],
+          );
+        }
+        return Row(
+          children: [
+            Expanded(child: leading),
+            const SizedBox(width: 12),
+            Expanded(child: trailing),
+          ],
+        );
+      },
     );
   }
 }

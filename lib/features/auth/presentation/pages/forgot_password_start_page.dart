@@ -5,45 +5,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/security/security_cubit.dart';
-import '../../../../core/storage/app_preferences.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class ForgotPasswordStartPage extends StatefulWidget {
+  const ForgotPasswordStartPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<ForgotPasswordStartPage> createState() =>
+      _ForgotPasswordStartPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _ForgotPasswordStartPageState extends State<ForgotPasswordStartPage> {
   final TextEditingController _courierIdController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final FocusNode _courierFocus = FocusNode();
-  final FocusNode _passwordFocus = FocusNode();
-
   bool _isLoading = false;
-  bool _obscurePassword = true;
 
   @override
   void dispose() {
     _courierIdController.dispose();
-    _passwordController.dispose();
     _courierFocus.dispose();
-    _passwordFocus.dispose();
     super.dispose();
   }
 
-  Future<void> _login() async {
+  Future<void> _submit() async {
     if (_isLoading) {
       return;
     }
-
     final l10n = AppLocalizations.of(context);
     final courierIdText = _courierIdController.text.trim();
-    final password = _passwordController.text;
 
-    if (courierIdText.isEmpty || password.isEmpty) {
-      _showToast(l10n.loginValidationEmpty);
+    if (courierIdText.isEmpty) {
+      _showToast(l10n.forgotPasswordValidationEmpty);
       return;
     }
 
@@ -54,41 +45,36 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() => _isLoading = true);
-
     try {
       final dio = context.read<Dio>();
       final response = await dio.post(
-        '/couriers/login/',
+        '/bots/kuryer/forgot-password/start/',
         data: {
           'kuryer_id': courierId,
-          'password': password,
         },
       );
       final data = response.data;
       final ok = data is Map && data['ok'] == true;
       final detail = _stringValue(data, 'detail');
-
       if (!ok) {
-        _showToast(detail ?? l10n.loginErrorGeneric);
+        _showToast(detail ?? l10n.forgotPasswordStartFailed);
         return;
       }
 
-      final preferences = context.read<AppPreferences>();
       final responseCourierId = _intValue(data['kuryer_id']);
-      final responseBusinessId = _intValue(data['business_id']);
-
-      await preferences.setCourierId(responseCourierId ?? courierId);
-      await preferences.setBusinessId(responseBusinessId);
+      final resolvedCourierId = responseCourierId ?? courierId;
 
       if (!mounted) {
         return;
       }
-      context.read<SecurityCubit>().activateSession();
-      context.go('/home');
+      _showToast(detail ?? l10n.forgotPasswordStartSuccess);
+      context.push('/forgot-password/otp/$resolvedCourierId');
     } on DioException catch (error) {
-      _showToast(_extractErrorDetail(error) ?? l10n.loginErrorGeneric);
+      _showToast(
+        _extractErrorDetail(error) ?? l10n.forgotPasswordStartFailed,
+      );
     } catch (_) {
-      _showToast(l10n.loginErrorGeneric);
+      _showToast(l10n.forgotPasswordStartFailed);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -133,10 +119,6 @@ class _LoginPageState extends State<LoginPage> {
     return null;
   }
 
-  void _showComingSoon() {
-    _showToast(AppLocalizations.of(context).comingSoon);
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -170,7 +152,7 @@ class _LoginPageState extends State<LoginPage> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(24, 32, 24, 24),
+                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight - 24,
@@ -179,8 +161,16 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          IconButton(
+                            onPressed: () => context.pop(),
+                            icon: const Icon(Icons.arrow_back),
+                            color: colorScheme.onBackground,
+                            tooltip: MaterialLocalizations.of(context)
+                                .backButtonTooltip,
+                          ),
+                          const SizedBox(height: 12),
                           Text(
-                            l10n.loginTitle,
+                            l10n.forgotPasswordTitle,
                             style: textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: colorScheme.onBackground,
@@ -188,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            l10n.loginSubtitle,
+                            l10n.forgotPasswordSubtitle,
                             style: textTheme.bodyLarge?.copyWith(
                               color: colorScheme.onSurfaceVariant,
                             ),
@@ -213,7 +203,7 @@ class _LoginPageState extends State<LoginPage> {
                                   controller: _courierIdController,
                                   focusNode: _courierFocus,
                                   enabled: !_isLoading,
-                                  textInputAction: TextInputAction.next,
+                                  textInputAction: TextInputAction.done,
                                   keyboardType: TextInputType.number,
                                   autofillHints: const [
                                     AutofillHints.username
@@ -222,8 +212,8 @@ class _LoginPageState extends State<LoginPage> {
                                     FilteringTextInputFormatter.digitsOnly,
                                   ],
                                   decoration: InputDecoration(
-                                    labelText: l10n.loginCourierIdLabel,
-                                    hintText: l10n.loginCourierIdHint,
+                                    labelText: l10n.forgotPasswordCourierIdLabel,
+                                    hintText: l10n.forgotPasswordCourierIdHint,
                                     prefixIcon:
                                         const Icon(Icons.badge_outlined),
                                     filled: true,
@@ -237,56 +227,13 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                   ),
-                                  onSubmitted: (_) {
-                                    _passwordFocus.requestFocus();
-                                  },
-                                ),
-                                const SizedBox(height: 16),
-                                TextField(
-                                  controller: _passwordController,
-                                  focusNode: _passwordFocus,
-                                  enabled: !_isLoading,
-                                  textInputAction: TextInputAction.done,
-                                  obscureText: _obscurePassword,
-                                  autofillHints: const [
-                                    AutofillHints.password
-                                  ],
-                                  decoration: InputDecoration(
-                                    labelText: l10n.loginPasswordLabel,
-                                    hintText: l10n.loginPasswordHint,
-                                    prefixIcon:
-                                        const Icon(Icons.lock_outline),
-                                    filled: true,
-                                    fillColor: colorScheme.surface,
-                                    border: inputBorder,
-                                    enabledBorder: inputBorder,
-                                    focusedBorder: inputBorder.copyWith(
-                                      borderSide: BorderSide(
-                                        color: colorScheme.primary,
-                                        width: 1.4,
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscurePassword =
-                                              !_obscurePassword;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        _obscurePassword
-                                            ? Icons.visibility_outlined
-                                            : Icons.visibility_off_outlined,
-                                      ),
-                                    ),
-                                  ),
-                                  onSubmitted: (_) => _login(),
+                                  onSubmitted: (_) => _submit(),
                                 ),
                                 const SizedBox(height: 20),
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
-                                    onPressed: _isLoading ? null : _login,
+                                    onPressed: _isLoading ? null : _submit,
                                     style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 14,
@@ -307,25 +254,8 @@ class _LoginPageState extends State<LoginPage> {
                                               ),
                                             ),
                                           )
-                                        : Text(l10n.loginButton),
+                                        : Text(l10n.forgotPasswordStartButton),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
-                                Wrap(
-                                  alignment: WrapAlignment.spaceBetween,
-                                  runSpacing: 4,
-                                  spacing: 12,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          context.push('/forgot-password'),
-                                      child: Text(l10n.forgotPassword),
-                                    ),
-                                    TextButton(
-                                      onPressed: _showComingSoon,
-                                      child: Text(l10n.registerLink),
-                                    ),
-                                  ],
                                 ),
                               ],
                             ),

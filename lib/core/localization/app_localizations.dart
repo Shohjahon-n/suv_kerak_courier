@@ -65,6 +65,7 @@ class AppLocalizations {
       'themeLight': 'Switch to light theme',
       'themeDark': 'Switch to dark theme',
       'settingsTitle': 'Settings',
+      'profileTitle': 'Profile',
       'languageTitle': 'Language',
       'languageEnglish': 'English',
       'languageRussian': 'Russian',
@@ -82,6 +83,24 @@ class AppLocalizations {
       'loginPasswordHint': 'Enter your password',
       'loginButton': 'Log in',
       'forgotPassword': 'Forgot password?',
+      'forgotPasswordTitle': 'Update password',
+      'forgotPasswordSubtitle': 'Enter your courier ID to receive a code.',
+      'forgotPasswordCourierIdLabel': 'Courier ID',
+      'forgotPasswordCourierIdHint': 'Enter your courier ID',
+      'forgotPasswordStartButton': 'Update password',
+      'forgotPasswordValidationEmpty': 'Enter your courier ID.',
+      'forgotPasswordStartSuccess': 'Code sent. Check the bot.',
+      'forgotPasswordStartFailed': 'Failed to send the code.',
+      'forgotPasswordOtpTitle': 'Enter code',
+      'forgotPasswordOtpSubtitle':
+          'Enter the 4-digit code sent by the bot.',
+      'forgotPasswordOtpLabel': 'OTP code',
+      'forgotPasswordOtpHint': '4-digit code',
+      'forgotPasswordOtpButton': 'Verify',
+      'forgotPasswordOtpValidation': 'Enter the 4-digit code.',
+      'forgotPasswordOtpFailed': 'OTP verification failed.',
+      'forgotPasswordOpenBotButton': 'Go to bot',
+      'forgotPasswordOpenBotFailed': 'Unable to open the bot.',
       'registerLink': 'Register',
       'loginValidationEmpty': 'Enter ID and password.',
       'loginValidationId': 'Courier ID must be numbers.',
@@ -131,6 +150,13 @@ class AppLocalizations {
       'ordersRouteFailed': 'Failed to build route.',
       'ordersMapFollowHeading': 'Follow heading',
       'ordersMapFollowHeadingOff': 'Stop following',
+      'ordersMapNavigationTitle': 'Navigation',
+      'ordersMapUpdatingRoute': 'Updating route...',
+      'ordersMapStopButton': 'Stop',
+      'ordersMapUnitKilometer': 'km',
+      'ordersMapUnitMeter': 'm',
+      'ordersMapUnitMinute': 'min',
+      'ordersMapUnitHour': 'h',
       'menuCashReport': 'Cash report',
       'menuBottleBalance': 'Bottle balance',
       'bottleBalanceEmptyPeriodicTitle': 'Periodic empty bottle report',
@@ -190,6 +216,7 @@ class AppLocalizations {
       'themeModeTitle': 'Theme mode',
       'themeModeLight': 'Light',
       'themeModeDark': 'Dark',
+      'logoutButton': 'Log out',
       'securityTitle': 'Security',
       'securityPinTitle': 'PIN code login',
       'securityBiometricTitle': 'Biometric login',
@@ -226,6 +253,13 @@ class AppLocalizations {
       'biometricReason': 'Authenticate to unlock.',
       'biometricUnavailable': 'Biometrics not available on this device.',
       'biometricFailed': 'Biometric authentication failed.',
+      'changePinButton': 'Change PIN',
+      'changePinTitle': 'Change PIN',
+      'pinChangeOldLabel': 'Enter current PIN',
+      'pinChangeNewLabel': 'Enter new PIN',
+      'pinChangeSuccess': 'PIN changed successfully.',
+      'pinChangeError': 'Failed to change PIN. Check your current PIN.',
+      'pinChangeSameError': 'New PIN must be different from current PIN.',
     },
     'ru': {
       'appTitle': 'Suv Kerak Courier',
@@ -236,6 +270,7 @@ class AppLocalizations {
       'themeLight': 'Переключить на светлую тему',
       'themeDark': 'Переключить на тёмную тему',
       'settingsTitle': 'Настройки',
+      'profileTitle': 'Профиль',
       'languageTitle': 'Язык',
       'languageEnglish': 'Английский',
       'languageRussian': 'Русский',
@@ -253,6 +288,23 @@ class AppLocalizations {
       'loginPasswordHint': 'Введите пароль',
       'loginButton': 'Войти',
       'forgotPassword': 'Забыли пароль?',
+      'forgotPasswordTitle': 'Обновить пароль',
+      'forgotPasswordSubtitle': 'Введите ID курьера, чтобы получить код.',
+      'forgotPasswordCourierIdLabel': 'ID курьера',
+      'forgotPasswordCourierIdHint': 'Введите ID курьера',
+      'forgotPasswordStartButton': 'Обновить пароль',
+      'forgotPasswordValidationEmpty': 'Введите ID курьера.',
+      'forgotPasswordStartSuccess': 'Код отправлен. Проверьте бота.',
+      'forgotPasswordStartFailed': 'Не удалось отправить код.',
+      'forgotPasswordOtpTitle': 'Введите код',
+      'forgotPasswordOtpSubtitle': 'Введите 4-значный код из бота.',
+      'forgotPasswordOtpLabel': 'Код OTP',
+      'forgotPasswordOtpHint': '4-значный код',
+      'forgotPasswordOtpButton': 'Подтвердить',
+      'forgotPasswordOtpValidation': 'Введите 4-значный код.',
+      'forgotPasswordOtpFailed': 'Не удалось подтвердить код.',
+      'forgotPasswordOpenBotButton': 'Перейти в бота',
+      'forgotPasswordOpenBotFailed': 'Не удалось открыть бота.',
       'registerLink': 'Регистрация',
       'loginValidationEmpty': 'Введите ID и пароль.',
       'loginValidationId': 'ID курьера должен быть числом.',
@@ -303,6 +355,13 @@ class AppLocalizations {
       'ordersRouteFailed': 'Не удалось построить маршрут.',
       'ordersMapFollowHeading': 'Следовать направлению',
       'ordersMapFollowHeadingOff': 'Отключить слежение',
+      'ordersMapNavigationTitle': 'Навигация',
+      'ordersMapUpdatingRoute': 'Маршрут обновляется...',
+      'ordersMapStopButton': 'Остановить',
+      'ordersMapUnitKilometer': 'км',
+      'ordersMapUnitMeter': 'м',
+      'ordersMapUnitMinute': 'мин',
+      'ordersMapUnitHour': 'ч',
       'menuCashReport': 'Кассовый отчет',
       'menuBottleBalance': 'Учет тары',
       'bottleBalanceEmptyPeriodicTitle': 'Периодический учет тары',
@@ -364,6 +423,7 @@ class AppLocalizations {
       'themeModeTitle': 'Тема',
       'themeModeLight': 'Светлая',
       'themeModeDark': 'Темная',
+      'logoutButton': 'Выйти из профиля',
       'securityTitle': 'Безопасность',
       'securityPinTitle': 'Вход по PIN-коду',
       'securityBiometricTitle': 'Вход по биометрии',
@@ -400,6 +460,13 @@ class AppLocalizations {
       'biometricReason': 'Подтвердите личность для входа.',
       'biometricUnavailable': 'Биометрия недоступна на этом устройстве.',
       'biometricFailed': 'Не удалось пройти биометрическую проверку.',
+      'changePinButton': 'Изменить PIN',
+      'changePinTitle': 'Изменить PIN',
+      'pinChangeOldLabel': 'Введите текущий PIN',
+      'pinChangeNewLabel': 'Введите новый PIN',
+      'pinChangeSuccess': 'PIN успешно изменён.',
+      'pinChangeError': 'Не удалось изменить PIN. Проверьте текущий PIN.',
+      'pinChangeSameError': 'Новый PIN должен отличаться от текущего.',
     },
     'uz_Latn': {
       'appTitle': 'Suv Kerak Courier',
@@ -410,6 +477,7 @@ class AppLocalizations {
       'themeLight': "Yorug' mavzuga o'tish",
       'themeDark': "Qorong'i mavzuga o'tish",
       'settingsTitle': 'Sozlamalar',
+      'profileTitle': 'Profil',
       'languageTitle': 'Til',
       'languageEnglish': 'Inglizcha',
       'languageRussian': 'Ruscha',
@@ -427,6 +495,24 @@ class AppLocalizations {
       'loginPasswordHint': 'Parolni kiriting',
       'loginButton': 'Kirish',
       'forgotPassword': 'Parolni unutdingizmi?',
+      'forgotPasswordTitle': 'Parolni yangilash',
+      'forgotPasswordSubtitle': 'Kuryer ID ni kiriting va kodni oling.',
+      'forgotPasswordCourierIdLabel': 'Kuryer ID',
+      'forgotPasswordCourierIdHint': 'Kuryer ID ni kiriting',
+      'forgotPasswordStartButton': 'Parolni yangilash',
+      'forgotPasswordValidationEmpty': 'Kuryer ID ni kiriting.',
+      'forgotPasswordStartSuccess': 'Kod yuborildi. Botni tekshiring.',
+      'forgotPasswordStartFailed': 'Kod yuborilmadi.',
+      'forgotPasswordOtpTitle': 'Kodni kiriting',
+      'forgotPasswordOtpSubtitle':
+          'Botdan kelgan 4 xonali kodni kiriting.',
+      'forgotPasswordOtpLabel': 'OTP kodi',
+      'forgotPasswordOtpHint': '4 xonali kod',
+      'forgotPasswordOtpButton': 'Tasdiqlash',
+      'forgotPasswordOtpValidation': '4 xonali kodni kiriting.',
+      'forgotPasswordOtpFailed': 'Kod tekshiruvi muvaffaqiyatsiz.',
+      'forgotPasswordOpenBotButton': "Botga o'tish",
+      'forgotPasswordOpenBotFailed': "Botni ochib bo'lmadi.",
       'registerLink': "Ro'yxatdan o'tish",
       'loginValidationEmpty': 'ID va parolni kiriting.',
       'loginValidationId': "Kuryer ID faqat raqam bo'lishi kerak.",
@@ -477,6 +563,13 @@ class AppLocalizations {
       'ordersRouteFailed': 'Marshrutni chizib bo\'lmadi.',
       'ordersMapFollowHeading': 'Yo\'nalishni kuzatish',
       'ordersMapFollowHeadingOff': 'Kuzatishni o\'chirish',
+      'ordersMapNavigationTitle': 'Navigatsiya',
+      'ordersMapUpdatingRoute': 'Yo\'nalish yangilanmoqda...',
+      'ordersMapStopButton': 'To\'xtatish',
+      'ordersMapUnitKilometer': 'km',
+      'ordersMapUnitMeter': 'm',
+      'ordersMapUnitMinute': 'daq',
+      'ordersMapUnitHour': 'soat',
       'menuCashReport': 'Kassa hisoboti',
       'menuBottleBalance': 'Taralar hisobi',
       'bottleBalanceEmptyPeriodicTitle': 'Taralar davriy hisobi',
@@ -539,6 +632,7 @@ class AppLocalizations {
       'themeModeTitle': 'Mavzu',
       'themeModeLight': "Yorug'",
       'themeModeDark': "Qorong'i",
+      'logoutButton': 'Profildan chiqish',
       'securityTitle': 'Xavfsizlik',
       'securityPinTitle': 'PIN kod orqali kirish',
       'securityBiometricTitle': 'Biometrik kirish',
@@ -575,6 +669,13 @@ class AppLocalizations {
       'biometricReason': 'Kirish uchun tasdiqlang.',
       'biometricUnavailable': 'Bu qurilmada biometrik mavjud emas.',
       'biometricFailed': 'Biometrik tekshiruv muvaffaqiyatsiz.',
+      'changePinButton': "PIN kodni o'zgartirish",
+      'changePinTitle': "PIN kodni o'zgartirish",
+      'pinChangeOldLabel': 'Joriy PIN kodni kiriting',
+      'pinChangeNewLabel': 'Yangi PIN kodni kiriting',
+      'pinChangeSuccess': "PIN kod muvaffaqiyatli o'zgartirildi.",
+      'pinChangeError': "PIN kodni o'zgartirib bo'lmadi. Joriy PIN kodni tekshiring.",
+      'pinChangeSameError': "Yangi PIN kod joriy PIN koddan farqli bo'lishi kerak.",
     },
     'uz_Cyrl': {
       'appTitle': 'Suv Kerak Courier',
@@ -585,6 +686,7 @@ class AppLocalizations {
       'themeLight': 'Ёруғ мавзуга ўтиш',
       'themeDark': 'Қоронғи мавзуга ўтиш',
       'settingsTitle': 'Созламалар',
+      'profileTitle': 'Профиль',
       'languageTitle': 'Тил',
       'languageEnglish': 'Инглизча',
       'languageRussian': 'Русча',
@@ -602,6 +704,24 @@ class AppLocalizations {
       'loginPasswordHint': 'Паролни киритинг',
       'loginButton': 'Кириш',
       'forgotPassword': 'Паролни унутдингизми?',
+      'forgotPasswordTitle': 'Паролни янгилаш',
+      'forgotPasswordSubtitle': 'Курьер ID ни киритинг ва код олинг.',
+      'forgotPasswordCourierIdLabel': 'Курьер ID',
+      'forgotPasswordCourierIdHint': 'Курьер ID ни киритинг',
+      'forgotPasswordStartButton': 'Паролни янгилаш',
+      'forgotPasswordValidationEmpty': 'Курьер ID ни киритинг.',
+      'forgotPasswordStartSuccess': 'Код юборилди. Ботни текширинг.',
+      'forgotPasswordStartFailed': 'Код юборилмади.',
+      'forgotPasswordOtpTitle': 'Кодни киритинг',
+      'forgotPasswordOtpSubtitle':
+          'Ботдан келган 4 хонали кодни киритинг.',
+      'forgotPasswordOtpLabel': 'OTP коди',
+      'forgotPasswordOtpHint': '4 хонали код',
+      'forgotPasswordOtpButton': 'Тасдиқлаш',
+      'forgotPasswordOtpValidation': '4 хонали кодни киритинг.',
+      'forgotPasswordOtpFailed': 'Код текшируви муваффақиятсиз.',
+      'forgotPasswordOpenBotButton': 'Ботга ўтиш',
+      'forgotPasswordOpenBotFailed': 'Ботни очиб бўлмади.',
       'registerLink': 'Рўйхатдан ўтиш',
       'loginValidationEmpty': 'ID ва паролни киритинг.',
       'loginValidationId': 'Курьер ID фақат рақам бўлиши керак.',
@@ -652,6 +772,13 @@ class AppLocalizations {
       'ordersRouteFailed': 'Маршрутни чизиб бўлмади.',
       'ordersMapFollowHeading': 'Йўналишни кузатиш',
       'ordersMapFollowHeadingOff': 'Кузатишни ўчириш',
+      'ordersMapNavigationTitle': 'Навигация',
+      'ordersMapUpdatingRoute': 'Йўналиш янгиланмоқда...',
+      'ordersMapStopButton': 'Тўхтатиш',
+      'ordersMapUnitKilometer': 'км',
+      'ordersMapUnitMeter': 'м',
+      'ordersMapUnitMinute': 'дақ',
+      'ordersMapUnitHour': 'соат',
       'menuCashReport': 'Касса ҳисоботи',
       'menuBottleBalance': 'Таралар ҳисоби',
       'bottleBalanceEmptyPeriodicTitle': 'Таралар даврий ҳисоби',
@@ -715,6 +842,7 @@ class AppLocalizations {
       'themeModeTitle': 'Мавзу',
       'themeModeLight': 'Ёруғ',
       'themeModeDark': 'Қоронғи',
+      'logoutButton': 'Профилдан чиқиш',
       'securityTitle': 'Хавфсизлик',
       'securityPinTitle': 'PIN код орқали кириш',
       'securityBiometricTitle': 'Биометрик кириш',
@@ -751,6 +879,13 @@ class AppLocalizations {
       'biometricReason': 'Кириш учун тасдиқланг.',
       'biometricUnavailable': 'Бу қурилмада биометрик мавжуд эмас.',
       'biometricFailed': 'Биометрик текширув муваффақиятсиз.',
+      'changePinButton': 'PIN кодни ўзгартириш',
+      'changePinTitle': 'PIN кодни ўзгартириш',
+      'pinChangeOldLabel': 'Жорий PIN кодни киритинг',
+      'pinChangeNewLabel': 'Янги PIN кодни киритинг',
+      'pinChangeSuccess': 'PIN код муваффақиятли ўзгартирилди.',
+      'pinChangeError': 'PIN кодни ўзгартириб бўлмади. Жорий PIN кодни текширинг.',
+      'pinChangeSameError': 'Янги PIN код жорий PIN коддан фарқли бўлиши керак.',
     },
   };
 
@@ -769,6 +904,7 @@ class AppLocalizations {
   String get themeLight => _t('themeLight');
   String get themeDark => _t('themeDark');
   String get settingsTitle => _t('settingsTitle');
+  String get profileTitle => _t('profileTitle');
   String get languageTitle => _t('languageTitle');
   String get languageEnglish => _t('languageEnglish');
   String get languageRussian => _t('languageRussian');
@@ -786,6 +922,26 @@ class AppLocalizations {
   String get loginPasswordHint => _t('loginPasswordHint');
   String get loginButton => _t('loginButton');
   String get forgotPassword => _t('forgotPassword');
+  String get forgotPasswordTitle => _t('forgotPasswordTitle');
+  String get forgotPasswordSubtitle => _t('forgotPasswordSubtitle');
+  String get forgotPasswordCourierIdLabel =>
+      _t('forgotPasswordCourierIdLabel');
+  String get forgotPasswordCourierIdHint => _t('forgotPasswordCourierIdHint');
+  String get forgotPasswordStartButton => _t('forgotPasswordStartButton');
+  String get forgotPasswordValidationEmpty =>
+      _t('forgotPasswordValidationEmpty');
+  String get forgotPasswordStartSuccess => _t('forgotPasswordStartSuccess');
+  String get forgotPasswordStartFailed => _t('forgotPasswordStartFailed');
+  String get forgotPasswordOtpTitle => _t('forgotPasswordOtpTitle');
+  String get forgotPasswordOtpSubtitle => _t('forgotPasswordOtpSubtitle');
+  String get forgotPasswordOtpLabel => _t('forgotPasswordOtpLabel');
+  String get forgotPasswordOtpHint => _t('forgotPasswordOtpHint');
+  String get forgotPasswordOtpButton => _t('forgotPasswordOtpButton');
+  String get forgotPasswordOtpValidation => _t('forgotPasswordOtpValidation');
+  String get forgotPasswordOtpFailed => _t('forgotPasswordOtpFailed');
+  String get forgotPasswordOpenBotButton =>
+      _t('forgotPasswordOpenBotButton');
+  String get forgotPasswordOpenBotFailed => _t('forgotPasswordOpenBotFailed');
   String get registerLink => _t('registerLink');
   String get loginValidationEmpty => _t('loginValidationEmpty');
   String get loginValidationId => _t('loginValidationId');
@@ -836,6 +992,13 @@ class AppLocalizations {
   String get ordersRouteFailed => _t('ordersRouteFailed');
   String get ordersMapFollowHeading => _t('ordersMapFollowHeading');
   String get ordersMapFollowHeadingOff => _t('ordersMapFollowHeadingOff');
+  String get ordersMapNavigationTitle => _t('ordersMapNavigationTitle');
+  String get ordersMapUpdatingRoute => _t('ordersMapUpdatingRoute');
+  String get ordersMapStopButton => _t('ordersMapStopButton');
+  String get ordersMapUnitKilometer => _t('ordersMapUnitKilometer');
+  String get ordersMapUnitMeter => _t('ordersMapUnitMeter');
+  String get ordersMapUnitMinute => _t('ordersMapUnitMinute');
+  String get ordersMapUnitHour => _t('ordersMapUnitHour');
   String get menuCashReport => _t('menuCashReport');
   String get menuBottleBalance => _t('menuBottleBalance');
   String get bottleBalanceEmptyPeriodicTitle =>
@@ -905,6 +1068,7 @@ class AppLocalizations {
   String get themeModeTitle => _t('themeModeTitle');
   String get themeModeLight => _t('themeModeLight');
   String get themeModeDark => _t('themeModeDark');
+  String get logoutButton => _t('logoutButton');
   String get securityTitle => _t('securityTitle');
   String get securityPinTitle => _t('securityPinTitle');
   String get securityBiometricTitle => _t('securityBiometricTitle');
@@ -941,6 +1105,13 @@ class AppLocalizations {
   String get biometricReason => _t('biometricReason');
   String get biometricUnavailable => _t('biometricUnavailable');
   String get biometricFailed => _t('biometricFailed');
+  String get changePinButton => _t('changePinButton');
+  String get changePinTitle => _t('changePinTitle');
+  String get pinChangeOldLabel => _t('pinChangeOldLabel');
+  String get pinChangeNewLabel => _t('pinChangeNewLabel');
+  String get pinChangeSuccess => _t('pinChangeSuccess');
+  String get pinChangeError => _t('pinChangeError');
+  String get pinChangeSameError => _t('pinChangeSameError');
 
   static String _localeKey(Locale locale) {
     if (locale.languageCode == 'uz') {

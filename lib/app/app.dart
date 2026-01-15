@@ -60,6 +60,8 @@ class _AppState extends State<App> {
           BlocProvider(
             create: (context) => SecurityCubit(
               context.read<AppPreferences>(),
+              context.read<Dio>(),
+              context.read<Talker>(),
             ),
           ),
         ],

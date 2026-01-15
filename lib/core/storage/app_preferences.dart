@@ -110,6 +110,17 @@ class AppPreferences {
     await _prefs.setInt(_keyBusinessId, id);
   }
 
+  Future<void> clearSession() async {
+    await _prefs.remove(_keyAccessToken);
+    await _prefs.remove(_keyRefreshToken);
+    await _prefs.remove(_keyUserJson);
+    await _prefs.remove(_keyCourierId);
+    await _prefs.remove(_keyBusinessId);
+    await _prefs.remove(_keyPinEnabled);
+    await _prefs.remove(_keyPinHash);
+    await _prefs.remove(_keyBiometricEnabled);
+  }
+
   bool readPinEnabled() => _prefs.getBool(_keyPinEnabled) ?? false;
 
   Future<void> setPinEnabled(bool enabled) async {

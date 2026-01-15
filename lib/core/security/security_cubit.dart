@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 import '../storage/app_preferences.dart';
 
@@ -53,12 +56,16 @@ class SecurityState extends Equatable {
 
 class SecurityCubit extends Cubit<SecurityState> {
   SecurityCubit(
-    this._preferences, {
+    this._preferences,
+    this._dio,
+    this._talker, {
     LocalAuthentication? localAuth,
   })  : _localAuth = localAuth ?? LocalAuthentication(),
         super(_initialState(_preferences));
 
   final AppPreferences _preferences;
+  final Dio _dio;
+  final Talker _talker;
   final LocalAuthentication _localAuth;
 
   static SecurityState _initialState(AppPreferences preferences) {
@@ -97,6 +104,10 @@ class SecurityCubit extends Cubit<SecurityState> {
     );
   }
 
+  void reset() {
+    emit(_initialState(_preferences));
+  }
+
   void lockIfNeeded() {
     if (!state.requiresAuth) {
       return;
@@ -111,10 +122,82 @@ class SecurityCubit extends Cubit<SecurityState> {
     if (pin.length != 4) {
       return;
     }
+
+    // Send PIN to backend
+    final businessId = _preferences.readBusinessId();
+    final courierId = _preferences.readCourierId();
+
+    if (businessId != null && courierId != null) {
+      try {
+        final locale = _preferences.readLocale();
+        final lang = _localeToLang(locale);
+
+        await _dio.post(
+          '/couriers/set-pin-code/',
+          data: {
+            'business_id': businessId,
+            'kuryer_id': courierId,
+            'pin_value': pin,
+            'lang': lang,
+          },
+        );
+      } catch (error, stackTrace) {
+        // If backend fails, still save locally
+        _talker.warning(
+          'Failed to sync PIN to backend, saving locally only',
+          error,
+          stackTrace,
+        );
+      }
+    }
+
     final hash = _hashPin(pin);
     await _preferences.setPinHash(hash);
     await _preferences.setPinEnabled(true);
     emit(state.copyWith(pinEnabled: true, isUnlocked: true));
+  }
+
+  Future<bool> changePin(String oldPin, String newPin) async {
+    if (oldPin.length != 4 || newPin.length != 4) {
+      return false;
+    }
+
+    // Verify old PIN first
+    final storedHash = _preferences.readPinHash();
+    if (storedHash == null || storedHash != _hashPin(oldPin)) {
+      return false;
+    }
+
+    // Send PIN change to backend
+    final businessId = _preferences.readBusinessId();
+    final courierId = _preferences.readCourierId();
+
+    if (businessId != null && courierId != null) {
+      try {
+        await _dio.post(
+          '/couriers/change-pin/',
+          data: {
+            'business_id': businessId,
+            'kuryer_id': courierId,
+            'old_pin': oldPin,
+            'new_pin': newPin,
+          },
+        );
+      } catch (error, stackTrace) {
+        // If backend fails, don't proceed
+        _talker.error(
+          'Failed to change PIN on backend',
+          error,
+          stackTrace,
+        );
+        return false;
+      }
+    }
+
+    // Save new PIN hash locally
+    final newHash = _hashPin(newPin);
+    await _preferences.setPinHash(newHash);
+    return true;
   }
 
   Future<void> disablePin() async {
@@ -147,7 +230,12 @@ class SecurityCubit extends Cubit<SecurityState> {
       final canCheck = await _localAuth.canCheckBiometrics;
       final supported = await _localAuth.isDeviceSupported();
       return canCheck && supported;
-    } catch (_) {
+    } catch (error, stackTrace) {
+      _talker.error(
+        'Error checking biometric availability',
+        error,
+        stackTrace,
+      );
       return false;
     }
   }
@@ -165,8 +253,12 @@ class SecurityCubit extends Cubit<SecurityState> {
         emit(state.copyWith(isUnlocked: true, isAuthenticating: false));
         return true;
       }
-    } catch (_) {
-      // Ignore and fall through to failure.
+    } catch (error, stackTrace) {
+      _talker.warning(
+        'Biometric authentication failed or was cancelled',
+        error,
+        stackTrace,
+      );
     }
     emit(state.copyWith(isAuthenticating: false));
     return false;
@@ -190,5 +282,16 @@ class SecurityCubit extends Cubit<SecurityState> {
   String _hashPin(String pin) {
     final bytes = utf8.encode(pin);
     return sha256.convert(bytes).toString();
+  }
+
+  String _localeToLang(Locale? locale) {
+    if (locale == null) return 'en';
+    final code = locale.languageCode;
+    if (code == 'uz') {
+      final script = locale.scriptCode;
+      if (script == 'Cyrl') return 'uz_Cyrl';
+      return 'uz_Latn';
+    }
+    return code; // en, ru, etc.
   }
 }
