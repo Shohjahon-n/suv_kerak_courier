@@ -74,7 +74,7 @@ class SettingsPage extends StatelessWidget {
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
               border: Border.all(
-                color: colorScheme.outline.withOpacity(0.3),
+                color: colorScheme.outline.withValues(alpha: 0.3),
               ),
             ),
             child: SegmentedButton<ThemeMode>(
@@ -185,7 +185,7 @@ class SettingsPage extends StatelessWidget {
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
               border: Border.all(
-                color: colorScheme.outline.withOpacity(0.3),
+                color: colorScheme.outline.withValues(alpha: 0.3),
               ),
             ),
             child: ListTile(
@@ -583,8 +583,8 @@ class _LanguageTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
               color: selected
-                  ? colorScheme.primary.withOpacity(0.4)
-                  : colorScheme.outline.withOpacity(0.3),
+                  ? colorScheme.primary.withValues(alpha: 0.4)
+                  : colorScheme.outline.withValues(alpha: 0.3),
             ),
           ),
           child: Row(
@@ -632,7 +632,7 @@ class _ToggleTile extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.3),
+          color: colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: SwitchListTile.adaptive(

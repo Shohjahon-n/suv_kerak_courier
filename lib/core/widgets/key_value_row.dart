@@ -36,7 +36,7 @@ class KeyValueRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScale = MediaQuery.textScaleFactorOf(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final labelText = showColon ? '$label:' : label;
 
     return LayoutBuilder(

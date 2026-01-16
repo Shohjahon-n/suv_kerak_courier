@@ -121,10 +121,10 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
         final subtitle =
             showPin ? l10n.pinUnlockSubtitle : l10n.biometricReason;
 
-        return WillPopScope(
-          onWillPop: () async => false,
+        return PopScope(
+          canPop: false,
           child: Material(
-            color: colorScheme.background,
+            color: colorScheme.surface,
             child: Stack(
               children: [
                 Container(
@@ -135,7 +135,7 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
                       colors: [
                         colorScheme.primaryContainer,
                         colorScheme.secondaryContainer,
-                        colorScheme.background,
+                        colorScheme.surface,
                       ],
                     ),
                   ),
@@ -154,7 +154,7 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
-                              color: colorScheme.shadow.withOpacity(0.12),
+                              color: colorScheme.shadow.withValues(alpha: 0.12),
                               blurRadius: 20,
                               offset: const Offset(0, 10),
                             ),

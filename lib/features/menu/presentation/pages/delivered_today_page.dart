@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/localization/app_localizations.dart';
@@ -11,25 +12,21 @@ import '../../../../core/widgets/responsive_spacing.dart';
 import '../../../../shared/widgets/section_title.dart';
 import '../../../../shared/widgets/status_message_card.dart';
 import '../widgets/order_cards.dart';
-import 'delivered_orders_models.dart';
-import 'pending_orders_models.dart';
+import 'delivered_today_models.dart';
 
-class DeliveredOrdersReportPage extends StatefulWidget {
-  const DeliveredOrdersReportPage({super.key, required this.request});
-
-  final DeliveredOrdersRequest? request;
+class DeliveredTodayPage extends StatefulWidget {
+  const DeliveredTodayPage({super.key});
 
   @override
-  State<DeliveredOrdersReportPage> createState() =>
-      _DeliveredOrdersReportPageState();
+  State<DeliveredTodayPage> createState() => _DeliveredTodayPageState();
 }
 
-class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
-    with ErrorHandlingMixin<DeliveredOrdersReportPage> {
+class _DeliveredTodayPageState extends State<DeliveredTodayPage>
+    with ErrorHandlingMixin<DeliveredTodayPage> {
   bool _hasLoaded = false;
   bool _isLoading = false;
   String? _error;
-  PendingOrdersResponse? _data;
+  DeliveredTodayResponse? _data;
 
   @override
   void didChangeDependencies() {
@@ -38,16 +35,10 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
       return;
     }
     _hasLoaded = true;
-    if (widget.request != null) {
-      _load();
-    }
+    _load();
   }
 
   Future<void> _load() async {
-    final request = widget.request;
-    if (request == null) {
-      return;
-    }
     final l10n = AppLocalizations.of(context);
     final preferences = context.read<AppPreferences>();
     final businessId = preferences.readBusinessId();
@@ -66,17 +57,12 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
 
     try {
       final dio = context.read<Dio>();
-      final dateFormat = DateFormat('yyyy-MM-dd');
       final response = await dio.post(
-        '/orders/delivered-range/',
-        data: {
-          'business_id': businessId,
-          'from_date': dateFormat.format(request.range.start),
-          'to_date': dateFormat.format(request.range.end),
-        },
+        '/orders/delivered-today/',
+        data: {'business_id': businessId},
       );
       final data = response.data;
-      PendingOrdersResponse? result;
+      DeliveredTodayResponse? result;
       String? errorMessage;
       if (data is Map) {
         final map = Map<String, dynamic>.from(data);
@@ -85,7 +71,7 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
         if (ok == false && detail != null) {
           errorMessage = detail;
         } else {
-          result = PendingOrdersResponse.fromJson(map);
+          result = DeliveredTodayResponse.fromJson(map);
         }
       } else {
         errorMessage = l10n.ordersLoadFailed;
@@ -133,46 +119,25 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final request = widget.request;
-    final title = request == null
-        ? l10n.menuOrders
-        : l10n.ordersPeriodicReportTitle;
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+      appBar: AppBar(title: Text(l10n.ordersCompletedTodayButton)),
+      body: SafeArea(
+        top: false,
+        child: RefreshIndicator(
+          onRefresh: _load,
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: _buildSlivers(context, l10n),
+          ),
+        ),
       ),
-      body: request == null
-          ? SafeArea(
-              top: false,
-              child: _EmptySelection(
-                message: l10n.cashReportValidationRequired,
-              ),
-            )
-          : SafeArea(
-              top: false,
-              child: RefreshIndicator(
-                onRefresh: _load,
-                child: CustomScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: _buildSlivers(context, request, l10n),
-                ),
-              ),
-            ),
     );
   }
 
-  List<Widget> _buildSlivers(
-    BuildContext context,
-    DeliveredOrdersRequest request,
-    AppLocalizations l10n,
-  ) {
+  List<Widget> _buildSlivers(BuildContext context, AppLocalizations l10n) {
     final colorScheme = Theme.of(context).colorScheme;
     final locale = Localizations.localeOf(context);
     final numberFormat = NumberFormat('#,##0', locale.toString());
-    final dateFormat = DateFormat.yMMMd(locale.toString());
-    final rangeLabel =
-        '${dateFormat.format(request.range.start)} - ${dateFormat.format(request.range.end)}';
     final padding = ResponsiveSpacing.pagePadding(context);
 
     if (_isLoading && _data == null) {
@@ -220,18 +185,22 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
 
     final data = _data!;
     final headerWidgets = <Widget>[
-      _RangeCard(
-        title: l10n.cashReportRangeLabel,
-        value: rangeLabel,
-      ),
-      SizedBox(height: ResponsiveSpacing.spacing(context, base: 16)),
       SectionTitle(title: l10n.ordersSummaryTitle),
+      SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
+      SizedBox(
+        width: double.infinity,
+        child: OutlinedButton.icon(
+          onPressed: () => context.push('/orders/map'),
+          icon: const Icon(Icons.map_outlined),
+          label: Text(l10n.ordersMapButton),
+        ),
+      ),
       SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
       AdaptiveGrid(
-        minItemWidth: 150,
-        baseChildAspectRatio: 1.5,
-        crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 12),
-        mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 12),
+        minItemWidth: 145,
+        baseChildAspectRatio: 1.55,
+        crossAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
+        mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
         children: [
           OrderSummaryCard(
             title: l10n.ordersCountLabel,
@@ -257,9 +226,7 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
     final slivers = <Widget>[
       SliverPadding(
         padding: padding,
-        sliver: SliverList(
-          delegate: SliverChildListDelegate(headerWidgets),
-        ),
+        sliver: SliverList(delegate: SliverChildListDelegate(headerWidgets)),
       ),
       SliverPadding(
         padding: EdgeInsets.fromLTRB(
@@ -269,17 +236,14 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
           padding.bottom,
         ),
         sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final item = data.items[index];
-              return OrderCard(
-                item: item,
-                l10n: l10n,
-                numberFormat: numberFormat,
-              );
-            },
-            childCount: data.items.length,
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final item = data.items[index];
+            return DeliveredTodayOrderCard(
+              item: item,
+              l10n: l10n,
+              numberFormat: numberFormat,
+            );
+          }, childCount: data.items.length),
         ),
       ),
     ];
@@ -303,66 +267,5 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
     }
 
     return slivers;
-  }
-}
-
-class _RangeCard extends StatelessWidget {
-  const _RangeCard({required this.title, required this.value});
-
-  final String title;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Container(
-      padding: ResponsiveSpacing.largePadding(context),
-      decoration: BoxDecoration(
-        color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(
-          ResponsiveSpacing.borderRadius(context, base: 18),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
-                  fontWeight: FontWeight.w600,
-                ),
-          ),
-          SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w700,
-                ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EmptySelection extends StatelessWidget {
-  const _EmptySelection({required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: ResponsiveSpacing.pagePadding(context),
-        child: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-    );
   }
 }

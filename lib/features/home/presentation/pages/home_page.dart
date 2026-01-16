@@ -139,7 +139,7 @@ class HomeView extends StatelessWidget {
             title: l10n.homeLastActiveLabel,
             value: lastActive,
             icon: Icons.access_time,
-            background: colorScheme.surfaceVariant,
+            background: colorScheme.surfaceContainerHighest,
             foreground: colorScheme.onSurfaceVariant,
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 14)),
@@ -175,7 +175,7 @@ class HomeView extends StatelessWidget {
                 title: l10n.homeOrdersTodayLabel,
                 value: numberFormat.format(dashboard.ordersCompletedToday),
                 icon: Icons.receipt_long_outlined,
-                background: colorScheme.surfaceVariant,
+                background: colorScheme.surfaceContainerHighest,
                 foreground: colorScheme.onSurfaceVariant,
               ),
             ],
@@ -271,7 +271,7 @@ class _DashboardStatCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.12),
+            color: colorScheme.shadow.withValues(alpha: 0.12),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -295,7 +295,7 @@ class _DashboardStatCard extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: foreground.withOpacity(0.8),
+                  color: foreground.withValues(alpha: 0.8),
                   fontWeight: FontWeight.w600,
                 ),
             maxLines: 2,
@@ -338,7 +338,7 @@ class _DashboardHighlightCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(ResponsiveSpacing.spacing(context, base: 10)),
             decoration: BoxDecoration(
-              color: foreground.withOpacity(0.12),
+              color: foreground.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
             ),
             child: Icon(icon, color: foreground, size: ResponsiveSpacing.iconSize(context, base: 24)),
@@ -351,7 +351,7 @@ class _DashboardHighlightCard extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: foreground.withOpacity(0.8),
+                        color: foreground.withValues(alpha: 0.8),
                       ),
                 ),
                 SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
@@ -403,11 +403,11 @@ class _MenuCard extends StatelessWidget {
             color: colorScheme.surface,
             borderRadius: BorderRadius.circular(radius),
             border: Border.all(
-              color: colorScheme.outline.withOpacity(0.3),
+              color: colorScheme.outline.withValues(alpha: 0.3),
             ),
             boxShadow: [
               BoxShadow(
-                color: colorScheme.shadow.withOpacity(0.1),
+                color: colorScheme.shadow.withValues(alpha: 0.1),
                 blurRadius: 14,
                 offset: const Offset(0, 8),
               ),

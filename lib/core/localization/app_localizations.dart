@@ -108,6 +108,9 @@ class AppLocalizations {
       'loginSuccess': 'Logged in successfully.',
       'comingSoon': 'Coming soon.',
       'refreshLabel': 'Refresh',
+      'commonYes': 'Yes',
+      'commonNo': 'No',
+      'commonBack': 'Back',
       'homeEmptyState': 'No data yet.',
       'homeCourierIdLabel': 'Courier ID',
       'homeLastActiveLabel': 'Last active',
@@ -157,6 +160,31 @@ class AppLocalizations {
       'ordersMapUnitMeter': 'm',
       'ordersMapUnitMinute': 'min',
       'ordersMapUnitHour': 'h',
+      'ordersMapTitle': 'Map view',
+      'ordersMapOnWayOrderLoadFailed': 'Failed to load the active order.',
+      'ordersMapArrivedHintFailed': 'Failed to send arrival notification.',
+      'ordersMapSetOnWayFailed': 'Failed to mark the order as on the way.',
+      'ordersMapOrderDetailsLoadFailed': 'Failed to load order details.',
+      'ordersMapCompleteOrderFailed': 'Failed to complete the order.',
+      'ordersMapOpenCallFailed': 'Unable to open the call app.',
+      'ordersMapArrivedDialogTitle': 'Have you arrived?',
+      'ordersMapArrivedAutoClose':
+          'Closes automatically in {seconds} seconds.',
+      'ordersMapOrderDetailsTitle': 'Order details',
+      'ordersMapWaterPriceLabel': 'Water price',
+      'ordersMapWaterLabel': 'Water',
+      'ordersMapSoldBottleLabel': 'Sold containers',
+      'ordersMapTotalLabel': 'Total',
+      'ordersMapPaymentAcceptedOnline': 'Accepted (Online payment)',
+      'ordersMapAcceptPayment': 'Accept payment',
+      'ordersMapSelectOrder': 'Select an order',
+      'ordersMapTakeOrder': 'Take order {orderNum}',
+      'ordersMapArrivedButton': 'Arrived for order {orderNum}',
+      'ordersMapOnWayButton': 'I\'m on my way',
+      'ordersMapFoundButton': 'Found',
+      'ordersMapNotFoundButton': 'Not found',
+      'ordersMapOrderSummary': 'Order: {orderNum}, Water: {waterCount}',
+      'ordersMapConfirmCompletedTitle': 'Completed?',
       'menuCashReport': 'Cash report',
       'menuBottleBalance': 'Bottle balance',
       'bottleBalanceEmptyPeriodicTitle': 'Periodic empty bottle report',
@@ -312,6 +340,9 @@ class AppLocalizations {
       'loginSuccess': 'Успешный вход.',
       'comingSoon': 'Скоро будет.',
       'refreshLabel': 'Обновить',
+      'commonYes': 'Да',
+      'commonNo': 'Нет',
+      'commonBack': 'Назад',
       'homeEmptyState': 'Пока нет данных.',
       'homeCourierIdLabel': 'ID курьера',
       'homeLastActiveLabel': 'Последняя активность',
@@ -362,6 +393,33 @@ class AppLocalizations {
       'ordersMapUnitMeter': 'м',
       'ordersMapUnitMinute': 'мин',
       'ordersMapUnitHour': 'ч',
+      'ordersMapTitle': 'Карта',
+      'ordersMapOnWayOrderLoadFailed': 'Не удалось загрузить активный заказ.',
+      'ordersMapArrivedHintFailed':
+          'Не удалось отправить уведомление о прибытии.',
+      'ordersMapSetOnWayFailed': 'Не удалось отметить заказ как в пути.',
+      'ordersMapOrderDetailsLoadFailed': 'Не удалось загрузить данные заказа.',
+      'ordersMapCompleteOrderFailed': 'Не удалось завершить заказ.',
+      'ordersMapOpenCallFailed':
+          'Не удалось открыть приложение для звонка.',
+      'ordersMapArrivedDialogTitle': 'Вы прибыли?',
+      'ordersMapArrivedAutoClose':
+          'Автоматически закроется через {seconds} сек.',
+      'ordersMapOrderDetailsTitle': 'Данные заказа',
+      'ordersMapWaterPriceLabel': 'Цена воды',
+      'ordersMapWaterLabel': 'Вода',
+      'ordersMapSoldBottleLabel': 'Продано тары',
+      'ordersMapTotalLabel': 'Итого',
+      'ordersMapPaymentAcceptedOnline': 'Принято (онлайн оплата)',
+      'ordersMapAcceptPayment': 'Принять оплату',
+      'ordersMapSelectOrder': 'Выберите заказ',
+      'ordersMapTakeOrder': 'Возьмите заказ {orderNum}',
+      'ordersMapArrivedButton': 'Прибыл к заказу {orderNum}',
+      'ordersMapOnWayButton': 'Я в пути',
+      'ordersMapFoundButton': 'Нашёл',
+      'ordersMapNotFoundButton': 'Не нашёл',
+      'ordersMapOrderSummary': 'Заказ: {orderNum}, Вода: {waterCount}',
+      'ordersMapConfirmCompletedTitle': 'Завершено?',
       'menuCashReport': 'Кассовый отчет',
       'menuBottleBalance': 'Учет тары',
       'bottleBalanceEmptyPeriodicTitle': 'Периодический учет тары',
@@ -520,6 +578,9 @@ class AppLocalizations {
       'loginSuccess': 'Muvaffaqiyatli kirdingiz.',
       'comingSoon': 'Tez orada.',
       'refreshLabel': 'Yangilash',
+      'commonYes': 'Ha',
+      'commonNo': "Yo'q",
+      'commonBack': 'Orqaga',
       'homeEmptyState': "Hozircha ma'lumot yo'q.",
       'homeCourierIdLabel': 'Kuryer ID',
       'homeLastActiveLabel': 'Oxirgi faollik',
@@ -570,6 +631,34 @@ class AppLocalizations {
       'ordersMapUnitMeter': 'm',
       'ordersMapUnitMinute': 'daq',
       'ordersMapUnitHour': 'soat',
+      'ordersMapTitle': "Xaritada ko'rish",
+      'ordersMapOnWayOrderLoadFailed':
+          "Yo'lda turgan buyurtmani yuklashda xatolik.",
+      'ordersMapArrivedHintFailed': 'Yetib kelish xabarini yuborishda xatolik.',
+      'ordersMapSetOnWayFailed':
+          "Yo'lga chiqqan holatini belgilashda xatolik.",
+      'ordersMapOrderDetailsLoadFailed':
+          "Buyurtma ma'lumotlarini yuklashda xatolik.",
+      'ordersMapCompleteOrderFailed': 'Buyurtmani yakunlashda xatolik.',
+      'ordersMapOpenCallFailed': "Qo'ng'iroq ilovasini ochib bo'lmadi.",
+      'ordersMapArrivedDialogTitle': 'Yetib keldingizmi?',
+      'ordersMapArrivedAutoClose':
+          '{seconds} soniyadan keyin avtomatik yopiladi',
+      'ordersMapOrderDetailsTitle': "Buyurtma ma'lumotlari",
+      'ordersMapWaterPriceLabel': 'Suv narxi',
+      'ordersMapWaterLabel': 'Suv',
+      'ordersMapSoldBottleLabel': 'Sotilgan tara',
+      'ordersMapTotalLabel': 'Jami',
+      'ordersMapPaymentAcceptedOnline': "Qabul qilindi (Online to'lov)",
+      'ordersMapAcceptPayment': "To'lovni qabul qilish",
+      'ordersMapSelectOrder': 'Buyurtma tanlang',
+      'ordersMapTakeOrder': 'Buyurtma {orderNum} ni oling',
+      'ordersMapArrivedButton': '{orderNum} ga yetib keldim',
+      'ordersMapOnWayButton': "Yo'lga chiqdim",
+      'ordersMapFoundButton': 'Topildi',
+      'ordersMapNotFoundButton': 'Topilmadi',
+      'ordersMapOrderSummary': 'Buyurtma: {orderNum}, Suv: {waterCount}',
+      'ordersMapConfirmCompletedTitle': 'Bajarildi?',
       'menuCashReport': 'Kassa hisoboti',
       'menuBottleBalance': 'Taralar hisobi',
       'bottleBalanceEmptyPeriodicTitle': 'Taralar davriy hisobi',
@@ -729,6 +818,9 @@ class AppLocalizations {
       'loginSuccess': 'Муваффақиятли кирдингиз.',
       'comingSoon': 'Тез орада.',
       'refreshLabel': 'Янгилаш',
+      'commonYes': 'Ҳа',
+      'commonNo': 'Йўқ',
+      'commonBack': 'Орқага',
       'homeEmptyState': 'Ҳозирча маълумот йўқ.',
       'homeCourierIdLabel': 'Курьер ID',
       'homeLastActiveLabel': 'Охирги фаоллик',
@@ -779,6 +871,34 @@ class AppLocalizations {
       'ordersMapUnitMeter': 'м',
       'ordersMapUnitMinute': 'дақ',
       'ordersMapUnitHour': 'соат',
+      'ordersMapTitle': 'Харитада кўриш',
+      'ordersMapOnWayOrderLoadFailed':
+          'Йўлда турган буюртмани юклашда хатолик.',
+      'ordersMapArrivedHintFailed':
+          'Етиб келиш хабарини юборишда хатолик.',
+      'ordersMapSetOnWayFailed': 'Йўлга чиққан ҳолатини белгилашда хатолик.',
+      'ordersMapOrderDetailsLoadFailed':
+          'Буюртма маълумотларини юклашда хатолик.',
+      'ordersMapCompleteOrderFailed': 'Буюртмани якунлашда хатолик.',
+      'ordersMapOpenCallFailed': 'Қўнғироқ иловасини очиб бўлмади.',
+      'ordersMapArrivedDialogTitle': 'Етиб келдингизми?',
+      'ordersMapArrivedAutoClose':
+          '{seconds} сониядан кейин автоматик ёпилади',
+      'ordersMapOrderDetailsTitle': 'Буюртма маълумотлари',
+      'ordersMapWaterPriceLabel': 'Сув нархи',
+      'ordersMapWaterLabel': 'Сув',
+      'ordersMapSoldBottleLabel': 'Сотилган тара',
+      'ordersMapTotalLabel': 'Жами',
+      'ordersMapPaymentAcceptedOnline': 'Қабул қилинди (Онлайн тўлов)',
+      'ordersMapAcceptPayment': 'Тўловни қабул қилиш',
+      'ordersMapSelectOrder': 'Буюртма танланг',
+      'ordersMapTakeOrder': 'Буюртма {orderNum} ни олинг',
+      'ordersMapArrivedButton': '{orderNum} га етиб келдим',
+      'ordersMapOnWayButton': 'Йўлга чиқдим',
+      'ordersMapFoundButton': 'Топилди',
+      'ordersMapNotFoundButton': 'Топилмади',
+      'ordersMapOrderSummary': 'Буюртма: {orderNum}, Сув: {waterCount}',
+      'ordersMapConfirmCompletedTitle': 'Бажарилди?',
       'menuCashReport': 'Касса ҳисоботи',
       'menuBottleBalance': 'Таралар ҳисоби',
       'bottleBalanceEmptyPeriodicTitle': 'Таралар даврий ҳисоби',
@@ -949,6 +1069,9 @@ class AppLocalizations {
   String get loginSuccess => _t('loginSuccess');
   String get comingSoon => _t('comingSoon');
   String get refreshLabel => _t('refreshLabel');
+  String get commonYes => _t('commonYes');
+  String get commonNo => _t('commonNo');
+  String get commonBack => _t('commonBack');
   String get homeEmptyState => _t('homeEmptyState');
   String get homeCourierIdLabel => _t('homeCourierIdLabel');
   String get homeLastActiveLabel => _t('homeLastActiveLabel');
@@ -999,6 +1122,50 @@ class AppLocalizations {
   String get ordersMapUnitMeter => _t('ordersMapUnitMeter');
   String get ordersMapUnitMinute => _t('ordersMapUnitMinute');
   String get ordersMapUnitHour => _t('ordersMapUnitHour');
+  String get ordersMapTitle => _t('ordersMapTitle');
+  String get ordersMapOnWayOrderLoadFailed =>
+      _t('ordersMapOnWayOrderLoadFailed');
+  String get ordersMapArrivedHintFailed => _t('ordersMapArrivedHintFailed');
+  String get ordersMapSetOnWayFailed => _t('ordersMapSetOnWayFailed');
+  String get ordersMapOrderDetailsLoadFailed =>
+      _t('ordersMapOrderDetailsLoadFailed');
+  String get ordersMapCompleteOrderFailed =>
+      _t('ordersMapCompleteOrderFailed');
+  String get ordersMapOpenCallFailed => _t('ordersMapOpenCallFailed');
+  String get ordersMapArrivedDialogTitle => _t('ordersMapArrivedDialogTitle');
+  String ordersMapArrivedAutoClose(int seconds) {
+    return _t('ordersMapArrivedAutoClose')
+        .replaceAll('{seconds}', '$seconds');
+  }
+
+  String get ordersMapOrderDetailsTitle => _t('ordersMapOrderDetailsTitle');
+  String get ordersMapWaterPriceLabel => _t('ordersMapWaterPriceLabel');
+  String get ordersMapWaterLabel => _t('ordersMapWaterLabel');
+  String get ordersMapSoldBottleLabel => _t('ordersMapSoldBottleLabel');
+  String get ordersMapTotalLabel => _t('ordersMapTotalLabel');
+  String get ordersMapPaymentAcceptedOnline =>
+      _t('ordersMapPaymentAcceptedOnline');
+  String get ordersMapAcceptPayment => _t('ordersMapAcceptPayment');
+  String get ordersMapSelectOrder => _t('ordersMapSelectOrder');
+  String ordersMapTakeOrder(String orderNum) {
+    return _t('ordersMapTakeOrder').replaceAll('{orderNum}', orderNum);
+  }
+
+  String ordersMapArrivedButton(String orderNum) {
+    return _t('ordersMapArrivedButton').replaceAll('{orderNum}', orderNum);
+  }
+
+  String get ordersMapOnWayButton => _t('ordersMapOnWayButton');
+  String get ordersMapFoundButton => _t('ordersMapFoundButton');
+  String get ordersMapNotFoundButton => _t('ordersMapNotFoundButton');
+  String ordersMapOrderSummary(String orderNum, String waterCount) {
+    return _t('ordersMapOrderSummary')
+        .replaceAll('{orderNum}', orderNum)
+        .replaceAll('{waterCount}', waterCount);
+  }
+
+  String get ordersMapConfirmCompletedTitle =>
+      _t('ordersMapConfirmCompletedTitle');
   String get menuCashReport => _t('menuCashReport');
   String get menuBottleBalance => _t('menuBottleBalance');
   String get bottleBalanceEmptyPeriodicTitle =>

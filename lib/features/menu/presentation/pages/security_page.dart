@@ -164,6 +164,7 @@ class _SecurityPageState extends State<SecurityPage> {
         return;
       }
 
+      if (!mounted) return;
       await context.read<SecurityCubit>().enablePin(newPin);
       _clearPinInputs();
       _showToast(detail ?? l10n.securityPinUpdated);
@@ -230,7 +231,7 @@ class _SecurityPageState extends State<SecurityPage> {
     final inputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(
-        color: colorScheme.outline.withOpacity(0.6),
+        color: colorScheme.outline.withValues(alpha: 0.6),
       ),
     );
 
@@ -491,11 +492,11 @@ class _FormCard extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.3),
+          color: colorScheme.outline.withValues(alpha: 0.3),
         ),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.08),
+            color: colorScheme.shadow.withValues(alpha: 0.08),
             blurRadius: 18,
             offset: const Offset(0, 10),
           ),

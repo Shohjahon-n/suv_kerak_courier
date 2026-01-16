@@ -11,6 +11,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 
+import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
 
 enum NavMode { autoRotate, userRotate }
@@ -147,7 +148,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       }
     } catch (e) {
       debugPrint('Error in _getOnWayOrder: $e');
-      _showErrorSnackBar('Yo\'lda turgan buyurtmani yuklashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapOnWayOrderLoadFailed,
+        );
+      }
     }
   }
 
@@ -170,7 +175,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           "force": 0,
           "kuryer_id": courierId,
           ..._orderDetail,
-          "lang": locale == "fr" ? "uz_lat" : locale
+          "lang": locale == "fr" ? "uz_lat" : locale,
         },
       );
 
@@ -183,7 +188,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _loading = false;
       });
       debugPrint('Error in _arrivedFun: $e');
-      _showErrorSnackBar('Yetib kelish xabarini yuborishda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapArrivedHintFailed,
+        );
+      }
     }
   }
 
@@ -212,7 +221,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   Future<void> _requestLocationPermission() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
       if (mounted) {
-        _showErrorSnackBar("Joylashuv xizmati o'chirilgan");
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersLocationServiceDisabled,
+        );
       }
       return;
     }
@@ -225,7 +236,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
     if (permission == LocationPermission.denied) {
       if (mounted) {
-        _showErrorSnackBar("Joylashuv ruxsati berilmadi");
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersLocationPermissionDenied,
+        );
       }
       return;
     }
@@ -233,7 +246,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     if (permission == LocationPermission.deniedForever) {
       if (mounted) {
         _showErrorSnackBar(
-            "Joylashuv ruxsati butunlay rad etilgan. Sozlamalardan yoqing");
+          AppLocalizations.of(
+            context,
+          ).ordersLocationPermissionPermanentlyDenied,
+        );
       }
     }
   }
@@ -270,42 +286,47 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _loading = false;
       });
       debugPrint('Error in _setStatus: $e');
-      _showErrorSnackBar('Yo\'lga chiqqan holatini belgilashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapSetOnWayFailed,
+        );
+      }
     }
   }
 
   void _startLocationTracking() {
-    _positionStream = Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 5,
-      ),
-    ).listen((Position position) {
-      final latLng = LatLng(position.latitude, position.longitude);
+    _positionStream =
+        Geolocator.getPositionStream(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            distanceFilter: 5,
+          ),
+        ).listen((Position position) {
+          final latLng = LatLng(position.latitude, position.longitude);
 
-      setState(() {
-        _myLocation = latLng;
-      });
+          setState(() {
+            _myLocation = latLng;
+          });
 
-      if (!_mapReady) {
-        _pendingMoveCenter = latLng;
-      }
+          if (!_mapReady) {
+            _pendingMoveCenter = latLng;
+          }
 
-      if (_isFirstLoad && _orders.isNotEmpty) {
-        Future.delayed(const Duration(milliseconds: 300), () {
-          _adjustCameraToFitAllPoints();
+          if (_isFirstLoad && _orders.isNotEmpty) {
+            Future.delayed(const Duration(milliseconds: 300), () {
+              _adjustCameraToFitAllPoints();
+            });
+          }
+
+          if (_ready && _onWay && _phone.isEmpty && !_arrivalDialogOpen) {
+            _routeDebounce?.cancel();
+            _routeDebounce = Timer(const Duration(milliseconds: 900), () {
+              if (!mounted) return;
+              if (_loading) return;
+              _getRoute();
+            });
+          }
         });
-      }
-
-      if (_ready && _onWay && _phone.isEmpty && !_arrivalDialogOpen) {
-        _routeDebounce?.cancel();
-        _routeDebounce = Timer(const Duration(milliseconds: 900), () {
-          if (!mounted) return;
-          if (_loading) return;
-          _getRoute();
-        });
-      }
-    });
   }
 
   Future<void> _getOrdersLocation() async {
@@ -332,7 +353,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       }
     } catch (e) {
       debugPrint('Error in _getOrdersLocation: $e');
-      _showErrorSnackBar('Buyurtmalarni yuklashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(AppLocalizations.of(context).ordersLoadFailed);
+      }
     }
   }
 
@@ -494,7 +517,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _loading = false;
       });
       debugPrint('Error in _getRoute: $e');
-      _showErrorSnackBar('Marshrutni yuklashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(AppLocalizations.of(context).ordersRouteFailed);
+      }
     }
   }
 
@@ -531,7 +556,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _loading = false;
       });
       debugPrint('Error in _getOrderData: $e');
-      _showErrorSnackBar('Buyurtma ma\'lumotlarini yuklashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapOrderDetailsLoadFailed,
+        );
+      }
     }
   }
 
@@ -581,7 +610,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _loading = false;
       });
       debugPrint('Error in _completeOrder: $e');
-      _showErrorSnackBar('Buyurtmani yakunlashda xatolik');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapCompleteOrderFailed,
+        );
+      }
     }
   }
 
@@ -590,11 +623,15 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
     try {
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        throw Exception("Call ilovasi ochilmadi");
+        throw Exception("Call app failed to open");
       }
     } catch (e) {
       debugPrint('Error opening call app: $e');
-      _showErrorSnackBar('Qo\'ng\'iroq ilovasini ochib bo\'lmadi');
+      if (mounted) {
+        _showErrorSnackBar(
+          AppLocalizations.of(context).ordersMapOpenCallFailed,
+        );
+      }
     }
   }
 
@@ -613,9 +650,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
   void _showErrorSnackBar(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   double get _headingFixed {
@@ -626,6 +663,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   Future<void> _showArrivedModal() async {
     int seconds = 10;
     Timer? timer;
+    final l10n = AppLocalizations.of(context);
 
     await showDialog(
       context: context,
@@ -648,8 +686,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              title: const Text(
-                "Yetib keldingizmi?",
+              title: Text(
+                l10n.ordersMapArrivedDialogTitle,
                 textAlign: TextAlign.center,
               ),
               content: Column(
@@ -657,7 +695,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                 children: [
                   const SizedBox(height: 12),
                   Text(
-                    "$seconds soniyadan keyin avtomatik yopiladi",
+                    l10n.ordersMapArrivedAutoClose(seconds),
                     style: const TextStyle(fontSize: 14, color: Colors.grey),
                     textAlign: TextAlign.center,
                   ),
@@ -676,9 +714,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                             timer?.cancel();
                             Navigator.of(dialogContext).pop();
                           },
-                          child: const Text(
-                            "Yo'q",
-                            style: TextStyle(color: Colors.white),
+                          child: Text(
+                            l10n.commonNo,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -696,9 +734,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                             _arrivedFun();
                             Navigator.of(dialogContext).pop();
                           },
-                          child: const Text(
-                            "Ha",
-                            style: TextStyle(color: Colors.white),
+                          child: Text(
+                            l10n.commonYes,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
@@ -716,14 +754,20 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   }
 
   Future<void> _showInfoTableModal(Map<String, dynamic> data) async {
+    final l10n = AppLocalizations.of(context);
+
     await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          title: const Text("Buyurtma ma'lumotlari", textAlign: TextAlign.center),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            l10n.ordersMapOrderDetailsTitle,
+            textAlign: TextAlign.center,
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -735,22 +779,22 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                 child: Column(
                   children: [
                     _TableRowItem(
-                      title: "Suv narxi",
+                      title: l10n.ordersMapWaterPriceLabel,
                       value: data["suv_summasi"]?.toString() ?? "0",
                     ),
                     const _Divider(),
                     _TableRowItem(
-                      title: "Suv",
+                      title: l10n.ordersMapWaterLabel,
                       value: data["suv_soni"]?.toString() ?? "0",
                     ),
                     const _Divider(),
                     _TableRowItem(
-                      title: "Sotilgan tara",
+                      title: l10n.ordersMapSoldBottleLabel,
                       value: data["sotilgan_tara_soni"]?.toString() ?? "0",
                     ),
                     const _Divider(),
                     _TableRowItem(
-                      title: "Jami",
+                      title: l10n.ordersMapTotalLabel,
                       value: data["summa_jami"]?.toString() ?? "0",
                     ),
                   ],
@@ -773,8 +817,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                     },
                     child: Text(
                       data["tulov_onlinemi"] == true
-                          ? "Qabul qilindi (Online to'lov)"
-                          : "To'lovni qabul qilish",
+                          ? l10n.ordersMapPaymentAcceptedOnline
+                          : l10n.ordersMapAcceptPayment,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -789,9 +833,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                     onPressed: () {
                       Navigator.of(dialogContext).pop();
                     },
-                    child: const Text(
-                      "Orqaga",
-                      style: TextStyle(color: Colors.white),
+                    child: Text(
+                      l10n.commonBack,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -804,6 +848,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   }
 
   Future<void> _showConfirmDialog(String title, VoidCallback onConfirm) async {
+    final l10n = AppLocalizations.of(context);
+
     final result = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -815,11 +861,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text("Yo'q"),
+              child: Text(l10n.commonNo),
             ),
             FilledButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: const Text("Ha"),
+              child: Text(l10n.commonYes),
             ),
           ],
         );
@@ -844,9 +890,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     final headingRad = _heading * pi / 180;
     final bottleAngle = -(_mapRotDeg * pi / 180);
     final truckAngleUserMode = headingRad - _truckUserModeOffset;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Xaritada ko'rish")),
+      appBar: AppBar(title: Text(l10n.ordersMapTitle)),
       body: Stack(
         children: [
           FlutterMap(
@@ -871,9 +918,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                 retinaMode: RetinaMode.isHighDensity(context),
                 maxNativeZoom: 19,
                 maxZoom: 19,
-                additionalOptions: const {
-                  'id': 'mapbox.streets',
-                },
+                additionalOptions: const {'id': 'mapbox.streets'},
                 tileProvider: NetworkTileProvider(),
                 errorImage: const AssetImage('assets/images/app_icon.png'),
               ),
@@ -935,16 +980,18 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                                     ),
                                     child: Text(
                                       e["order_num"]?.toString() ?? "",
-                                      style:
-                                          const TextStyle(color: Colors.black),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                   Image.asset(
                                     width: 20,
                                     "assets/images/flags/bottle.png",
-                                    errorBuilder: (context, error, stackTrace) =>
-                                        const Icon(Icons.location_on),
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.location_on),
                                   ),
                                 ],
                               ),
@@ -1085,8 +1132,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                         )
                       : Text(
                           _showDetail
-                              ? "Buyurtma ${_orderDetail["order_num"]} ni oling"
-                              : "Buyurtma tanlang",
+                              ? l10n.ordersMapTakeOrder(
+                                  _orderDetail["order_num"]?.toString() ?? '',
+                                )
+                              : l10n.ordersMapSelectOrder,
                           style: const TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
@@ -1122,8 +1171,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                       )
                     : Text(
                         _onWay
-                            ? "${_orderDetail["order_num"]} ga yetib keldim"
-                            : "Yo'lga chiqdim",
+                            ? l10n.ordersMapArrivedButton(
+                                _orderDetail["order_num"]?.toString() ?? '',
+                              )
+                            : l10n.ordersMapOnWayButton,
                         style: const TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
@@ -1140,7 +1191,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      _showConfirmDialog("Bajarildi?", _getOrderData);
+                      _showConfirmDialog(
+                        l10n.ordersMapConfirmCompletedTitle,
+                        _getOrderData,
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
@@ -1156,9 +1210,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text(
-                            "Topildi",
-                            style: TextStyle(color: Colors.white),
+                        : Text(
+                            l10n.ordersMapFoundButton,
+                            style: const TextStyle(color: Colors.white),
                           ),
                   ),
                   const SizedBox(height: 10),
@@ -1172,9 +1226,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      "Topilmadi",
-                      style: TextStyle(color: Colors.white),
+                    child: Text(
+                      l10n.ordersMapNotFoundButton,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
@@ -1206,7 +1260,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                     ),
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      "Buyurtma: ${_orderDetail["order_num"]}, Suv: ${_orderDetail["suv_soni"]}",
+                      l10n.ordersMapOrderSummary(
+                        _orderDetail["order_num"]?.toString() ?? '',
+                        _orderDetail["suv_soni"]?.toString() ?? '',
+                      ),
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),

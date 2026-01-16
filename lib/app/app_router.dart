@@ -15,6 +15,7 @@ import '../features/menu/presentation/pages/cash_report_models.dart';
 import '../features/menu/presentation/pages/cash_report_result_page.dart';
 import '../features/menu/presentation/pages/delivered_orders_models.dart';
 import '../features/menu/presentation/pages/delivered_orders_report_page.dart';
+import '../features/menu/presentation/pages/delivered_today_page.dart';
 import '../features/menu/presentation/pages/orders_map_page.dart';
 import '../features/menu/presentation/pages/orders_page.dart';
 import '../features/menu/presentation/pages/pending_orders_page.dart';
@@ -91,6 +92,11 @@ class AppRouter {
           path: '/orders/pending',
           name: 'orders-pending',
           builder: (context, state) => const PendingOrdersPage(),
+        ),
+        GoRoute(
+          path: '/orders/delivered-today',
+          name: 'orders-delivered-today',
+          builder: (context, state) => const DeliveredTodayPage(),
         ),
         GoRoute(
           path: '/orders/delivered-range',

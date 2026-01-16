@@ -23,10 +23,8 @@ class AppTheme {
     onErrorContainer: Color(0xFF410002),
     surface: Color(0xFFFFFFFF),
     onSurface: Color(0xFF0E2A3A),
-    surfaceVariant: Color(0xFFE8F0F7),
+    surfaceContainerHighest: Color(0xFFE8F0F7),
     onSurfaceVariant: Color(0xFF405465),
-    background: Color(0xFFF5F9FC),
-    onBackground: Color(0xFF0E2A3A),
     outline: Color(0xFFC7D4E4),
     shadow: Color(0xFF000000),
     inverseSurface: Color(0xFF1C2A35),
@@ -54,10 +52,8 @@ class AppTheme {
     onErrorContainer: Color(0xFFFFDAD6),
     surface: Color(0xFF0F1922),
     onSurface: Color(0xFFE1E8EE),
-    surfaceVariant: Color(0xFF1C2A35),
+    surfaceContainerHighest: Color(0xFF1C2A35),
     onSurfaceVariant: Color(0xFFB5C4D1),
-    background: Color(0xFF0B1219),
-    onBackground: Color(0xFFE1E8EE),
     outline: Color(0xFF3A4A58),
     shadow: Color(0xFF000000),
     inverseSurface: Color(0xFFE8F0F7),
@@ -68,7 +64,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     colorScheme: _lightColorScheme,
-    scaffoldBackgroundColor: _lightColorScheme.background,
+    scaffoldBackgroundColor: _lightColorScheme.surface,
     appBarTheme: const AppBarTheme(centerTitle: false),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Color(0xFF1E6FD9),
@@ -79,7 +75,7 @@ class AppTheme {
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     colorScheme: _darkColorScheme,
-    scaffoldBackgroundColor: _darkColorScheme.background,
+    scaffoldBackgroundColor: _darkColorScheme.surface,
     appBarTheme: const AppBarTheme(centerTitle: false),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: Color(0xFF6FB4FF),

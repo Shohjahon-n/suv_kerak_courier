@@ -28,7 +28,7 @@ class _AboutPageState extends State<AboutPage> {
       _showToast(l10n.aboutShareUnavailable);
       return;
     }
-    await Share.share(shareText);
+    await SharePlus.instance.share(ShareParams(text: shareText));
   }
 
   Future<void> _openUpdate() async {
@@ -166,7 +166,7 @@ class _AboutPageState extends State<AboutPage> {
                 end: Alignment.bottomRight,
                 colors: [
                   colorScheme.primaryContainer,
-                  colorScheme.background,
+                  colorScheme.surface,
                   colorScheme.secondaryContainer,
                 ],
               ),
@@ -189,7 +189,7 @@ class _AboutPageState extends State<AboutPage> {
                 LayoutBuilder(
                   builder: (context, constraints) {
                     final textScale =
-                        MediaQuery.textScaleFactorOf(context);
+                        MediaQuery.textScalerOf(context).scale(1.0);
                     final stackButtons = constraints.maxWidth < 320 ||
                         textScale >= 1.25;
 
@@ -283,11 +283,11 @@ class _Card extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.3),
+          color: colorScheme.outline.withValues(alpha: 0.3),
         ),
         boxShadow: [
           BoxShadow(
-            color: colorScheme.shadow.withOpacity(0.08),
+            color: colorScheme.shadow.withValues(alpha: 0.08),
             blurRadius: 18,
             offset: const Offset(0, 10),
           ),

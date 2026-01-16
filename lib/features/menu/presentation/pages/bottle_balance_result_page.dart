@@ -491,7 +491,7 @@ class _RangeCard extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withOpacity(0.8),
+                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
                   fontWeight: FontWeight.w600,
                 ),
           ),
@@ -531,7 +531,7 @@ class _MessageCard extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.3),
+          color: colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: Column(
@@ -585,7 +585,7 @@ class _BottleRowCard extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
+          color: colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -597,7 +597,7 @@ class _BottleRowCard extends StatelessWidget {
             trailing: _BalancePill(
               label: l10n.bottleBalanceBalanceLabel,
               value: balanceLabel,
-              background: colorScheme.surfaceVariant,
+              background: colorScheme.surfaceContainerHighest,
               foreground: colorScheme.onSurfaceVariant,
             ),
           ),
@@ -666,7 +666,7 @@ class _FullWaterRowCard extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
         border: Border.all(
-          color: colorScheme.outline.withOpacity(0.2),
+          color: colorScheme.outline.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -678,7 +678,7 @@ class _FullWaterRowCard extends StatelessWidget {
             trailing: _BalancePill(
               label: l10n.bottleBalanceBalanceLabel,
               value: balanceLabel,
-              background: colorScheme.surfaceVariant,
+              background: colorScheme.surfaceContainerHighest,
               foreground: colorScheme.onSurfaceVariant,
             ),
           ),
@@ -752,7 +752,7 @@ class _SummaryCard extends StatelessWidget {
           Text(
             title,
             style: textTheme.bodySmall?.copyWith(
-              color: foreground.withOpacity(0.8),
+              color: foreground.withValues(alpha: 0.8),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -798,7 +798,7 @@ class _AmountPill extends StatelessWidget {
           Text(
             label,
             style: textTheme.bodySmall?.copyWith(
-              color: foreground.withOpacity(0.8),
+              color: foreground.withValues(alpha: 0.8),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -844,7 +844,7 @@ class _BalancePill extends StatelessWidget {
           Text(
             label,
             style: textTheme.labelSmall?.copyWith(
-              color: foreground.withOpacity(0.85),
+              color: foreground.withValues(alpha: 0.85),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -877,7 +877,7 @@ class _HeaderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final textScale = MediaQuery.textScaleFactorOf(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -936,7 +936,7 @@ class _ResponsivePillRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textScale = MediaQuery.textScaleFactorOf(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     return LayoutBuilder(
       builder: (context, constraints) {
         final shouldStack = constraints.maxWidth < 280 || textScale >= 1.25;

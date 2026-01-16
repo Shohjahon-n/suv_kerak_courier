@@ -58,7 +58,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
     final gradientColors = [
       colorScheme.primaryContainer,
       colorScheme.secondaryContainer,
-      colorScheme.background,
+      colorScheme.surface,
     ];
 
     return Scaffold(
@@ -86,7 +86,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                         l10n.languageSelectionTitle,
                         style: textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: colorScheme.onBackground,
+                          color: colorScheme.onSurface,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -125,7 +125,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
           if (_isSaving)
             Positioned.fill(
               child: ColoredBox(
-                color: colorScheme.background.withOpacity(0.6),
+                color: colorScheme.surface.withValues(alpha: 0.6),
                 child: const Center(child: CircularProgressIndicator()),
               ),
             ),
@@ -169,11 +169,11 @@ class _LanguageCard extends StatelessWidget {
             color: colorScheme.surface,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: colorScheme.outline.withOpacity(0.35),
+              color: colorScheme.outline.withValues(alpha: 0.35),
             ),
             boxShadow: [
               BoxShadow(
-                color: colorScheme.shadow.withOpacity(0.12),
+                color: colorScheme.shadow.withValues(alpha: 0.12),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),

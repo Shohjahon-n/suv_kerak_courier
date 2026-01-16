@@ -30,7 +30,7 @@ class PinDots extends StatelessWidget {
               border: Border.all(
                 color: isFilled
                     ? colorScheme.primary
-                    : colorScheme.outline.withOpacity(0.6),
+                    : colorScheme.outline.withValues(alpha: 0.6),
               ),
             ),
           );
@@ -118,8 +118,8 @@ class _PinKeyButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final foreground = colorScheme.onSurface;
-    final background = colorScheme.surfaceVariant;
-    final borderColor = colorScheme.outline.withOpacity(0.35);
+    final background = colorScheme.surfaceContainerHighest;
+    final borderColor = colorScheme.outline.withValues(alpha: 0.35);
 
     final child = isBackspace
         ? Icon(Icons.backspace_outlined, color: foreground)

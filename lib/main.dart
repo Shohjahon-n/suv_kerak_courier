@@ -20,6 +20,6 @@ Future<void> main() async {
   await runTalkerZonedGuarded(
     talker,
     () => runApp(App(talker: talker, dio: dio, preferences: preferences)),
-    (error, stackTrace) {},
+  (error, stackTrace) {},
   );
 }

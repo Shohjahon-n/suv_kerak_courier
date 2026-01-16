@@ -9,6 +9,7 @@ class AdaptiveGrid extends StatelessWidget {
     this.baseChildAspectRatio = 1.2,
     this.crossAxisSpacing = 12,
     this.mainAxisSpacing = 12,
+    this.preferSingleColumnOnSmall = true,
   });
 
   final List<Widget> children;
@@ -17,6 +18,7 @@ class AdaptiveGrid extends StatelessWidget {
   final double baseChildAspectRatio;
   final double crossAxisSpacing;
   final double mainAxisSpacing;
+  final bool preferSingleColumnOnSmall;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AdaptiveGrid extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final textScale = MediaQuery.textScaleFactorOf(context);
+    final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final screenWidth = MediaQuery.sizeOf(context).width;
     final effectiveScale = textScale < 1.0 ? 1.0 : textScale;
 
@@ -35,12 +37,19 @@ class AdaptiveGrid extends StatelessWidget {
         final rawColumns = ((maxWidth + crossAxisSpacing) /
                 (targetWidth + crossAxisSpacing))
             .floor();
-        final columns = rawColumns.clamp(1, maxColumns).toInt();
+        final isSmallScreen = screenWidth < 360;
+        final columns = (isSmallScreen && preferSingleColumnOnSmall)
+            ? 1
+            : rawColumns.clamp(1, maxColumns).toInt();
 
         // Increase aspect ratio for small screens to make cards taller/less wide
-        final smallScreenBoost = screenWidth < 360 ? 1.15 :
-                                 screenWidth < 400 ? 1.08 : 1.0;
-        final aspectRatio = (baseChildAspectRatio * smallScreenBoost) / effectiveScale;
+        final smallScreenBoost = screenWidth < 360
+            ? (columns == 1 ? 1.0 : 1.15)
+            : screenWidth < 400
+                ? 1.08
+                : 1.0;
+        final aspectRatio =
+            (baseChildAspectRatio * smallScreenBoost) / effectiveScale;
 
         return GridView.builder(
           shrinkWrap: true,
