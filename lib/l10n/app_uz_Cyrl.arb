@@ -1,7 +1,7 @@
 {
   "@@locale": "uz_Cyrl",
   "appTitle": "Suv Kerak Courier",
-  "homeTitle": "Курьер панели",
+  "homeTitle": "Курер панели",
   "homeSubtitle": "Курьер функцияларини ишлаб чиқишга тайёр.",
   "counterLabel": "Ҳисоблагич",
   "openSettings": "Созламаларни очиш",
@@ -131,7 +131,7 @@
   "ordersMapUrlNotFound": "Харита URL топилмади",
   "ordersMapLoadError": "Харитани юклаш муваффақиятсиз",
   "menuCashReport": "Касса ҳисоботи",
-  "menuBottleBalance": "Таралар ҳисоби",
+  "menuBottleBalance": "Сувлар сони ва таралар ҳисоби",
   "bottleBalanceEmptyPeriodicTitle": "Таралар даврий ҳисоби",
   "bottleBalanceFullWaterPeriodicTitle": "Сув тўла баклар даврий ҳисоби",
   "bottleBalanceSummaryTitle": "Якун",

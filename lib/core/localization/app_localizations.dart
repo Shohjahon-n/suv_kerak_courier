@@ -186,7 +186,7 @@ class AppLocalizations {
       'ordersMapOrderSummary': 'Order: {orderNum}, Water: {waterCount}',
       'ordersMapConfirmCompletedTitle': 'Completed?',
       'menuCashReport': 'Cash report',
-      'menuBottleBalance': 'Bottle balance',
+      'menuBottleBalance': 'Water count and bottle balance',
       'bottleBalanceEmptyPeriodicTitle': 'Periodic empty bottle report',
       'bottleBalanceFullWaterPeriodicTitle': 'Periodic full water report',
       'bottleBalanceSummaryTitle': 'Summary',
@@ -421,7 +421,7 @@ class AppLocalizations {
       'ordersMapOrderSummary': 'Заказ: {orderNum}, Вода: {waterCount}',
       'ordersMapConfirmCompletedTitle': 'Завершено?',
       'menuCashReport': 'Кассовый отчет',
-      'menuBottleBalance': 'Учет тары',
+      'menuBottleBalance': 'Учет воды и тары',
       'bottleBalanceEmptyPeriodicTitle': 'Периодический учет тары',
       'bottleBalanceFullWaterPeriodicTitle':
           'Периодический учет полных бутылей',
@@ -660,7 +660,7 @@ class AppLocalizations {
       'ordersMapOrderSummary': 'Buyurtma: {orderNum}, Suv: {waterCount}',
       'ordersMapConfirmCompletedTitle': 'Bajarildi?',
       'menuCashReport': 'Kassa hisoboti',
-      'menuBottleBalance': 'Taralar hisobi',
+      'menuBottleBalance': 'Suvlar soni va taralar hisobi',
       'bottleBalanceEmptyPeriodicTitle': 'Taralar davriy hisobi',
       'bottleBalanceFullWaterPeriodicTitle':
           "Suv to'la baklar davriy hisobi",
@@ -768,7 +768,7 @@ class AppLocalizations {
     },
     'uz_Cyrl': {
       'appTitle': 'Suv Kerak Courier',
-      'homeTitle': 'Курьер панели',
+      'homeTitle': 'Курер панели',
       'homeSubtitle': 'Курьер функцияларини ишлаб чиқишга тайёр.',
       'counterLabel': 'Ҳисоблагич',
       'openSettings': 'Созламаларни очиш',
@@ -900,7 +900,7 @@ class AppLocalizations {
       'ordersMapOrderSummary': 'Буюртма: {orderNum}, Сув: {waterCount}',
       'ordersMapConfirmCompletedTitle': 'Бажарилди?',
       'menuCashReport': 'Касса ҳисоботи',
-      'menuBottleBalance': 'Таралар ҳисоби',
+      'menuBottleBalance': 'Сувлар сони ва таралар ҳисоби',
       'bottleBalanceEmptyPeriodicTitle': 'Таралар даврий ҳисоби',
       'bottleBalanceFullWaterPeriodicTitle':
           'Сув тўла баклар даврий ҳисоби',

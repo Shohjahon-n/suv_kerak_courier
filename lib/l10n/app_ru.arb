@@ -131,7 +131,7 @@
   "ordersMapUrlNotFound": "URL карты не найден",
   "ordersMapLoadError": "Не удалось загрузить карту",
   "menuCashReport": "Кассовый отчет",
-  "menuBottleBalance": "Учет тары",
+  "menuBottleBalance": "Количество воды и учет тары",
   "bottleBalanceEmptyPeriodicTitle": "Периодический учет тары",
   "bottleBalanceFullWaterPeriodicTitle": "Периодический учет полных бутылей",
   "bottleBalanceSummaryTitle": "Сводка",

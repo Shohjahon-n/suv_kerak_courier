@@ -131,7 +131,7 @@
   "ordersMapUrlNotFound": "Xarita URL topilmadi",
   "ordersMapLoadError": "Xaritani yuklash muvaffaqiyatsiz",
   "menuCashReport": "Kassa hisoboti",
-  "menuBottleBalance": "Taralar hisobi",
+  "menuBottleBalance": "Suvlar soni va taralar hisobi",
   "bottleBalanceEmptyPeriodicTitle": "Taralar davriy hisobi",
   "bottleBalanceFullWaterPeriodicTitle": "Suv to'la baklar davriy hisobi",
   "bottleBalanceSummaryTitle": "Yakun",

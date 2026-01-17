@@ -131,7 +131,7 @@
   "ordersMapUrlNotFound": "Map URL not found",
   "ordersMapLoadError": "Failed to load map",
   "menuCashReport": "Cash report",
-  "menuBottleBalance": "Bottle balance",
+  "menuBottleBalance": "Water and Bottle Balance",
   "bottleBalanceEmptyPeriodicTitle": "Periodic empty bottle report",
   "bottleBalanceFullWaterPeriodicTitle": "Periodic full water report",
   "bottleBalanceSummaryTitle": "Summary",

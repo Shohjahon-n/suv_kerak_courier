@@ -42,14 +42,19 @@ class AdaptiveGrid extends StatelessWidget {
             ? 1
             : rawColumns.clamp(1, maxColumns).toInt();
 
-        // Increase aspect ratio for small screens to make cards taller/less wide
+        // Adjust aspect ratio based on screen size and text scale
+        // For small screens, increase aspect ratio to make cards less wide
+        // For large text, also increase aspect ratio to prevent cards from becoming too tall
         final smallScreenBoost = screenWidth < 360
             ? (columns == 1 ? 1.0 : 1.15)
             : screenWidth < 400
                 ? 1.08
                 : 1.0;
+        final textScaleAdjustment = effectiveScale > 1.0
+            ? 1.0 + ((effectiveScale - 1.0) * 0.3)
+            : 1.0;
         final aspectRatio =
-            (baseChildAspectRatio * smallScreenBoost) / effectiveScale;
+            (baseChildAspectRatio * smallScreenBoost * textScaleAdjustment);
 
         return GridView.builder(
           shrinkWrap: true,
