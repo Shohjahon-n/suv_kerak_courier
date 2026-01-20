@@ -51,7 +51,8 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
     final l10n = AppLocalizations.of(context);
     final preferences = context.read<AppPreferences>();
     final businessId = preferences.readBusinessId();
-    if (businessId == null) {
+    final courierId = preferences.readCourierId();
+    if (businessId == null || courierId == null) {
       setState(() {
         _error = l10n.ordersSessionMissing;
         _data = null;
@@ -68,9 +69,10 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
       final dio = context.read<Dio>();
       final dateFormat = DateFormat('yyyy-MM-dd');
       final response = await dio.post(
-        '/orders/delivered-range/',
+        '/orders/delivered-range-for-courier/',
         data: {
           'business_id': businessId,
+          'kuryer_id': courierId,
           'from_date': dateFormat.format(request.range.start),
           'to_date': dateFormat.format(request.range.end),
         },

@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/security/security_cubit.dart';
 import '../../../../core/storage/app_preferences.dart';
@@ -179,6 +183,116 @@ class _SecurityPageState extends State<SecurityPage> {
         setState(() => _isPinLoading = false);
       }
     }
+  }
+
+  Future<void> _shareApp() async {
+    final l10n = AppLocalizations.of(context);
+    final link = await _fetchShareLink();
+    final shareText = _buildShareText(l10n, link);
+    if (shareText == null) {
+      _showToast(l10n.aboutShareUnavailable);
+      return;
+    }
+    await SharePlus.instance.share(ShareParams(text: shareText));
+  }
+
+  Future<void> _openUpdate() async {
+    final l10n = AppLocalizations.of(context);
+    final url = AppConstants.appUpdateUrl;
+    if (url.isEmpty) {
+      _showToast(l10n.aboutUpdateUnavailable);
+      return;
+    }
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      _showToast(l10n.aboutUpdateUnavailable);
+      return;
+    }
+    final ok = await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!ok && mounted) {
+      _showToast(l10n.aboutUpdateUnavailable);
+    }
+  }
+
+  String? _buildShareText(AppLocalizations l10n, String? link) {
+    final normalized = link?.trim();
+    if (normalized != null && normalized.isNotEmpty) {
+      return '${l10n.aboutShareMessage}\n$normalized';
+    }
+    final url = AppConstants.appShareUrl;
+    if (url.isEmpty) {
+      return null;
+    }
+    return '${l10n.aboutShareMessage}\n$url';
+  }
+
+  Future<String?> _fetchShareLink() async {
+    try {
+      final dio = context.read<Dio>();
+      final response = await dio.get('/finance/app_links/');
+      final data = response.data;
+      if (data is! Map) {
+        return null;
+      }
+      final ok = data['ok'] == true;
+      if (!ok) {
+        return null;
+      }
+      return _pickStoreLink(data['app_links']);
+    } on DioException {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String? _pickStoreLink(dynamic appLinks) {
+    final List<Map<String, dynamic>> links;
+    if (appLinks is List) {
+      links = appLinks.whereType<Map>().map((entry) {
+        return Map<String, dynamic>.from(entry);
+      }).toList();
+    } else if (appLinks is Map) {
+      links = [Map<String, dynamic>.from(appLinks)];
+    } else {
+      return null;
+    }
+
+    String? androidLink;
+    String? iosLink;
+    String? firstLink;
+
+    for (final entry in links) {
+      for (final item in entry.entries) {
+        final key = item.key.toString();
+        final value = item.value;
+        if (value is! String || value.trim().isEmpty) {
+          continue;
+        }
+        final link = value.trim();
+        firstLink ??= link;
+        if (key == 'play_marcet') {
+          androidLink ??= link;
+        } else if (key == 'app_store') {
+          iosLink ??= link;
+        }
+      }
+    }
+
+    if (kIsWeb) {
+      return androidLink ?? iosLink ?? firstLink;
+    }
+    final platform = defaultTargetPlatform;
+    if (platform == TargetPlatform.iOS || platform == TargetPlatform.macOS) {
+      return iosLink ?? androidLink ?? firstLink;
+    }
+    if (platform == TargetPlatform.android) {
+      return androidLink ?? iosLink ?? firstLink;
+    }
+    return firstLink ?? androidLink ?? iosLink;
   }
 
   void _showToast(String message) {
@@ -455,6 +569,72 @@ class _SecurityPageState extends State<SecurityPage> {
                 ],
               );
             },
+          ),
+          const SizedBox(height: 24),
+          _FormCard(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final textScale =
+                    MediaQuery.textScalerOf(context).scale(1.0);
+                final stackButtons =
+                    constraints.maxWidth < 360 || textScale >= 1.3;
+
+                final shareButton = FilledButton.icon(
+                  onPressed: _shareApp,
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  icon: const Icon(Icons.share_outlined, size: 20),
+                  label: Flexible(
+                    child: Text(
+                      l10n.aboutShareButton,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                );
+                final updateButton = OutlinedButton.icon(
+                  onPressed: _openUpdate,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.system_update_alt_outlined,
+                    size: 20,
+                  ),
+                  label: Flexible(
+                    child: Text(
+                      l10n.aboutUpdateButton,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                );
+
+                if (stackButtons) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      shareButton,
+                      const SizedBox(height: 12),
+                      updateButton,
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: shareButton),
+                    const SizedBox(width: 12),
+                    Expanded(child: updateButton),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),

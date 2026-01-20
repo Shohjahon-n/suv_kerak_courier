@@ -120,7 +120,7 @@ class AppLocalizations {
       'homeOrdersTodayLabel': 'Completed today',
       'notAvailable': 'Not available',
       'mainMenuTitle': 'Main menu',
-      'menuCourierService': 'Courier Service',
+      'menuCourierService': 'Courier service accounting',
       'menuOrders': 'Orders',
       'ordersQuickActionsTitle': 'Quick actions',
       'ordersPendingButton': 'Uncompleted orders',
@@ -215,6 +215,7 @@ class AppLocalizations {
       'aboutShareMessage': 'Try the Suv Kerak Courier app.',
       'aboutUpdateUnavailable': 'Update link not available.',
       'aboutShareUnavailable': 'Share link not available.',
+      'homeDevelopedBy': 'Developed by Hisob Company v{version}',
       'cashReportPeriodicTitle': 'Periodic cash report',
       'cashReportOnlineTitle': 'Online payments',
       'cashReportStartDate': 'Start date',
@@ -366,7 +367,7 @@ class AppLocalizations {
       'homeOrdersTodayLabel': 'Выполнено сегодня',
       'notAvailable': 'Нет данных',
       'mainMenuTitle': 'Главное меню',
-      'menuCourierService': 'Курьерский сервис',
+      'menuCourierService': 'Расчеты по курьерской службе',
       'menuOrders': 'Заказы',
       'ordersQuickActionsTitle': 'Быстрые действия',
       'ordersPendingButton': 'Невыполненные заказы',
@@ -465,6 +466,7 @@ class AppLocalizations {
       'aboutShareMessage': 'Попробуйте приложение Suv Kerak Courier.',
       'aboutUpdateUnavailable': 'Ссылка для обновления недоступна.',
       'aboutShareUnavailable': 'Ссылка для отправки недоступна.',
+      'homeDevelopedBy': 'Разработано компанией Hisob v{version}',
       'cashReportPeriodicTitle': 'Периодический кассовый отчет',
       'cashReportOnlineTitle': 'Онлайн платежи',
       'cashReportStartDate': 'Дата начала',
@@ -618,7 +620,7 @@ class AppLocalizations {
       'homeOrdersTodayLabel': 'Bugun bajarilgan buyurtmalar',
       'notAvailable': "Ma'lumot yo'q",
       'mainMenuTitle': 'Asosiy menyu',
-      'menuCourierService': 'Kuryerlik xizmati',
+      'menuCourierService': "Kuryerlik xizmati bo'yicha hisob-kitob",
       'menuOrders': 'Buyurtmalar',
       'ordersQuickActionsTitle': 'Tezkor amallar',
       'ordersPendingButton': 'Bajarilmagan buyurtmalar',
@@ -718,6 +720,7 @@ class AppLocalizations {
       'aboutShareMessage': "Suv Kerak Courier ilovasini sinab ko'ring.",
       'aboutUpdateUnavailable': 'Yangilash havolasi mavjud emas.',
       'aboutShareUnavailable': 'Ulashish havolasi mavjud emas.',
+      'homeDevelopedBy': 'Hisob kompaniyasi tomonidan ishlab chiqildi v{version}',
       'cashReportPeriodicTitle': 'Davriy kassa hisoboti',
       'cashReportOnlineTitle': "Onlayn to'lovlar",
       'cashReportStartDate': 'Boshlanish sanasi',
@@ -871,7 +874,7 @@ class AppLocalizations {
       'homeOrdersTodayLabel': 'Бугун бажарилган буюртмалар',
       'notAvailable': 'Маълумот йўқ',
       'mainMenuTitle': 'Асосий меню',
-      'menuCourierService': 'Курерлик хизмати',
+      'menuCourierService': 'Курерлик хизмати бўйича ҳисоб китоб',
       'menuOrders': 'Буюртмалар',
       'ordersQuickActionsTitle': 'Тезкор амаллар',
       'ordersPendingButton': 'Бажарилмаган буюртмалар',
@@ -972,6 +975,7 @@ class AppLocalizations {
       'aboutShareMessage': 'Suv Kerak Courier иловасини синаб кўринг.',
       'aboutUpdateUnavailable': 'Янгилаш ҳаволаси мавжуд эмас.',
       'aboutShareUnavailable': 'Улашиш ҳаволаси мавжуд эмас.',
+      'homeDevelopedBy': 'Hisob компанияси томонидан ишлаб чиқилди v{version}',
       'cashReportPeriodicTitle': 'Даврий касса ҳисоботи',
       'cashReportOnlineTitle': 'Онлайн тўловлар',
       'cashReportStartDate': 'Бошланиш санаси',
@@ -1258,6 +1262,10 @@ class AppLocalizations {
   String get aboutShareMessage => _t('aboutShareMessage');
   String get aboutUpdateUnavailable => _t('aboutUpdateUnavailable');
   String get aboutShareUnavailable => _t('aboutShareUnavailable');
+  String homeDevelopedBy(String version) {
+    return _t('homeDevelopedBy').replaceAll('{version}', version);
+  }
+
   String get cashReportPeriodicTitle => _t('cashReportPeriodicTitle');
   String get cashReportOnlineTitle => _t('cashReportOnlineTitle');
   String get cashReportStartDate => _t('cashReportStartDate');

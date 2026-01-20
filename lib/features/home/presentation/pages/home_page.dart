@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
@@ -18,10 +19,8 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(
-        context.read<Dio>(),
-        context.read<AppPreferences>(),
-      ),
+      create: (context) =>
+          HomeCubit(context.read<Dio>(), context.read<AppPreferences>()),
       child: const HomeView(),
     );
   }
@@ -29,6 +28,9 @@ class HomePage extends StatelessWidget {
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
+
+  static final Future<PackageInfo> _packageInfoFuture =
+      PackageInfo.fromPlatform();
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +46,7 @@ class HomeView extends StatelessWidget {
           return;
         }
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            behavior: SnackBarBehavior.floating,
-          ),
+          SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
         );
         context.read<HomeCubit>().clearMessage();
       },
@@ -100,8 +99,8 @@ class HomeView extends StatelessWidget {
         child: Text(
           l10n.homeEmptyState,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
+            color: colorScheme.onSurfaceVariant,
+          ),
         ),
       );
     }
@@ -127,14 +126,16 @@ class HomeView extends StatelessWidget {
                 child: Text(
                   '${l10n.homeCourierIdLabel}: ${dashboard.courierId}',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: ResponsiveSpacing.verticalSpacing(context, base: 16)),
+          SizedBox(
+            height: ResponsiveSpacing.verticalSpacing(context, base: 16),
+          ),
           _DashboardHighlightCard(
             title: l10n.homeLastActiveLabel,
             value: lastActive,
@@ -180,13 +181,15 @@ class HomeView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: ResponsiveSpacing.verticalSpacing(context, base: 24)),
+          SizedBox(
+            height: ResponsiveSpacing.verticalSpacing(context, base: 24),
+          ),
           Text(
             l10n.mainMenuTitle,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colorScheme.onSurface,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w700,
+            ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
           AdaptiveGrid(
@@ -197,11 +200,6 @@ class HomeView extends StatelessWidget {
             mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
             children: [
               _MenuCard(
-                title: l10n.menuCourierService,
-                icon: Icons.receipt_outlined,
-                onTap: () => context.push('/courier-service'),
-              ),
-              _MenuCard(
                 title: l10n.menuOrders,
                 icon: Icons.assignment_outlined,
                 onTap: () => context.push('/orders'),
@@ -210,6 +208,11 @@ class HomeView extends StatelessWidget {
                 title: l10n.menuCashReport,
                 icon: Icons.account_balance_wallet_outlined,
                 onTap: () => context.push('/cash-report'),
+              ),
+              _MenuCard(
+                title: l10n.menuCourierService,
+                icon: Icons.receipt_outlined,
+                onTap: () => context.push('/courier-service'),
               ),
               _MenuCard(
                 title: l10n.menuBottleBalance,
@@ -226,11 +229,6 @@ class HomeView extends StatelessWidget {
                 icon: Icons.verified_user_outlined,
                 onTap: () => context.push('/security'),
               ),
-              _MenuCard(
-                title: l10n.menuAbout,
-                icon: Icons.info_outline,
-                onTap: () => context.push('/about'),
-              ),
             ],
           ),
           if (state.status == HomeStatus.loading)
@@ -241,9 +239,55 @@ class HomeView extends StatelessWidget {
                 backgroundColor: colorScheme.primaryContainer,
               ),
             ),
+          const SizedBox(height: 20),
+          FutureBuilder<PackageInfo>(
+            future: _packageInfoFuture,
+            builder: (context, snapshot) {
+              final version =
+                  snapshot.hasData ? _formatVersion(snapshot.data!) : '--';
+              return Align(
+                alignment: Alignment.center,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: colorScheme.surfaceContainerHighest
+                        .withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(999),
+                    border: Border.all(
+                      color:
+                          colorScheme.outlineVariant.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    child: Text(
+                      l10n.homeDevelopedBy(version),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant
+                                .withValues(alpha: 0.7),
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.3,
+                          ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
+  }
+
+  String _formatVersion(PackageInfo info) {
+    final build = info.buildNumber.trim();
+    if (build.isEmpty) {
+      return info.version;
+    }
+    return '${info.version}+$build';
   }
 }
 
@@ -290,9 +334,9 @@ class _DashboardStatCard extends StatelessWidget {
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: foreground,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: foreground,
+              fontWeight: FontWeight.w700,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -300,9 +344,9 @@ class _DashboardStatCard extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: foreground.withValues(alpha: 0.8),
-                  fontWeight: FontWeight.w600,
-                ),
+              color: foreground.withValues(alpha: 0.8),
+              fontWeight: FontWeight.w600,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -341,12 +385,20 @@ class _DashboardHighlightCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            padding: EdgeInsets.all(ResponsiveSpacing.spacing(context, base: 10)),
+            padding: EdgeInsets.all(
+              ResponsiveSpacing.spacing(context, base: 10),
+            ),
             decoration: BoxDecoration(
               color: foreground.withValues(alpha: 0.12),
-              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
+              borderRadius: BorderRadius.circular(
+                ResponsiveSpacing.borderRadius(context, base: 14),
+              ),
             ),
-            child: Icon(icon, color: foreground, size: ResponsiveSpacing.iconSize(context, base: 24)),
+            child: Icon(
+              icon,
+              color: foreground,
+              size: ResponsiveSpacing.iconSize(context, base: 24),
+            ),
           ),
           SizedBox(width: ResponsiveSpacing.spacing(context, base: 14)),
           Expanded(
@@ -356,16 +408,16 @@ class _DashboardHighlightCard extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: foreground.withValues(alpha: 0.8),
-                      ),
+                    color: foreground.withValues(alpha: 0.8),
+                  ),
                 ),
                 SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
                 Text(
                   value,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: foreground,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: foreground,
+                    fontWeight: FontWeight.w700,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -429,9 +481,9 @@ class _MenuCard extends StatelessWidget {
                   title,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
