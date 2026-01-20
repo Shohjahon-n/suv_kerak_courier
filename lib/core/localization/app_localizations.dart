@@ -117,9 +117,10 @@ class AppLocalizations {
       'homeCashBalanceLabel': 'Cash balance',
       'homeFullWaterLabel': 'Full water remaining',
       'homeEmptyBottleLabel': 'Empty bottles',
-      'homeOrdersTodayLabel': 'Orders today',
+      'homeOrdersTodayLabel': 'Completed today',
       'notAvailable': 'Not available',
       'mainMenuTitle': 'Main menu',
+      'menuCourierService': 'Courier Service',
       'menuOrders': 'Orders',
       'ordersQuickActionsTitle': 'Quick actions',
       'ordersPendingButton': 'Uncompleted orders',
@@ -136,6 +137,7 @@ class AppLocalizations {
       'ordersWaterCountLabel': 'Water count',
       'ordersPaymentStatusLabel': 'Payment status',
       'ordersLocationLabel': 'Location',
+      'ordersAddressLabel': 'Address',
       'ordersEmptyState': 'No orders yet.',
       'ordersSessionMissing': 'Business ID not found.',
       'ordersLoadFailed': 'Failed to load orders.',
@@ -206,9 +208,9 @@ class AppLocalizations {
       'menuSecurity': 'Security',
       'menuAbout': 'About system',
       'aboutDescription':
-          'The "Suv kerak" project app is part of the "Hisob" system and was created to help entrepreneurs who distribute drinking water monitor the order fulfillment process. We are always ready to automate your other business activities or your specific workflow.',
-      'aboutShareButton': 'Share app',
-      'aboutUpdateButton': 'Update app',
+          '"Suv Kerak" is a professional courier application, part of the "Hisob" business automation platform. Our company specializes in digitalization and automation of business processes for entrepreneurs in various industries.\n\nThis app helps water distribution businesses streamline order management, delivery tracking, and financial reporting with modern technology solutions.',
+      'aboutShareButton': 'Share',
+      'aboutUpdateButton': 'Update',
       'aboutVersionLabel': 'Version',
       'aboutShareMessage': 'Try the Suv Kerak Courier app.',
       'aboutUpdateUnavailable': 'Update link not available.',
@@ -288,6 +290,18 @@ class AppLocalizations {
       'pinChangeSuccess': 'PIN changed successfully.',
       'pinChangeError': 'Failed to change PIN. Check your current PIN.',
       'pinChangeSameError': 'New PIN must be different from current PIN.',
+      'courierServiceTitle': 'Courier Service Statement',
+      'courierServiceSelectRange': 'Select date range',
+      'courierServiceSelectButton': 'Select period',
+      'courierServiceSelectPrompt':
+          'Please select a date range to view the report.',
+      'courierServiceStartBalance': 'Opening balance',
+      'courierServiceEndBalance': 'Closing balance',
+      'courierServiceOperationsTitle': 'Service operations',
+      'courierServiceOrderNumber': 'Order number',
+      'courierServiceCharged': 'Charged',
+      'courierServicePaid': 'Paid',
+      'courierServiceCount': 'Service count',
     },
     'ru': {
       'appTitle': 'Suv Kerak Courier',
@@ -349,9 +363,10 @@ class AppLocalizations {
       'homeCashBalanceLabel': 'Остаток в кассе',
       'homeFullWaterLabel': 'Полная вода',
       'homeEmptyBottleLabel': 'Пустые бутыли',
-      'homeOrdersTodayLabel': 'Заказы за сегодня',
+      'homeOrdersTodayLabel': 'Выполнено сегодня',
       'notAvailable': 'Нет данных',
       'mainMenuTitle': 'Главное меню',
+      'menuCourierService': 'Курьерский сервис',
       'menuOrders': 'Заказы',
       'ordersQuickActionsTitle': 'Быстрые действия',
       'ordersPendingButton': 'Невыполненные заказы',
@@ -369,6 +384,7 @@ class AppLocalizations {
       'ordersWaterCountLabel': 'Количество воды',
       'ordersPaymentStatusLabel': 'Статус оплаты',
       'ordersLocationLabel': 'Локация',
+      'ordersAddressLabel': 'Адрес',
       'ordersEmptyState': 'Пока нет заказов.',
       'ordersSessionMissing': 'Не найден ID бизнеса.',
       'ordersLoadFailed': 'Не удалось загрузить заказы.',
@@ -442,9 +458,9 @@ class AppLocalizations {
       'menuSecurity': 'Безопасность',
       'menuAbout': 'О системе',
       'aboutDescription':
-          'Приложение проекта "Suv kerak" входит в систему "Hisob" и создано для контроля процесса выполнения заказов предпринимателями, занимающимися доставкой питьевой воды. Мы всегда готовы автоматизировать другие направления вашего бизнеса или именно вашу деятельность.',
-      'aboutShareButton': 'Поделиться',
-      'aboutUpdateButton': 'Обновить приложение',
+          '"Suv Kerak" — профессиональное курьерское приложение в составе платформы автоматизации бизнеса "Hisob". Наша компания специализируется на цифровизации и автоматизации бизнес-процессов для предпринимателей различных отраслей.\n\nЭто приложение помогает бизнесу по доставке воды оптимизировать управление заказами, отслеживание доставок и финансовую отчётность с помощью современных технологий.',
+      'aboutShareButton': 'Отправить',
+      'aboutUpdateButton': 'Обновить',
       'aboutVersionLabel': 'Версия',
       'aboutShareMessage': 'Попробуйте приложение Suv Kerak Courier.',
       'aboutUpdateUnavailable': 'Ссылка для обновления недоступна.',
@@ -525,6 +541,18 @@ class AppLocalizations {
       'pinChangeSuccess': 'PIN успешно изменён.',
       'pinChangeError': 'Не удалось изменить PIN. Проверьте текущий PIN.',
       'pinChangeSameError': 'Новый PIN должен отличаться от текущего.',
+      'courierServiceTitle': 'Отчёт по курьерским услугам',
+      'courierServiceSelectRange': 'Выберите период',
+      'courierServiceSelectButton': 'Выбрать период',
+      'courierServiceSelectPrompt':
+          'Пожалуйста, выберите период для просмотра отчёта.',
+      'courierServiceStartBalance': 'Начальный баланс',
+      'courierServiceEndBalance': 'Конечный баланс',
+      'courierServiceOperationsTitle': 'Операции по услугам',
+      'courierServiceOrderNumber': 'Номер заказа',
+      'courierServiceCharged': 'Начислено',
+      'courierServicePaid': 'Оплачено',
+      'courierServiceCount': 'Количество услуг',
     },
     'uz_Latn': {
       'appTitle': 'Suv Kerak Courier',
@@ -587,9 +615,10 @@ class AppLocalizations {
       'homeCashBalanceLabel': "Kassa qoldig'i",
       'homeFullWaterLabel': "To'la suv qoldig'i",
       'homeEmptyBottleLabel': "Bo'sh baklar",
-      'homeOrdersTodayLabel': 'Bugungi buyurtmalar',
+      'homeOrdersTodayLabel': 'Bugun bajarilgan buyurtmalar',
       'notAvailable': "Ma'lumot yo'q",
       'mainMenuTitle': 'Asosiy menyu',
+      'menuCourierService': 'Kuryerlik xizmati',
       'menuOrders': 'Buyurtmalar',
       'ordersQuickActionsTitle': 'Tezkor amallar',
       'ordersPendingButton': 'Bajarilmagan buyurtmalar',
@@ -607,6 +636,7 @@ class AppLocalizations {
       'ordersWaterCountLabel': 'Suv soni',
       'ordersPaymentStatusLabel': "To'lov holati",
       'ordersLocationLabel': 'Lokatsiya',
+      'ordersAddressLabel': 'Manzil',
       'ordersEmptyState': "Hozircha buyurtmalar yo'q.",
       'ordersSessionMissing': 'Biznes ID topilmadi.',
       'ordersLoadFailed': 'Buyurtmalarni yuklashda xatolik.',
@@ -681,13 +711,13 @@ class AppLocalizations {
       'menuSecurity': 'Xavfsizlik',
       'menuAbout': 'Tizim haqida',
       'aboutDescription':
-          "\"Suv kerak\" loyihasi ilovasi \"Hisob\" tizimidagi ilova bo'lib, aynan ichimlik suvi tarqatish faoliyati bilan shug'ullanuvchi tadbirkorlar uchun buyurtmalarni bajarish jarayonini nazorat qilish maqsadida yaratilgan. Tadbirkorlikning boshqa faoliyatlari yoki aynan sizning faoliyatingizni avtomatlashtirish uchun biz doimo tayyormiz.",
-      'aboutShareButton': "Ilovani bo'lishish",
-      'aboutUpdateButton': 'Ilovani yangilash',
+          "\"Suv Kerak\" — \"Hisob\" biznes avtomatlashtirish platformasining professional kuryer ilovasi. Kompaniyamiz turli sohalardagi tadbirkorlar uchun biznes jarayonlarini raqamlashtirish va avtomatlashtirish bo'yicha ixtisoslashgan.\n\nBu ilova suv yetkazib berish biznesiga buyurtmalarni boshqarish, yetkazib berishni kuzatish va moliyaviy hisobotlarni zamonaviy texnologiyalar yordamida soddalashtiradi.",
+      'aboutShareButton': 'Ulashish',
+      'aboutUpdateButton': 'Yangilash',
       'aboutVersionLabel': 'Versiya',
       'aboutShareMessage': "Suv Kerak Courier ilovasini sinab ko'ring.",
-      'aboutUpdateUnavailable': "Yangilash havolasi mavjud emas.",
-      'aboutShareUnavailable': "Ulashish havolasi mavjud emas.",
+      'aboutUpdateUnavailable': 'Yangilash havolasi mavjud emas.',
+      'aboutShareUnavailable': 'Ulashish havolasi mavjud emas.',
       'cashReportPeriodicTitle': 'Davriy kassa hisoboti',
       'cashReportOnlineTitle': "Onlayn to'lovlar",
       'cashReportStartDate': 'Boshlanish sanasi',
@@ -765,6 +795,17 @@ class AppLocalizations {
       'pinChangeSuccess': "PIN kod muvaffaqiyatli o'zgartirildi.",
       'pinChangeError': "PIN kodni o'zgartirib bo'lmadi. Joriy PIN kodni tekshiring.",
       'pinChangeSameError': "Yangi PIN kod joriy PIN koddan farqli bo'lishi kerak.",
+      'courierServiceTitle': "Kuryerlik xizmati bo'yicha hisobot",
+      'courierServiceSelectRange': 'Davrni tanlang',
+      'courierServiceSelectButton': 'Davrni tanlash',
+      'courierServiceSelectPrompt': "Hisobotni ko'rish uchun davrni tanlang.",
+      'courierServiceStartBalance': "Boshlang'ich balans",
+      'courierServiceEndBalance': 'Yakuniy balans',
+      'courierServiceOperationsTitle': 'Xizmat operatsiyalari',
+      'courierServiceOrderNumber': 'Buyurtma raqami',
+      'courierServiceCharged': 'Hisoblandi',
+      'courierServicePaid': "To'landi",
+      'courierServiceCount': 'Xizmatlar soni',
     },
     'uz_Cyrl': {
       'appTitle': 'Suv Kerak Courier',
@@ -822,14 +863,15 @@ class AppLocalizations {
       'commonNo': 'Йўқ',
       'commonBack': 'Орқага',
       'homeEmptyState': 'Ҳозирча маълумот йўқ.',
-      'homeCourierIdLabel': 'Курьер ID',
+      'homeCourierIdLabel': 'Курер ID',
       'homeLastActiveLabel': 'Охирги фаоллик',
       'homeCashBalanceLabel': 'Касса қолдиғи',
       'homeFullWaterLabel': 'Тўла сув қолдиғи',
       'homeEmptyBottleLabel': 'Бўш баклар',
-      'homeOrdersTodayLabel': 'Бугунги буюртмалар',
+      'homeOrdersTodayLabel': 'Бугун бажарилган буюртмалар',
       'notAvailable': 'Маълумот йўқ',
       'mainMenuTitle': 'Асосий меню',
+      'menuCourierService': 'Курерлик хизмати',
       'menuOrders': 'Буюртмалар',
       'ordersQuickActionsTitle': 'Тезкор амаллар',
       'ordersPendingButton': 'Бажарилмаган буюртмалар',
@@ -847,6 +889,7 @@ class AppLocalizations {
       'ordersWaterCountLabel': 'Сув сони',
       'ordersPaymentStatusLabel': 'Тўлов ҳолати',
       'ordersLocationLabel': 'Локация',
+      'ordersAddressLabel': 'Манзил',
       'ordersEmptyState': 'Ҳозирча буюртмалар йўқ.',
       'ordersSessionMissing': 'Бизнес ID топилмади.',
       'ordersLoadFailed': 'Буюртмаларни юклашда хатолик.',
@@ -922,9 +965,9 @@ class AppLocalizations {
       'menuSecurity': 'Хавфсизлик',
       'menuAbout': 'Тизим ҳақида',
       'aboutDescription':
-          '"Suv kerak" лойиҳаси иловаси "Hisob" тизимидаги илова бўлиб, айнан ичимлик суви тарқатувчи фаолиятлар билан шуғулланувчи тадбиркорлар учун буюртмаларни бажариш жараёнини назорат қилиш мақсадида яратилган. Тадбиркорликни бошқа фаолиятлари ёки айнан сизнинг фаолиятингизни автоматлаштириш учун биз доимо тайёрмиз.',
-      'aboutShareButton': 'Иловани бўлишиш',
-      'aboutUpdateButton': 'Иловани янгилаш',
+          '"Suv Kerak" — "Hisob" бизнес автоматлаштириш платформасининг профессионал курьер иловаси. Компаниямиз турли соҳалардаги тадбиркорлар учун бизнес жараёнларини рақамлаштириш ва автоматлаштириш бўйича ихтисослашган.\n\nБу илова сув етказиб бериш бизнесига буюртмаларни бошқариш, етказиб беришни кузатиш ва молиявий ҳисоботларни замонавий технологиялар ёрдамида соддалаштиради.',
+      'aboutShareButton': 'Улашиш',
+      'aboutUpdateButton': 'Янгилаш',
       'aboutVersionLabel': 'Версия',
       'aboutShareMessage': 'Suv Kerak Courier иловасини синаб кўринг.',
       'aboutUpdateUnavailable': 'Янгилаш ҳаволаси мавжуд эмас.',
@@ -1006,6 +1049,17 @@ class AppLocalizations {
       'pinChangeSuccess': 'PIN код муваффақиятли ўзгартирилди.',
       'pinChangeError': 'PIN кодни ўзгартириб бўлмади. Жорий PIN кодни текширинг.',
       'pinChangeSameError': 'Янги PIN код жорий PIN коддан фарқли бўлиши керак.',
+      'courierServiceTitle': 'Курерлик хизмати бўйича ҳисоб китоб',
+      'courierServiceSelectRange': 'Даврни танланг',
+      'courierServiceSelectButton': 'Даврни танлаш',
+      'courierServiceSelectPrompt': 'Ҳисоботни кўриш учун даврни танланг.',
+      'courierServiceStartBalance': 'Бошланғич баланс',
+      'courierServiceEndBalance': 'Якуний баланс',
+      'courierServiceOperationsTitle': 'Хизмат операциялари',
+      'courierServiceOrderNumber': 'Буюртма рақами',
+      'courierServiceCharged': 'Ҳисобланди',
+      'courierServicePaid': 'Тўланди',
+      'courierServiceCount': 'Хизматлар сони',
     },
   };
 
@@ -1081,6 +1135,7 @@ class AppLocalizations {
   String get homeOrdersTodayLabel => _t('homeOrdersTodayLabel');
   String get notAvailable => _t('notAvailable');
   String get mainMenuTitle => _t('mainMenuTitle');
+  String get menuCourierService => _t('menuCourierService');
   String get menuOrders => _t('menuOrders');
   String get ordersQuickActionsTitle => _t('ordersQuickActionsTitle');
   String get ordersPendingButton => _t('ordersPendingButton');
@@ -1097,6 +1152,7 @@ class AppLocalizations {
   String get ordersWaterCountLabel => _t('ordersWaterCountLabel');
   String get ordersPaymentStatusLabel => _t('ordersPaymentStatusLabel');
   String get ordersLocationLabel => _t('ordersLocationLabel');
+  String get ordersAddressLabel => _t('ordersAddressLabel');
   String get ordersEmptyState => _t('ordersEmptyState');
   String get ordersSessionMissing => _t('ordersSessionMissing');
   String get ordersLoadFailed => _t('ordersLoadFailed');
@@ -1279,6 +1335,18 @@ class AppLocalizations {
   String get pinChangeSuccess => _t('pinChangeSuccess');
   String get pinChangeError => _t('pinChangeError');
   String get pinChangeSameError => _t('pinChangeSameError');
+  String get courierServiceTitle => _t('courierServiceTitle');
+  String get courierServiceSelectRange => _t('courierServiceSelectRange');
+  String get courierServiceSelectButton => _t('courierServiceSelectButton');
+  String get courierServiceSelectPrompt => _t('courierServiceSelectPrompt');
+  String get courierServiceStartBalance => _t('courierServiceStartBalance');
+  String get courierServiceEndBalance => _t('courierServiceEndBalance');
+  String get courierServiceOperationsTitle =>
+      _t('courierServiceOperationsTitle');
+  String get courierServiceOrderNumber => _t('courierServiceOrderNumber');
+  String get courierServiceCharged => _t('courierServiceCharged');
+  String get courierServicePaid => _t('courierServicePaid');
+  String get courierServiceCount => _t('courierServiceCount');
 
   static String _localeKey(Locale locale) {
     if (locale.languageCode == 'uz') {

@@ -29,6 +29,7 @@ class PendingOrderItem {
   const PendingOrderItem({
     required this.orderDate,
     required this.orderTime,
+    required this.address,
     required this.note,
     required this.buyerId,
     required this.orderNumber,
@@ -39,6 +40,7 @@ class PendingOrderItem {
 
   final String orderDate;
   final String orderTime;
+  final String address;
   final String note;
   final int buyerId;
   final String orderNumber;
@@ -50,6 +52,7 @@ class PendingOrderItem {
     return PendingOrderItem(
       orderDate: json['buyurtma_sanasi']?.toString() ?? '',
       orderTime: json['buyurtma_vaqti']?.toString() ?? '',
+      address: json['manzil']?.toString() ?? '',
       note: json['izoh']?.toString() ?? '',
       buyerId: _toInt(json['buyurtmachi_id']) ?? 0,
       orderNumber: json['buyurtma_id_raqami']?.toString() ?? '',

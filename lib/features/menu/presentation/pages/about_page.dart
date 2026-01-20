@@ -177,12 +177,17 @@ class _AboutPageState extends State<AboutPage> {
               padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
               children: [
                 _Card(
-                  child: Text(
-                    l10n.aboutDescription,
-                    style: textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.onSurface,
-                      height: 1.45,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.aboutDescription,
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.onSurface,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -190,18 +195,43 @@ class _AboutPageState extends State<AboutPage> {
                   builder: (context, constraints) {
                     final textScale =
                         MediaQuery.textScalerOf(context).scale(1.0);
-                    final stackButtons = constraints.maxWidth < 320 ||
-                        textScale >= 1.25;
+                    final stackButtons = constraints.maxWidth < 360 ||
+                        textScale >= 1.3;
 
                     final shareButton = FilledButton.icon(
                       onPressed: _shareApp,
-                      icon: const Icon(Icons.share_outlined),
-                      label: Text(l10n.aboutShareButton),
+                      style: FilledButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      icon: const Icon(Icons.share_outlined, size: 20),
+                      label: Flexible(
+                        child: Text(
+                          l10n.aboutShareButton,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     );
                     final updateButton = OutlinedButton.icon(
                       onPressed: _openUpdate,
-                      icon: const Icon(Icons.system_update_alt_outlined),
-                      label: Text(l10n.aboutUpdateButton),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.system_update_alt_outlined,
+                        size: 20,
+                      ),
+                      label: Flexible(
+                        child: Text(
+                          l10n.aboutUpdateButton,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     );
 
                     if (stackButtons) {
@@ -237,6 +267,7 @@ class _AboutPageState extends State<AboutPage> {
                           Icon(
                             Icons.verified_outlined,
                             color: colorScheme.primary,
+                            size: 22,
                           ),
                           const SizedBox(width: 12),
                           Expanded(

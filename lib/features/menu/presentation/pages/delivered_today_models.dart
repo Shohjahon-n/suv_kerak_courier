@@ -1,12 +1,14 @@
 class DeliveredTodayResponse {
   const DeliveredTodayResponse({
     required this.businessId,
+    required this.courierId,
     required this.count,
     required this.totalWaterCount,
     required this.items,
   });
 
   final int businessId;
+  final int courierId;
   final int count;
   final int totalWaterCount;
   final List<DeliveredTodayItem> items;
@@ -21,6 +23,7 @@ class DeliveredTodayResponse {
         .toList();
     return DeliveredTodayResponse(
       businessId: _toInt(json['business_id']) ?? 0,
+      courierId: _toInt(json['kuryer_id']) ?? 0,
       count: _toInt(json['count']) ?? items.length,
       totalWaterCount: _toInt(json['suv_soni_jami']) ?? 0,
       items: items,
@@ -32,6 +35,7 @@ class DeliveredTodayItem {
   const DeliveredTodayItem({
     required this.orderDate,
     required this.orderTime,
+    required this.address,
     required this.note,
     required this.buyerId,
     required this.orderNumber,
@@ -45,6 +49,7 @@ class DeliveredTodayItem {
 
   final String orderDate;
   final String orderTime;
+  final String address;
   final String note;
   final int buyerId;
   final String orderNumber;
@@ -59,6 +64,7 @@ class DeliveredTodayItem {
     return DeliveredTodayItem(
       orderDate: json['buyurtma_sanasi']?.toString() ?? '',
       orderTime: json['buyurtma_vaqti']?.toString() ?? '',
+      address: json['manzil']?.toString() ?? '',
       note: json['izoh']?.toString() ?? '',
       buyerId: _toInt(json['buyurtmachi_id']) ?? 0,
       orderNumber: json['buyurtma_id_raqami']?.toString() ?? '',

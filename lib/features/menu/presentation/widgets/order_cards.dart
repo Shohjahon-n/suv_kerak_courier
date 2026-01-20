@@ -88,6 +88,7 @@ class OrderCard extends StatelessWidget {
     final waterLabel = numberFormat.format(item.waterCount);
     final location = item.parseLocation();
     final locationLabel = location?.format();
+    final address = item.address.trim().isEmpty ? l10n.notAvailable : item.address;
     final note = item.note.trim().isEmpty ? l10n.notAvailable : item.note;
     final status = item.paymentStatus.trim().isEmpty
         ? l10n.notAvailable
@@ -125,6 +126,12 @@ class OrderCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+          _OrderInfoRow(
+            icon: Icons.location_on_outlined,
+            label: l10n.ordersAddressLabel,
+            value: address,
+          ),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           _OrderInfoRow(
             icon: Icons.person_outline,
             label: l10n.ordersBuyerIdLabel,
@@ -346,6 +353,7 @@ class DeliveredTodayOrderCard extends StatelessWidget {
     final waterLabel = numberFormat.format(item.waterCount);
     final location = item.parseLocation();
     final locationLabel = location?.format();
+    final address = item.address.trim().isEmpty ? l10n.notAvailable : item.address;
     final note = item.note.trim().isEmpty ? l10n.notAvailable : item.note;
     final status = item.paymentStatus.trim().isEmpty
         ? l10n.notAvailable
@@ -389,6 +397,12 @@ class DeliveredTodayOrderCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
+          _OrderInfoRow(
+            icon: Icons.location_on_outlined,
+            label: l10n.ordersAddressLabel,
+            value: address,
+          ),
+          SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           _OrderInfoRow(
             icon: Icons.person_outline,
             label: l10n.ordersBuyerIdLabel,

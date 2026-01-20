@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -19,7 +21,13 @@ Future<void> main() async {
 
   await runTalkerZonedGuarded(
     talker,
-    () => runApp(App(talker: talker, dio: dio, preferences: preferences)),
-  (error, stackTrace) {},
+    () => runApp(
+      DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) =>
+            App(talker: talker, dio: dio, preferences: preferences),
+      ),
+    ),
+    (error, stackTrace) {},
   );
 }

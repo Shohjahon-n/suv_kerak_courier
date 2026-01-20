@@ -13,6 +13,7 @@ import '../features/menu/presentation/pages/bottle_balance_result_page.dart';
 import '../features/menu/presentation/pages/cash_report_page.dart';
 import '../features/menu/presentation/pages/cash_report_models.dart';
 import '../features/menu/presentation/pages/cash_report_result_page.dart';
+import '../features/menu/presentation/pages/courier_service_page.dart';
 import '../features/menu/presentation/pages/delivered_orders_models.dart';
 import '../features/menu/presentation/pages/delivered_orders_report_page.dart';
 import '../features/menu/presentation/pages/delivered_today_page.dart';
@@ -157,6 +158,11 @@ class AppRouter {
           path: '/security',
           name: 'security',
           builder: (context, state) => const SecurityPage(),
+        ),
+        GoRoute(
+          path: '/courier-service',
+          name: 'courier-service',
+          builder: (context, state) => const CourierServicePage(),
         ),
         GoRoute(
           path: '/about',

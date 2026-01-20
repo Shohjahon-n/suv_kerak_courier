@@ -27,13 +27,9 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(status: HomeStatus.loading, clearMessage: true));
 
     try {
-      final response = await _dio.request(
+      final response = await _dio.get(
         '/orders/kuryer/main-menu/',
-        options: Options(
-          method: 'GET',
-          contentType: Headers.jsonContentType,
-        ),
-        data: {'kuryer_id': courierId},
+        queryParameters: {'kuryer_id': courierId},
       );
 
       final data = response.data;

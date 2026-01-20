@@ -197,6 +197,11 @@ class HomeView extends StatelessWidget {
             mainAxisSpacing: ResponsiveSpacing.spacing(context, base: 10),
             children: [
               _MenuCard(
+                title: l10n.menuCourierService,
+                icon: Icons.receipt_outlined,
+                onTap: () => context.push('/courier-service'),
+              ),
+              _MenuCard(
                 title: l10n.menuOrders,
                 icon: Icons.assignment_outlined,
                 onTap: () => context.push('/orders'),
@@ -391,44 +396,47 @@ class _MenuCard extends StatelessWidget {
     final padding = ResponsiveSpacing.cardPadding(context);
     final iconSz = ResponsiveSpacing.iconSize(context, base: 24);
 
-    return Material(
-      borderRadius: BorderRadius.circular(radius),
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(radius),
-        child: Ink(
-          padding: padding,
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(radius),
-            border: Border.all(
-              color: colorScheme.outline.withValues(alpha: 0.3),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: Material(
+        borderRadius: BorderRadius.circular(14),
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(radius),
+          child: Ink(
+            padding: padding,
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: BorderRadius.circular(radius),
+              border: Border.all(
+                color: colorScheme.outline.withValues(alpha: 0.3),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colorScheme.shadow.withValues(alpha: 0.1),
+                  blurRadius: 14,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: colorScheme.shadow.withValues(alpha: 0.1),
-                blurRadius: 14,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, color: colorScheme.primary, size: iconSz),
-              SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: colorScheme.onSurface,
-                      fontWeight: FontWeight.w600,
-                    ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: colorScheme.primary, size: iconSz),
+                SizedBox(height: ResponsiveSpacing.spacing(context, base: 8)),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                        fontWeight: FontWeight.w600,
+                      ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
         ),
       ),

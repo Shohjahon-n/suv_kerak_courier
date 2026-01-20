@@ -18,6 +18,27 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
   String _pin = '';
   String? _errorText;
   bool _isSubmitting = false;
+  bool _hasTriedBiometric = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Automatically trigger biometric authentication when screen appears
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _tryBiometricOnInit();
+    });
+  }
+
+  Future<void> _tryBiometricOnInit() async {
+    if (_hasTriedBiometric) {
+      return;
+    }
+    final state = context.read<SecurityCubit>().state;
+    if (state.biometricEnabled) {
+      _hasTriedBiometric = true;
+      await _useBiometrics();
+    }
+  }
 
   @override
   void dispose() {
