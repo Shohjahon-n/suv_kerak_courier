@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 enum CashReportKind { periodic, onlinePayments }
 
-class CashReportRequest {
+class CashReportRequest extends Equatable {
   const CashReportRequest({
     required this.kind,
     required this.range,
@@ -10,9 +11,12 @@ class CashReportRequest {
 
   final CashReportKind kind;
   final DateTimeRange range;
+
+  @override
+  List<Object> get props => [kind, range];
 }
 
-class CashPeriodReport {
+class CashPeriodReport extends Equatable {
   const CashPeriodReport({
     required this.ok,
     required this.businessId,
@@ -36,6 +40,20 @@ class CashPeriodReport {
   final String totalIncome;
   final String totalExpense;
   final List<CashPeriodRow> rows;
+
+  @override
+  List<Object> get props => [
+        ok,
+        businessId,
+        courierId,
+        startDate,
+        endDate,
+        openingBalance,
+        closingBalance,
+        totalIncome,
+        totalExpense,
+        rows,
+      ];
 
   factory CashPeriodReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
@@ -93,7 +111,7 @@ class CashPeriodReport {
   }
 }
 
-class CashPeriodRow {
+class CashPeriodRow extends Equatable {
   const CashPeriodRow({
     required this.date,
     required this.time,
@@ -112,6 +130,9 @@ class CashPeriodRow {
   final String expense;
   final String balance;
 
+  @override
+  List<Object> get props => [date, time, operation, courierName, income, expense, balance];
+
   factory CashPeriodRow.fromJson(Map<String, dynamic> json) {
     return CashPeriodRow(
       date: json['sana']?.toString() ?? '',
@@ -125,7 +146,7 @@ class CashPeriodRow {
   }
 }
 
-class OnlinePaymentReport {
+class OnlinePaymentReport extends Equatable {
   const OnlinePaymentReport({
     required this.ok,
     required this.businessId,
@@ -141,6 +162,9 @@ class OnlinePaymentReport {
   final String endDate;
   final String totalAmount;
   final List<OnlinePaymentRow> rows;
+
+  @override
+  List<Object> get props => [ok, businessId, startDate, endDate, totalAmount, rows];
 
   factory OnlinePaymentReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
@@ -158,7 +182,7 @@ class OnlinePaymentReport {
   }
 }
 
-class OnlinePaymentRow {
+class OnlinePaymentRow extends Equatable {
   const OnlinePaymentRow({
     required this.date,
     required this.time,
@@ -174,6 +198,9 @@ class OnlinePaymentRow {
   final String buyer;
   final String paymentSystem;
   final String amount;
+
+  @override
+  List<Object> get props => [date, time, orderNumber, buyer, paymentSystem, amount];
 
   factory OnlinePaymentRow.fromJson(Map<String, dynamic> json) {
     return OnlinePaymentRow(

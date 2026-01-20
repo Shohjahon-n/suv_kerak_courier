@@ -3,14 +3,15 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_compass/flutter_map_compass.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
 
@@ -25,6 +26,9 @@ class OrdersMapPage extends StatefulWidget {
 
 class _OrdersMapPageState extends State<OrdersMapPage> {
   final MapController _mapController = MapController();
+  final Talker _talker = getIt<Talker>();
+  final Dio _dio = getIt<Dio>();
+  final AppPreferences _preferences = getIt<AppPreferences>();
 
   StreamSubscription<CompassEvent>? _compassStream;
   StreamSubscription<Position>? _positionStream;
@@ -87,15 +91,13 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   void _flushPendingMove() {
     final c = _pendingMoveCenter;
     if (c == null) return;
-    try {
-      _pendingMoveCenter = null;
-    } catch (_) {}
+    _pendingMoveCenter = null;
   }
 
   Future<void> _getOnWayOrder() async {
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final courierId = preferences.readCourierId();
 
       if (courierId == null) return;
@@ -146,8 +148,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           _onWay = true;
         });
       }
-    } catch (e) {
-      debugPrint('Error in _getOnWayOrder: $e');
+    } catch (e, stackTrace) {
+      _talker.error('Failed to load on-way order', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapOnWayOrderLoadFailed,
@@ -162,8 +164,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
 
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final courierId = preferences.readCourierId();
       final locale = preferences.readLocale()?.languageCode ?? 'en';
 
@@ -183,11 +185,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _phone = res.data["phone"] ?? "";
         _loading = false;
       });
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         _loading = false;
       });
-      debugPrint('Error in _arrivedFun: $e');
+      _talker.error('Failed to send arrival hint', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapArrivedHintFailed,
@@ -213,7 +215,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       if (_mapReady && _navMode == NavMode.autoRotate) {
         try {
           _mapController.rotate(_headingFixed);
-        } catch (_) {}
+        } catch (e) {
+          _talker.warning('Map rotation failed (non-critical)', e);
+        }
       }
     });
   }
@@ -260,8 +264,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
 
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
       if (businessId == null) return;
@@ -281,11 +285,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _arrivalDialogShown = false;
         _phone = "";
       });
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         _loading = false;
       });
-      debugPrint('Error in _setStatus: $e');
+      _talker.error('Failed to set on-way status', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapSetOnWayFailed,
@@ -331,8 +335,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
   Future<void> _getOrdersLocation() async {
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
       if (businessId == null) return;
@@ -351,8 +355,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           _adjustCameraToFitAllPoints();
         });
       }
-    } catch (e) {
-      debugPrint('Error in _getOrdersLocation: $e');
+    } catch (e, stackTrace) {
+      _talker.error('Failed to load orders location', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(AppLocalizations.of(context).ordersLoadFailed);
       }
@@ -423,7 +427,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
     try {
       _mapController.move(center, zoom);
-    } catch (_) {}
+    } catch (e) {
+      _talker.warning('Map move failed (non-critical)', e);
+    }
   }
 
   void _fitAllMarkers() {
@@ -446,7 +452,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     } else if (allPoints.length == 1) {
       try {
         _mapController.move(allPoints[0], 15);
-      } catch (_) {}
+      } catch (e) {
+        _talker.warning('Map move failed (non-critical)', e);
+      }
     }
   }
 
@@ -460,7 +468,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
       final d2 = r0?["distance"];
       if (d2 != null) return double.tryParse(d2.toString());
-    } catch (_) {}
+    } catch (e) {
+      _talker.warning('Failed to extract distance from route data', e);
+    }
     return null;
   }
 
@@ -491,8 +501,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
 
     try {
-      final dio = context.read<Dio>();
-      final res = await dio.get(
+      final res = await _dio.get(
         "/api/route",
         queryParameters: {
           "from": "${_myLocation!.longitude},${_myLocation!.latitude}",
@@ -512,11 +521,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       });
 
       await _maybeShowAutoArrive();
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         _loading = false;
       });
-      debugPrint('Error in _getRoute: $e');
+      _talker.error('Failed to load route', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(AppLocalizations.of(context).ordersRouteFailed);
       }
@@ -529,8 +538,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
 
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final courierId = preferences.readCourierId();
       final businessId = preferences.readBusinessId();
 
@@ -551,11 +560,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       });
 
       await _showInfoTableModal(res.data);
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         _loading = false;
       });
-      debugPrint('Error in _getOrderData: $e');
+      _talker.error('Failed to load order details', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapOrderDetailsLoadFailed,
@@ -570,8 +579,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
 
     try {
-      final dio = context.read<Dio>();
-      final preferences = context.read<AppPreferences>();
+      final dio = _dio;
+      final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
       if (businessId == null) return;
@@ -605,11 +614,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       });
 
       _getOrdersLocation();
-    } catch (e) {
+    } catch (e, stackTrace) {
       setState(() {
         _loading = false;
       });
-      debugPrint('Error in _completeOrder: $e');
+      _talker.error('Failed to complete order', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapCompleteOrderFailed,
@@ -625,8 +634,8 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
         throw Exception("Call app failed to open");
       }
-    } catch (e) {
-      debugPrint('Error opening call app: $e');
+    } catch (e, stackTrace) {
+      _talker.error('Failed to open call app', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersMapOpenCallFailed,
@@ -644,7 +653,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     if (_mapReady && _navMode == NavMode.autoRotate) {
       try {
         _mapController.rotate(-_heading);
-      } catch (_) {}
+      } catch (e) {
+        _talker.warning('Map rotation failed (non-critical)', e);
+      }
     }
   }
 

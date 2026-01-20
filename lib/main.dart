@@ -6,26 +6,23 @@ import 'package:talker_flutter/talker_flutter.dart';
 
 import 'app/app.dart';
 import 'core/bloc/app_bloc_observer.dart';
-import 'core/logging/app_logger.dart';
-import 'core/network/dio_client.dart';
-import 'core/storage/app_preferences.dart';
+import 'core/di/service_locator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final talker = AppLogger.create();
-  final dio = DioClient.create(talker: talker);
-  final preferences = await AppPreferences.create();
+  // Initialize dependency injection
+  await setupServiceLocator();
 
-  Bloc.observer = AppBlocObserver(talker);
+  // Setup Bloc observer with Talker
+  Bloc.observer = AppBlocObserver(getIt<Talker>());
 
   await runTalkerZonedGuarded(
-    talker,
+    getIt<Talker>(),
     () => runApp(
       DevicePreview(
         enabled: !kReleaseMode,
-        builder: (context) =>
-            App(talker: talker, dio: dio, preferences: preferences),
+        builder: (context) => const App(),
       ),
     ),
     (error, stackTrace) {},

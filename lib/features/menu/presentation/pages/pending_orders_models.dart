@@ -1,4 +1,6 @@
-class PendingOrdersResponse {
+import 'package:equatable/equatable.dart';
+
+class PendingOrdersResponse extends Equatable {
   const PendingOrdersResponse({
     required this.businessId,
     required this.count,
@@ -10,6 +12,9 @@ class PendingOrdersResponse {
   final int count;
   final int totalWaterCount;
   final List<PendingOrderItem> items;
+
+  @override
+  List<Object> get props => [businessId, count, totalWaterCount, items];
 
   factory PendingOrdersResponse.fromJson(Map<String, dynamic> json) {
     final items = (json['items'] as List<dynamic>? ?? [])
@@ -25,7 +30,7 @@ class PendingOrdersResponse {
   }
 }
 
-class PendingOrderItem {
+class PendingOrderItem extends Equatable {
   const PendingOrderItem({
     required this.orderDate,
     required this.orderTime,
@@ -48,6 +53,19 @@ class PendingOrderItem {
   final String locationRaw;
   final String paymentStatus;
 
+  @override
+  List<Object> get props => [
+        orderDate,
+        orderTime,
+        address,
+        note,
+        buyerId,
+        orderNumber,
+        waterCount,
+        locationRaw,
+        paymentStatus,
+      ];
+
   factory PendingOrderItem.fromJson(Map<String, dynamic> json) {
     return PendingOrderItem(
       orderDate: json['buyurtma_sanasi']?.toString() ?? '',
@@ -67,7 +85,7 @@ class PendingOrderItem {
   }
 }
 
-class ParsedLocation {
+class ParsedLocation extends Equatable {
   const ParsedLocation({
     required this.latitude,
     required this.longitude,
@@ -75,6 +93,9 @@ class ParsedLocation {
 
   final double? latitude;
   final double? longitude;
+
+  @override
+  List<Object?> get props => [latitude, longitude];
 
   bool get hasValue => latitude != null && longitude != null;
 

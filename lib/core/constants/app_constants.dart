@@ -4,6 +4,9 @@ class AppConstants {
 
   static const String apiBaseUrl =
       'https://suv-kerak-backend-eu-d9af752240af.herokuapp.com';
+
+  // TODO: Configure these URLs for app sharing and update functionality
+  // Leave empty to disable these features
   static const String appShareUrl = '';
   static const String appUpdateUrl = '';
 }

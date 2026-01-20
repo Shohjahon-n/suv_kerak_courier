@@ -1,15 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../../../core/di/service_locator.dart';
 import '../../../../core/localization/app_localizations.dart';
-import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/theme/theme_cubit.dart';
 import '../../../../core/widgets/adaptive_grid.dart';
 import '../../../../core/widgets/responsive_spacing.dart';
+import '../../../../core/widgets/shimmer_loading.dart';
 import '../bloc/home_cubit.dart';
 import '../bloc/home_state.dart';
 
@@ -19,8 +19,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          HomeCubit(context.read<Dio>(), context.read<AppPreferences>()),
+      create: (context) => getIt<HomeCubit>(),
       child: const HomeView(),
     );
   }
@@ -93,7 +92,7 @@ class HomeView extends StatelessWidget {
 
     if (dashboard == null) {
       if (state.status == HomeStatus.loading) {
-        return const Center(child: CircularProgressIndicator());
+        return const DashboardShimmer();
       }
       return Center(
         child: Text(

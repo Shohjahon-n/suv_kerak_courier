@@ -1,4 +1,6 @@
-class DeliveredTodayResponse {
+import 'package:equatable/equatable.dart';
+
+class DeliveredTodayResponse extends Equatable {
   const DeliveredTodayResponse({
     required this.businessId,
     required this.courierId,
@@ -12,6 +14,9 @@ class DeliveredTodayResponse {
   final int count;
   final int totalWaterCount;
   final List<DeliveredTodayItem> items;
+
+  @override
+  List<Object> get props => [businessId, courierId, count, totalWaterCount, items];
 
   factory DeliveredTodayResponse.fromJson(Map<String, dynamic> json) {
     final items = (json['items'] as List<dynamic>? ?? [])
@@ -31,7 +36,7 @@ class DeliveredTodayResponse {
   }
 }
 
-class DeliveredTodayItem {
+class DeliveredTodayItem extends Equatable {
   const DeliveredTodayItem({
     required this.orderDate,
     required this.orderTime,
@@ -60,6 +65,22 @@ class DeliveredTodayItem {
   final String courierName;
   final String courierPhone;
 
+  @override
+  List<Object> get props => [
+        orderDate,
+        orderTime,
+        address,
+        note,
+        buyerId,
+        orderNumber,
+        waterCount,
+        locationRaw,
+        paymentStatus,
+        onlinePayments,
+        courierName,
+        courierPhone,
+      ];
+
   factory DeliveredTodayItem.fromJson(Map<String, dynamic> json) {
     return DeliveredTodayItem(
       orderDate: json['buyurtma_sanasi']?.toString() ?? '',
@@ -82,11 +103,14 @@ class DeliveredTodayItem {
   }
 }
 
-class ParsedLocation {
+class ParsedLocation extends Equatable {
   const ParsedLocation({required this.latitude, required this.longitude});
 
   final double? latitude;
   final double? longitude;
+
+  @override
+  List<Object?> get props => [latitude, longitude];
 
   bool get hasValue => latitude != null && longitude != null;
 

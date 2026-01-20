@@ -1,0 +1,72 @@
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
+import 'package:talker_flutter/talker_flutter.dart';
+
+import '../../features/home/presentation/bloc/home_cubit.dart';
+import '../localization/locale_cubit.dart';
+import '../logging/app_logger.dart';
+import '../network/dio_client.dart';
+import '../security/security_cubit.dart';
+import '../storage/app_preferences.dart';
+import '../theme/theme_cubit.dart';
+
+final getIt = GetIt.instance;
+
+/// Initializes dependency injection
+/// Call this before runApp()
+Future<void> setupServiceLocator() async {
+  // Register core services as singletons
+  await _registerCoreServices();
+
+  // Register Cubits as factories
+  _registerCubits();
+}
+
+/// Register core singleton services
+Future<void> _registerCoreServices() async {
+  // Logging
+  getIt.registerLazySingleton<Talker>(() => AppLogger.create());
+
+  // Network
+  getIt.registerLazySingleton<Dio>(
+    () => DioClient.create(talker: getIt<Talker>()),
+  );
+
+  // Storage - must be async
+  final preferences = await AppPreferences.create();
+  getIt.registerSingleton<AppPreferences>(preferences);
+}
+
+/// Register Cubits as factories (new instance each time)
+void _registerCubits() {
+  // Global Cubits
+  getIt.registerFactory<ThemeCubit>(
+    () => ThemeCubit(getIt<AppPreferences>()),
+  );
+
+  getIt.registerFactory<LocaleCubit>(
+    () => LocaleCubit(getIt<AppPreferences>()),
+  );
+
+  getIt.registerFactory<SecurityCubit>(
+    () => SecurityCubit(
+      getIt<AppPreferences>(),
+      getIt<Dio>(),
+      getIt<Talker>(),
+    ),
+  );
+
+  // Feature Cubits
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(
+      getIt<Dio>(),
+      getIt<AppPreferences>(),
+      getIt<Talker>(),
+    ),
+  );
+}
+
+/// Reset all registrations (useful for testing)
+Future<void> resetServiceLocator() async {
+  await getIt.reset();
+}

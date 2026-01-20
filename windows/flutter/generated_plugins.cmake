@@ -3,7 +3,6 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  flutter_inappwebview_windows
   geolocator_windows
   local_auth_windows
   share_plus
