@@ -101,9 +101,12 @@ class AppRouter {
         GoRoute(
           path: '/orders/delivered-range',
           name: 'orders-delivered-range',
-          builder: (context, state) => DeliveredOrdersReportPage(
-            request: state.extra as DeliveredOrdersRequest?,
-          ),
+          builder: (context, state) {
+            final extra = state.extra;
+            return DeliveredOrdersReportPage(
+              request: extra is DeliveredOrdersRequest ? extra : null,
+            );
+          },
         ),
         GoRoute(
           path: '/orders/map',
@@ -118,16 +121,22 @@ class AppRouter {
         GoRoute(
           path: '/cash-report/periodic',
           name: 'cash-report-periodic',
-          builder: (context, state) => CashReportResultPage(
-            request: state.extra as CashReportRequest?,
-          ),
+          builder: (context, state) {
+            final extra = state.extra;
+            return CashReportResultPage(
+              request: extra is CashReportRequest ? extra : null,
+            );
+          },
         ),
         GoRoute(
           path: '/cash-report/online',
           name: 'cash-report-online',
-          builder: (context, state) => CashReportResultPage(
-            request: state.extra as CashReportRequest?,
-          ),
+          builder: (context, state) {
+            final extra = state.extra;
+            return CashReportResultPage(
+              request: extra is CashReportRequest ? extra : null,
+            );
+          },
         ),
         GoRoute(
           path: '/bottle-balance',
@@ -137,16 +146,22 @@ class AppRouter {
         GoRoute(
           path: '/bottle-balance/empty',
           name: 'bottle-balance-empty',
-          builder: (context, state) => BottleBalanceResultPage(
-            request: state.extra as BottleBalanceRequest?,
-          ),
+          builder: (context, state) {
+            final extra = state.extra;
+            return BottleBalanceResultPage(
+              request: extra is BottleBalanceRequest ? extra : null,
+            );
+          },
         ),
         GoRoute(
           path: '/bottle-balance/full-water',
           name: 'bottle-balance-full-water',
-          builder: (context, state) => BottleBalanceResultPage(
-            request: state.extra as BottleBalanceRequest?,
-          ),
+          builder: (context, state) {
+            final extra = state.extra;
+            return BottleBalanceResultPage(
+              request: extra is BottleBalanceRequest ? extra : null,
+            );
+          },
         ),
         GoRoute(
           path: '/settings',

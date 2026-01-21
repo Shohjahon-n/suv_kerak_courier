@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/security/security_cubit.dart';
 import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/utils/error_handler.dart';

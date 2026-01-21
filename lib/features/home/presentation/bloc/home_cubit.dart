@@ -21,7 +21,8 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: HomeStatus.failure,
-          message: 'Courier ID not found.',
+          messageKey: HomeMessageKey.courierIdMissing,
+          messageDetail: null,
         ),
       );
       return;
@@ -40,7 +41,8 @@ class HomeCubit extends Cubit<HomeState> {
         emit(
           state.copyWith(
             status: HomeStatus.failure,
-            message: 'Unexpected response.',
+            messageKey: HomeMessageKey.unexpectedResponse,
+            messageDetail: null,
           ),
         );
         return;
@@ -61,10 +63,12 @@ class HomeCubit extends Cubit<HomeState> {
         error,
         stackTrace,
       );
+      final detail = _extractErrorDetail(error);
       emit(
         state.copyWith(
           status: HomeStatus.failure,
-          message: _extractErrorDetail(error) ?? 'Request failed.',
+          messageKey: HomeMessageKey.requestFailed,
+          messageDetail: detail,
         ),
       );
     } catch (error, stackTrace) {
@@ -76,7 +80,8 @@ class HomeCubit extends Cubit<HomeState> {
       emit(
         state.copyWith(
           status: HomeStatus.failure,
-          message: 'Request failed.',
+          messageKey: HomeMessageKey.requestFailed,
+          messageDetail: null,
         ),
       );
     }

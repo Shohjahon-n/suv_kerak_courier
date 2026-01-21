@@ -29,6 +29,8 @@ Future<void> main() async {
         ),
       );
     },
-    (error, stackTrace) {},
+    (error, stackTrace) {
+      talker.handle(error, stackTrace);
+    },
   );
 }

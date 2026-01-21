@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 
 enum HomeStatus { initial, loading, success, failure }
 
+enum HomeMessageKey { courierIdMissing, unexpectedResponse, requestFailed }
+
 class HomeDashboard extends Equatable {
   const HomeDashboard({
     required this.courierId,
@@ -74,26 +76,31 @@ class HomeState extends Equatable {
   const HomeState({
     this.status = HomeStatus.initial,
     this.dashboard,
-    this.message,
+    this.messageKey,
+    this.messageDetail,
   });
 
   final HomeStatus status;
   final HomeDashboard? dashboard;
-  final String? message;
+  final HomeMessageKey? messageKey;
+  final String? messageDetail;
 
   HomeState copyWith({
     HomeStatus? status,
     HomeDashboard? dashboard,
-    String? message,
+    HomeMessageKey? messageKey,
+    String? messageDetail,
     bool clearMessage = false,
   }) {
     return HomeState(
       status: status ?? this.status,
       dashboard: dashboard ?? this.dashboard,
-      message: clearMessage ? null : (message ?? this.message),
+      messageKey: clearMessage ? null : (messageKey ?? this.messageKey),
+      messageDetail:
+          clearMessage ? null : (messageDetail ?? this.messageDetail),
     );
   }
 
   @override
-  List<Object?> get props => [status, dashboard, message];
+  List<Object?> get props => [status, dashboard, messageKey, messageDetail];
 }

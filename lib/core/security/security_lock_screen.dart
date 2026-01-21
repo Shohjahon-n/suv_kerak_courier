@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 
-import '../localization/app_localizations.dart';
 import 'pin_pad.dart';
 import 'security_cubit.dart';
 

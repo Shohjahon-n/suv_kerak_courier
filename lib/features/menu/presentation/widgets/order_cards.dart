@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/widgets/key_value_row.dart';
 import '../../../../core/widgets/responsive_spacing.dart';
 import '../pages/delivered_today_models.dart';

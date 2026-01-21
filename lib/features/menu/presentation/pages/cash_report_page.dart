@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/utils/error_handler.dart';
 import '../../../../core/widgets/responsive_spacing.dart';
 import '../../../../shared/widgets/date_range_card.dart';

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 
 import '../../../../core/di/service_locator.dart';
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/theme/theme_cubit.dart';
 import '../../../../core/widgets/adaptive_grid.dart';
 import '../../../../core/widgets/responsive_spacing.dart';
@@ -38,9 +38,12 @@ class HomeView extends StatelessWidget {
 
     return BlocConsumer<HomeCubit, HomeState>(
       listenWhen: (previous, current) =>
-          current.message != null && current.message != previous.message,
+          (current.messageKey != null || current.messageDetail != null) &&
+          (current.messageKey != previous.messageKey ||
+              current.messageDetail != previous.messageDetail),
       listener: (context, state) {
-        final message = state.message;
+        final message =
+            state.messageDetail ?? _messageForKey(state.messageKey, l10n);
         if (message == null) {
           return;
         }
@@ -287,6 +290,19 @@ class HomeView extends StatelessWidget {
       return info.version;
     }
     return '${info.version}+$build';
+  }
+
+  String? _messageForKey(HomeMessageKey? key, AppLocalizations l10n) {
+    switch (key) {
+      case HomeMessageKey.courierIdMissing:
+        return l10n.homeCourierIdMissing;
+      case HomeMessageKey.unexpectedResponse:
+        return l10n.homeUnexpectedResponse;
+      case HomeMessageKey.requestFailed:
+        return l10n.homeRequestFailed;
+      case null:
+        return null;
+    }
   }
 }
 

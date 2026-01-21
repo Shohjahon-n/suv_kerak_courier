@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/localization/locale_cubit.dart';
 import '../../../../core/security/pin_pad.dart';
 import '../../../../core/security/security_cubit.dart';

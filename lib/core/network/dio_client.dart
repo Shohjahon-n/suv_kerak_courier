@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
@@ -8,6 +9,7 @@ class DioClient {
   DioClient._();
 
   static Dio create({required Talker talker}) {
+    final logNetwork = kDebugMode;
     final dio = Dio(
       BaseOptions(
         baseUrl: AppConstants.apiBaseUrl,
@@ -19,12 +21,12 @@ class DioClient {
     dio.interceptors.add(
       TalkerDioLogger(
         talker: talker,
-        settings: const TalkerDioLoggerSettings(
-          printResponseData: true,
-          printRequestData: true,
-          printRequestHeaders: true,
-          printResponseMessage: true,
-          printResponseTime: true,
+        settings: TalkerDioLoggerSettings(
+          printResponseData: logNetwork,
+          printRequestData: logNetwork,
+          printRequestHeaders: logNetwork,
+          printResponseMessage: logNetwork,
+          printResponseTime: logNetwork,
         ),
       ),
     );

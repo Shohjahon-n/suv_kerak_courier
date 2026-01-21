@@ -10,9 +10,9 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:talker_flutter/talker_flutter.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 
 import '../../../../core/di/service_locator.dart';
-import '../../../../core/localization/app_localizations.dart';
 import '../../../../core/storage/app_preferences.dart';
 
 enum NavMode { autoRotate, userRotate }
@@ -47,7 +47,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   bool _onWay = false;
   bool _loading = false;
 
-  List<dynamic> _route = [];
+  List<LatLng> _route = [];
   Map<String, dynamic> _onWayData = {};
   String _phone = "";
 
@@ -108,6 +108,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         ),
       );
 
+      if (!mounted) return;
       setState(() {
         _myLocation = LatLng(location.latitude, location.longitude);
       });
@@ -122,6 +123,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       );
 
       if (res.data["found"] == true && res.data["has_coords"] == true) {
+        if (!mounted) return;
         setState(() {
           _orderDetail = {
             "order_num": res.data["order"]["order_num"],
@@ -144,6 +146,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
         await _getRoute();
 
+        if (!mounted) return;
         setState(() {
           _onWay = true;
         });
@@ -167,28 +170,42 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final dio = _dio;
       final preferences = _preferences;
       final courierId = preferences.readCourierId();
-      final locale = preferences.readLocale()?.languageCode ?? 'en';
+      final locale = preferences.readLocale() ?? const Locale('en');
 
-      if (courierId == null) return;
+      if (courierId == null) {
+        if (mounted) {
+          setState(() {
+            _loading = false;
+          });
+          _showErrorSnackBar(
+            AppLocalizations.of(context).ordersSessionMissing,
+          );
+        }
+        return;
+      }
 
+      final lang = _resolveApiLang(locale);
       final res = await dio.post(
         "/bots/arrived-hint/",
         data: {
           "force": 0,
           "kuryer_id": courierId,
           ..._orderDetail,
-          "lang": locale == "fr" ? "uz_lat" : locale,
+          "lang": lang,
         },
       );
 
+      if (!mounted) return;
       setState(() {
         _phone = res.data["phone"] ?? "";
         _loading = false;
       });
     } catch (e, stackTrace) {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
       _talker.error('Failed to send arrival hint', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
@@ -199,12 +216,14 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   }
 
   Future<void> _initLocation() async {
-    await _requestLocationPermission();
+    final granted = await _requestLocationPermission();
+    if (!granted) return;
     _startLocationTracking();
   }
 
   void _startCompassTracking() {
     _compassStream = FlutterCompass.events?.listen((event) {
+      if (!mounted) return;
       if (event.heading == null) return;
 
       final h = event.heading!;
@@ -222,14 +241,14 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     });
   }
 
-  Future<void> _requestLocationPermission() async {
+  Future<bool> _requestLocationPermission() async {
     if (!await Geolocator.isLocationServiceEnabled()) {
       if (mounted) {
         _showErrorSnackBar(
           AppLocalizations.of(context).ordersLocationServiceDisabled,
         );
       }
-      return;
+      return false;
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
@@ -244,7 +263,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           AppLocalizations.of(context).ordersLocationPermissionDenied,
         );
       }
-      return;
+      return false;
     }
 
     if (permission == LocationPermission.deniedForever) {
@@ -255,7 +274,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
           ).ordersLocationPermissionPermanentlyDenied,
         );
       }
+      return false;
     }
+
+    return true;
   }
 
   Future<void> _setStatus() async {
@@ -268,7 +290,17 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
-      if (businessId == null) return;
+      if (businessId == null) {
+        if (mounted) {
+          setState(() {
+            _loading = false;
+          });
+          _showErrorSnackBar(
+            AppLocalizations.of(context).ordersSessionMissing,
+          );
+        }
+        return;
+      }
 
       await dio.post(
         "/orders/mark-on-way/",
@@ -279,6 +311,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         },
       );
 
+      if (!mounted) return;
       setState(() {
         _onWay = true;
         _loading = false;
@@ -286,9 +319,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         _phone = "";
       });
     } catch (e, stackTrace) {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
       _talker.error('Failed to set on-way status', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
@@ -306,6 +341,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
             distanceFilter: 5,
           ),
         ).listen((Position position) {
+          if (!mounted) return;
           final latLng = LatLng(position.latitude, position.longitude);
 
           setState(() {
@@ -339,13 +375,21 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
-      if (businessId == null) return;
+      if (businessId == null) {
+        if (mounted) {
+          _showErrorSnackBar(
+            AppLocalizations.of(context).ordersSessionMissing,
+          );
+        }
+        return;
+      }
 
       final res = await dio.post(
         "/boss/dispatcher-map-data/",
         data: {"business_id": businessId},
       );
 
+      if (!mounted) return;
       setState(() {
         _orders = res.data["orders"] ?? [];
       });
@@ -363,6 +407,32 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     }
   }
 
+  double? _toDouble(dynamic value) {
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
+
+  LatLng? _toLatLng(dynamic lat, dynamic lng) {
+    final latValue = _toDouble(lat);
+    final lngValue = _toDouble(lng);
+    if (latValue == null || lngValue == null) return null;
+    return LatLng(latValue, lngValue);
+  }
+
+  List<LatLng> _parseRoutePoints(dynamic coords) {
+    if (coords is! List) return const [];
+    final points = <LatLng>[];
+    for (final entry in coords) {
+      if (entry is! List || entry.length < 2) continue;
+      final lng = _toDouble(entry[0]);
+      final lat = _toDouble(entry[1]);
+      if (lat == null || lng == null) continue;
+      points.add(LatLng(lat, lng));
+    }
+    return points;
+  }
+
   void _adjustCameraToFitAllPoints() {
     if (!_isFirstLoad) return;
     if (!_mapReady) return;
@@ -374,8 +444,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     }
 
     for (var order in _orders) {
-      if (order["lat"] != null && order["lng"] != null) {
-        allPoints.add(LatLng(order["lat"], order["lng"]));
+      final point = _toLatLng(order["lat"], order["lng"]);
+      if (point != null) {
+        allPoints.add(point);
       }
     }
 
@@ -442,8 +513,9 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     }
 
     for (var order in _orders) {
-      if (order["lat"] != null && order["lng"] != null) {
-        allPoints.add(LatLng(order["lat"], order["lng"]));
+      final point = _toLatLng(order["lat"], order["lng"]);
+      if (point != null) {
+        allPoints.add(point);
       }
     }
 
@@ -512,9 +584,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final coords =
           res.data["routes"]?[0]?["geometry"]?["geometry"]?["coordinates"];
       final dist = _extractDistanceMeters(res.data);
+      final points = _parseRoutePoints(coords);
 
+      if (!mounted) return;
       setState(() {
-        _route = (coords is List) ? coords : [];
+        _route = points;
         _distanceMeters = dist;
         _ready = true;
         _loading = false;
@@ -522,9 +596,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
       await _maybeShowAutoArrive();
     } catch (e, stackTrace) {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
       _talker.error('Failed to load route', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(AppLocalizations.of(context).ordersRouteFailed);
@@ -543,7 +619,17 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final courierId = preferences.readCourierId();
       final businessId = preferences.readBusinessId();
 
-      if (courierId == null || businessId == null) return;
+      if (courierId == null || businessId == null) {
+        if (mounted) {
+          setState(() {
+            _loading = false;
+          });
+          _showErrorSnackBar(
+            AppLocalizations.of(context).ordersSessionMissing,
+          );
+        }
+        return;
+      }
 
       final res = await dio.post(
         "/orders/order-price-brief/",
@@ -554,16 +640,20 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         },
       );
 
+      if (!mounted) return;
       setState(() {
         _orderDetailPay = res.data;
         _loading = false;
       });
 
+      if (!mounted) return;
       await _showInfoTableModal(res.data);
     } catch (e, stackTrace) {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
       _talker.error('Failed to load order details', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
@@ -583,7 +673,17 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       final preferences = _preferences;
       final businessId = preferences.readBusinessId();
 
-      if (businessId == null) return;
+      if (businessId == null) {
+        if (mounted) {
+          setState(() {
+            _loading = false;
+          });
+          _showErrorSnackBar(
+            AppLocalizations.of(context).ordersSessionMissing,
+          );
+        }
+        return;
+      }
 
       await dio.post(
         "/orders/complete/",
@@ -598,6 +698,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         },
       );
 
+      if (!mounted) return;
       setState(() {
         _loading = false;
         _orderDetail = {};
@@ -615,9 +716,11 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
       _getOrdersLocation();
     } catch (e, stackTrace) {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
       _talker.error('Failed to complete order', e, stackTrace);
       if (mounted) {
         _showErrorSnackBar(
@@ -669,6 +772,13 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
   double get _headingFixed {
     final h = -_heading;
     return h + _iconOffset;
+  }
+
+  String _resolveApiLang(Locale locale) {
+    if (locale.languageCode == 'uz') {
+      return locale.scriptCode == 'Cyrl' ? 'uz_cyr' : 'uz_lat';
+    }
+    return locale.languageCode;
   }
 
   Future<void> _showArrivedModal() async {
@@ -902,6 +1012,60 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
     final bottleAngle = -(_mapRotDeg * pi / 180);
     final truckAngleUserMode = headingRad - _truckUserModeOffset;
     final l10n = AppLocalizations.of(context);
+    final orderMarkers = <Marker>[];
+    for (final order in _orders) {
+      final point = _toLatLng(order["lat"], order["lng"]);
+      if (point == null) continue;
+      orderMarkers.add(
+        Marker(
+          point: point,
+          width: 200,
+          height: 100,
+          child: InkWell(
+            onTap: () {
+              if (!_ready) {
+                setState(() {
+                  _orderDetail = order;
+                  _showDetail = true;
+                  _onWayData = {};
+                  _phone = "";
+                  _arrivalDialogShown = false;
+                });
+              }
+            },
+            child: Transform.rotate(
+              angle: (_navMode != NavMode.userRotate)
+                  ? headingRad - _bottleAngleOffset
+                  : bottleAngle,
+              child: Column(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 20,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                    ),
+                    child: Text(
+                      order["order_num"]?.toString() ?? "",
+                      style: const TextStyle(color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Image.asset(
+                    width: 20,
+                    "assets/images/flags/bottle.png",
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.location_on),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+    final onWayPoint = _toLatLng(_onWayData["lat"], _onWayData["lng"]);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.ordersMapTitle)),
@@ -954,69 +1118,13 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                     ),
                   ],
                 ),
-              if (_orders.isNotEmpty)
-                MarkerLayer(
-                  markers: _orders
-                      .map(
-                        (e) => Marker(
-                          point: LatLng(e["lat"], e["lng"]),
-                          width: 200,
-                          height: 100,
-                          child: InkWell(
-                            onTap: () {
-                              if (!_ready) {
-                                setState(() {
-                                  _orderDetail = e;
-                                  _showDetail = true;
-                                  _onWayData = {};
-                                  _phone = "";
-                                  _arrivalDialogShown = false;
-                                });
-                              }
-                            },
-                            child: Transform.rotate(
-                              angle: (_navMode != NavMode.userRotate)
-                                  ? headingRad - _bottleAngleOffset
-                                  : bottleAngle,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 100,
-                                    height: 20,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(12),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      e["order_num"]?.toString() ?? "",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    width: 20,
-                                    "assets/images/flags/bottle.png",
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(Icons.location_on),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              if (_onWayData.isNotEmpty)
+              if (orderMarkers.isNotEmpty)
+                MarkerLayer(markers: orderMarkers),
+              if (onWayPoint != null)
                 MarkerLayer(
                   markers: [
                     Marker(
-                      point: LatLng(_onWayData["lat"], _onWayData["lng"]),
+                      point: onWayPoint,
                       width: 200,
                       height: 100,
                       child: Transform.rotate(
@@ -1057,7 +1165,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                   polylines: [
                     Polyline(
                       strokeWidth: 4,
-                      points: _route.map((e) => LatLng(e[1], e[0])).toList(),
+                      points: _route,
                       color: Colors.blue,
                     ),
                   ],
