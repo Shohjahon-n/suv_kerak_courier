@@ -14,27 +14,37 @@ final getIt = GetIt.instance;
 
 /// Initializes dependency injection
 /// Call this before runApp()
-Future<void> setupServiceLocator() async {
+Future<void> setupServiceLocator({Talker? talker}) async {
   // Register core services as singletons
-  await _registerCoreServices();
+  await _registerCoreServices(talker: talker);
 
   // Register Cubits as factories
   _registerCubits();
 }
 
 /// Register core singleton services
-Future<void> _registerCoreServices() async {
+Future<void> _registerCoreServices({Talker? talker}) async {
   // Logging
-  getIt.registerLazySingleton<Talker>(() => AppLogger.create());
+  if (!getIt.isRegistered<Talker>()) {
+    if (talker != null) {
+      getIt.registerSingleton<Talker>(talker);
+    } else {
+      getIt.registerLazySingleton<Talker>(() => AppLogger.create());
+    }
+  }
 
   // Network
-  getIt.registerLazySingleton<Dio>(
-    () => DioClient.create(talker: getIt<Talker>()),
-  );
+  if (!getIt.isRegistered<Dio>()) {
+    getIt.registerLazySingleton<Dio>(
+      () => DioClient.create(talker: getIt<Talker>()),
+    );
+  }
 
   // Storage - must be async
-  final preferences = await AppPreferences.create();
-  getIt.registerSingleton<AppPreferences>(preferences);
+  if (!getIt.isRegistered<AppPreferences>()) {
+    final preferences = await AppPreferences.create();
+    getIt.registerSingleton<AppPreferences>(preferences);
+  }
 }
 
 /// Register Cubits as factories (new instance each time)
