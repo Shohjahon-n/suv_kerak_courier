@@ -60,7 +60,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginTitle => 'Kuryer kirish';
 
   @override
-  String get loginSubtitle => 'Yetkazib berishni boshlash uchun tizimga kiring.';
+  String get loginSubtitle =>
+      'Yetkazib berishni boshlash uchun tizimga kiring.';
 
   @override
   String get loginPlaceholder => 'Kirish sahifasi tayyorlanmoqda.';
@@ -114,7 +115,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get forgotPasswordOtpTitle => 'Kodni kiriting';
 
   @override
-  String get forgotPasswordOtpSubtitle => 'Botdan kelgan 4 xonali kodni kiriting.';
+  String get forgotPasswordOtpSubtitle =>
+      'Botdan kelgan 4 xonali kodni kiriting.';
 
   @override
   String get forgotPasswordOtpLabel => 'OTP kodi';
@@ -153,10 +155,70 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginSuccess => 'Muvaffaqiyatli kirdingiz.';
 
   @override
+  String get profileCompletionTitle => 'Profilingizni to\'ldiring';
+
+  @override
+  String get profileCompletionSubtitle =>
+      'Davom etish uchun quyidagi ma\'lumotlarni kiriting';
+
+  @override
+  String get profileNameLabel => 'To\'liq ism';
+
+  @override
+  String get profileNameHint => 'To\'liq ismingizni kiriting';
+
+  @override
+  String get profileNameValidation => 'Ismingizni kiriting';
+
+  @override
+  String get profilePhoneLabel => 'Telefon raqami';
+
+  @override
+  String get profilePhoneHint => '+998 90 123 45 67';
+
+  @override
+  String get profilePhoneValidation =>
+      'O\'zbek telefon raqamini to\'g\'ri kiriting';
+
+  @override
+  String get profileCarNumberLabel => 'Mashina davlat raqami';
+
+  @override
+  String get profileCarNumberHint => '01 A 123 AA';
+
+  @override
+  String get profileCarNumberValidation =>
+      'Mashina raqamini to\'g\'ri kiriting';
+
+  @override
+  String get profileCarModelLabel => 'Mashina rusumi';
+
+  @override
+  String get profileCarModelHint => 'masalan, Chevrolet Lacetti';
+
+  @override
+  String get profileCarModelValidation => 'Mashina rusumini kiriting';
+
+  @override
+  String get profileSubmitButton => 'Yuborish';
+
+  @override
+  String get profileCheckError => 'Profil holatini tekshirib bo\'lmadi';
+
+  @override
+  String get profileSubmitError => 'Profil ma\'lumotlarini yuborib bo\'lmadi';
+
+  @override
+  String get profileSubmitSuccess => 'Profil muvaffaqiyatli to\'ldirildi';
+
+  @override
   String get comingSoon => 'Tez orada.';
 
   @override
   String get refreshLabel => 'Yangilash';
+
+  @override
+  String get offlineRetryMessage => 'Wi-Fi yo\'q. Qayta urinib ko\'ring.';
 
   @override
   String get commonYes => 'Ha';
@@ -222,7 +284,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get ordersMapButton => 'Buyurtmalarni xaritada ko\'rsatish';
 
   @override
-  String get ordersPeriodicReportTitle => 'Bajarilgan buyurtmalarni davriy hisoboti';
+  String get ordersPeriodicReportTitle =>
+      'Bajarilgan buyurtmalarni davriy hisoboti';
 
   @override
   String get ordersPendingTitle => 'Bajarilmagan buyurtmalar';
@@ -270,10 +333,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get ordersLocationServiceDisabled => 'Joylashuv xizmati o\'chirilgan.';
 
   @override
-  String get ordersLocationPermissionDenied => 'Joylashuvingizni ko\'rsatish uchun ruxsat kerak.';
+  String get ordersLocationPermissionDenied =>
+      'Joylashuvingizni ko\'rsatish uchun ruxsat kerak.';
 
   @override
-  String get ordersLocationPermissionPermanentlyDenied => 'Joylashuv ruxsatini sozlamalardan yoqing.';
+  String get ordersLocationPermissionPermanentlyDenied =>
+      'Joylashuv ruxsatini sozlamalardan yoqing.';
 
   @override
   String get ordersLocationUnavailable => 'Joylashuvni aniqlab bo\'lmadi.';
@@ -327,22 +392,27 @@ class AppLocalizationsUz extends AppLocalizations {
   String get ordersMapTitle => 'Xaritada ko\'rish';
 
   @override
-  String get ordersMapOnWayOrderLoadFailed => 'Yo\'lda turgan buyurtmani yuklashda xatolik.';
+  String get ordersMapOnWayOrderLoadFailed =>
+      'Yo\'lda turgan buyurtmani yuklashda xatolik.';
 
   @override
-  String get ordersMapArrivedHintFailed => 'Yetib kelish xabarini yuborishda xatolik.';
+  String get ordersMapArrivedHintFailed =>
+      'Yetib kelish xabarini yuborishda xatolik.';
 
   @override
-  String get ordersMapSetOnWayFailed => 'Yo\'lga chiqqan holatini belgilashda xatolik.';
+  String get ordersMapSetOnWayFailed =>
+      'Yo\'lga chiqqan holatini belgilashda xatolik.';
 
   @override
-  String get ordersMapOrderDetailsLoadFailed => 'Buyurtma ma\'lumotlarini yuklashda xatolik.';
+  String get ordersMapOrderDetailsLoadFailed =>
+      'Buyurtma ma\'lumotlarini yuklashda xatolik.';
 
   @override
   String get ordersMapCompleteOrderFailed => 'Buyurtmani yakunlashda xatolik.';
 
   @override
-  String get ordersMapOpenCallFailed => 'Qo\'ng\'iroq ilovasini ochib bo\'lmadi.';
+  String get ordersMapOpenCallFailed =>
+      'Qo\'ng\'iroq ilovasini ochib bo\'lmadi.';
 
   @override
   String get ordersMapArrivedDialogTitle => 'Yetib keldingizmi?';
@@ -404,13 +474,15 @@ class AppLocalizationsUz extends AppLocalizations {
   String get ordersMapConfirmCompletedTitle => 'Bajarildi?';
 
   @override
-  String get ordersMapLocationServiceDisabled => 'Joylashuv xizmati o\'chirilgan';
+  String get ordersMapLocationServiceDisabled =>
+      'Joylashuv xizmati o\'chirilgan';
 
   @override
   String get ordersMapLocationPermissionDenied => 'Joylashuv ruxsati berilmadi';
 
   @override
-  String get ordersMapLocationPermissionDeniedForever => 'Joylashuv ruxsati butunlay bloklangan (Sozlamalardan yoqing)';
+  String get ordersMapLocationPermissionDeniedForever =>
+      'Joylashuv ruxsati butunlay bloklangan (Sozlamalardan yoqing)';
 
   @override
   String get ordersMapSessionError => 'Sessiya topilmadi';
@@ -431,7 +503,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get bottleBalanceEmptyPeriodicTitle => 'Taralar davriy hisobi';
 
   @override
-  String get bottleBalanceFullWaterPeriodicTitle => 'Suv to\'la baklar davriy hisobi';
+  String get bottleBalanceFullWaterPeriodicTitle =>
+      'Suv to\'la baklar davriy hisobi';
 
   @override
   String get bottleBalanceSummaryTitle => 'Yakun';
@@ -461,10 +534,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get bottleBalanceBalanceLabel => 'Qoldiq';
 
   @override
-  String get fullWaterOpeningBalanceLabel => 'Boshlang\'ich suv to\'la baklar qoldig\'i';
+  String get fullWaterOpeningBalanceLabel =>
+      'Boshlang\'ich suv to\'la baklar qoldig\'i';
 
   @override
-  String get fullWaterClosingBalanceLabel => 'Yakuniy suv to\'la baklar qoldig\'i';
+  String get fullWaterClosingBalanceLabel =>
+      'Yakuniy suv to\'la baklar qoldig\'i';
 
   @override
   String get fullWaterTotalIncomeLabel => 'Jami suv to\'la baklar kirimi';
@@ -482,7 +557,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get menuAbout => 'Tizim haqida';
 
   @override
-  String get aboutDescription => '\"Suv Kerak\" — \"Hisob\" biznes avtomatlashtirish platformasining professional kuryer ilovasi. Kompaniyamiz turli sohalardagi tadbirkorlar uchun biznes jarayonlarini raqamlashtirish va avtomatlashtirish bo\'yicha ixtisoslashgan.\n\nBu ilova suv yetkazib berish biznesiga buyurtmalarni boshqarish, yetkazib berishni kuzatish va moliyaviy hisobotlarni zamonaviy texnologiyalar yordamida soddalashtiradi.';
+  String get aboutDescription =>
+      '\"Suv Kerak\" — \"Hisob\" biznes avtomatlashtirish platformasining professional kuryer ilovasi. Kompaniyamiz turli sohalardagi tadbirkorlar uchun biznes jarayonlarini raqamlashtirish va avtomatlashtirish bo\'yicha ixtisoslashgan.\n\nBu ilova suv yetkazib berish biznesiga buyurtmalarni boshqarish, yetkazib berishni kuzatish va moliyaviy hisobotlarni zamonaviy texnologiyalar yordamida soddalashtiradi.';
 
   @override
   String get aboutShareButton => 'Ulashish';
@@ -526,10 +602,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get cashReportShow => 'Ko\'rsatish';
 
   @override
-  String get cashReportValidationRequired => 'Boshlanish va tugash sanasini tanlang.';
+  String get cashReportValidationRequired =>
+      'Boshlanish va tugash sanasini tanlang.';
 
   @override
-  String get cashReportValidationOrder => 'Boshlanish sanasi tugash sanasidan oldin bo\'lishi kerak.';
+  String get cashReportValidationOrder =>
+      'Boshlanish sanasi tugash sanasidan oldin bo\'lishi kerak.';
 
   @override
   String get cashReportRangeLabel => 'Davr';
@@ -599,6 +677,21 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get themeModeDark => 'Qorong\'i';
+
+  @override
+  String get profileDataTitle => 'Profil ma\'lumotlari';
+
+  @override
+  String get profileEditButton => 'Tahrirlash';
+
+  @override
+  String get profileSaveButton => 'O\'zgarishlarni saqlash';
+
+  @override
+  String get profileUpdateSuccess => 'Profil muvaffaqiyatli yangilandi';
+
+  @override
+  String get commonCancel => 'Bekor qilish';
 
   @override
   String get logoutButton => 'Profildan chiqish';
@@ -727,10 +820,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get pinChangeSuccess => 'PIN kod muvaffaqiyatli o\'zgartirildi.';
 
   @override
-  String get pinChangeError => 'PIN kodni o\'zgartirib bo\'lmadi. Joriy PIN kodni tekshiring.';
+  String get pinChangeError =>
+      'PIN kodni o\'zgartirib bo\'lmadi. Joriy PIN kodni tekshiring.';
 
   @override
-  String get pinChangeSameError => 'Yangi PIN kod joriy PIN koddan farqli bo\'lishi kerak.';
+  String get pinChangeSameError =>
+      'Yangi PIN kod joriy PIN koddan farqli bo\'lishi kerak.';
 
   @override
   String get courierServiceTitle => 'Kuryerlik xizmati bo\'yicha hisobot';
@@ -742,13 +837,23 @@ class AppLocalizationsUz extends AppLocalizations {
   String get courierServiceSelectButton => 'Davrni tanlash';
 
   @override
-  String get courierServiceSelectPrompt => 'Hisobotni ko\'rish uchun davrni tanlang.';
+  String get courierServiceSelectPrompt =>
+      'Hisobotni ko\'rish uchun davrni tanlang.';
 
   @override
   String get courierServiceStartBalance => 'Boshlang\'ich balans';
 
   @override
   String get courierServiceEndBalance => 'Yakuniy balans';
+
+  @override
+  String get courierServiceTotalChargedLabel => 'Hisoblandi';
+
+  @override
+  String get courierServiceTotalPaidLabel => 'To\'landi';
+
+  @override
+  String get courierServiceBalanceLabel => 'Balans';
 
   @override
   String get courierServiceOperationsTitle => 'Xizmat operatsiyalari';
@@ -768,7 +873,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
 /// The translations for Uzbek, using the Cyrillic script (`uz_Cyrl`).
 class AppLocalizationsUzCyrl extends AppLocalizationsUz {
-  AppLocalizationsUzCyrl(): super('uz_Cyrl');
+  AppLocalizationsUzCyrl() : super('uz_Cyrl');
 
   @override
   String get appTitle => 'Suv Kerak Courier';
@@ -876,7 +981,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get forgotPasswordOtpTitle => 'Кодни киритинг';
 
   @override
-  String get forgotPasswordOtpSubtitle => 'Ботдан келган 4 хонали кодни киритинг.';
+  String get forgotPasswordOtpSubtitle =>
+      'Ботдан келган 4 хонали кодни киритинг.';
 
   @override
   String get forgotPasswordOtpLabel => 'OTP коди';
@@ -915,10 +1021,68 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get loginSuccess => 'Муваффақиятли кирдингиз.';
 
   @override
+  String get profileCompletionTitle => 'Профилингизни тўлдиринг';
+
+  @override
+  String get profileCompletionSubtitle =>
+      'Давом этиш учун қуйидаги маълумотларни киритинг';
+
+  @override
+  String get profileNameLabel => 'Тўлиқ исм';
+
+  @override
+  String get profileNameHint => 'Тўлиқ исмингизни киритинг';
+
+  @override
+  String get profileNameValidation => 'Исмингизни киритинг';
+
+  @override
+  String get profilePhoneLabel => 'Телефон рақами';
+
+  @override
+  String get profilePhoneHint => '+998 90 123 45 67';
+
+  @override
+  String get profilePhoneValidation => 'Ўзбек телефон рақамини тўғри киритинг';
+
+  @override
+  String get profileCarNumberLabel => 'Машина давлат рақами';
+
+  @override
+  String get profileCarNumberHint => '01 A 123 AA';
+
+  @override
+  String get profileCarNumberValidation => 'Машина рақамини тўғри киритинг';
+
+  @override
+  String get profileCarModelLabel => 'Машина русуми';
+
+  @override
+  String get profileCarModelHint => 'масалан, Chevrolet Lacetti';
+
+  @override
+  String get profileCarModelValidation => 'Машина русумини киритинг';
+
+  @override
+  String get profileSubmitButton => 'Юбориш';
+
+  @override
+  String get profileCheckError => 'Профил ҳолатини текшириб бўлмади';
+
+  @override
+  String get profileSubmitError => 'Профил маълумотларини юбориб бўлмади';
+
+  @override
+  String get profileSubmitSuccess => 'Профил муваффақиятли тўлдирилди';
+
+  @override
   String get comingSoon => 'Тез орада.';
 
   @override
   String get refreshLabel => 'Янгилаш';
+
+  @override
+  String get offlineRetryMessage => 'Wi-Fi йўқ. Қайта уриниб кўринг.';
 
   @override
   String get commonYes => 'Ҳа';
@@ -984,7 +1148,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get ordersMapButton => 'Буюртмаларни харитада кўрсатиш';
 
   @override
-  String get ordersPeriodicReportTitle => 'Бажарилган буюртмаларни даврий ҳисоботи';
+  String get ordersPeriodicReportTitle =>
+      'Бажарилган буюртмаларни даврий ҳисоботи';
 
   @override
   String get ordersPendingTitle => 'Бажарилмаган буюртмалар';
@@ -1032,10 +1197,12 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get ordersLocationServiceDisabled => 'Жойлашув хизмати ўчирилган.';
 
   @override
-  String get ordersLocationPermissionDenied => 'Жойлашувингизни кўрсатиш учун рухсат керак.';
+  String get ordersLocationPermissionDenied =>
+      'Жойлашувингизни кўрсатиш учун рухсат керак.';
 
   @override
-  String get ordersLocationPermissionPermanentlyDenied => 'Жойлашув рухсатини созламалардан ёқинг.';
+  String get ordersLocationPermissionPermanentlyDenied =>
+      'Жойлашув рухсатини созламалардан ёқинг.';
 
   @override
   String get ordersLocationUnavailable => 'Жойлашувни аниқлаб бўлмади.';
@@ -1089,16 +1256,20 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get ordersMapTitle => 'Харитада кўриш';
 
   @override
-  String get ordersMapOnWayOrderLoadFailed => 'Йўлда турган буюртмани юклашда хатолик.';
+  String get ordersMapOnWayOrderLoadFailed =>
+      'Йўлда турган буюртмани юклашда хатолик.';
 
   @override
-  String get ordersMapArrivedHintFailed => 'Етиб келиш хабарини юборишда хатолик.';
+  String get ordersMapArrivedHintFailed =>
+      'Етиб келиш хабарини юборишда хатолик.';
 
   @override
-  String get ordersMapSetOnWayFailed => 'Йўлга чиққан ҳолатини белгилашда хатолик.';
+  String get ordersMapSetOnWayFailed =>
+      'Йўлга чиққан ҳолатини белгилашда хатолик.';
 
   @override
-  String get ordersMapOrderDetailsLoadFailed => 'Буюртма маълумотларини юклашда хатолик.';
+  String get ordersMapOrderDetailsLoadFailed =>
+      'Буюртма маълумотларини юклашда хатолик.';
 
   @override
   String get ordersMapCompleteOrderFailed => 'Буюртмани якунлашда хатолик.';
@@ -1172,7 +1343,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get ordersMapLocationPermissionDenied => 'Жойлашув рухсати берилмади';
 
   @override
-  String get ordersMapLocationPermissionDeniedForever => 'Жойлашув рухсати бутунлай блокланган (Созламалардан ёқинг)';
+  String get ordersMapLocationPermissionDeniedForever =>
+      'Жойлашув рухсати бутунлай блокланган (Созламалардан ёқинг)';
 
   @override
   String get ordersMapSessionError => 'Сессия топилмади';
@@ -1193,7 +1365,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get bottleBalanceEmptyPeriodicTitle => 'Таралар даврий ҳисоби';
 
   @override
-  String get bottleBalanceFullWaterPeriodicTitle => 'Сув тўла баклар даврий ҳисоби';
+  String get bottleBalanceFullWaterPeriodicTitle =>
+      'Сув тўла баклар даврий ҳисоби';
 
   @override
   String get bottleBalanceSummaryTitle => 'Якун';
@@ -1223,7 +1396,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get bottleBalanceBalanceLabel => 'Қолдиқ';
 
   @override
-  String get fullWaterOpeningBalanceLabel => 'Бошланғич сув тўла баклар қолдиғи';
+  String get fullWaterOpeningBalanceLabel =>
+      'Бошланғич сув тўла баклар қолдиғи';
 
   @override
   String get fullWaterClosingBalanceLabel => 'Якуний сув тўла баклар қолдиғи';
@@ -1244,7 +1418,8 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get menuAbout => 'Тизим ҳақида';
 
   @override
-  String get aboutDescription => '\"Suv Kerak\" — \"Hisob\" бизнес автоматлаштириш платформасининг профессионал курер иловаси. Компаниямиз турли соҳалардаги тадбиркорлар учун бизнес жараёнларини рақамлаштириш ва автоматлаштириш бўйича ихтисослашган.\n\nБу илова сув етказиб бериш бизнесига буюртмаларни бошқариш, етказиб беришни кузатиш ва молиявий ҳисоботларни замонавий технологиялар ёрдамида соддалаштиради.';
+  String get aboutDescription =>
+      '\"Suv Kerak\" — \"Hisob\" бизнес автоматлаштириш платформасининг профессионал курер иловаси. Компаниямиз турли соҳалардаги тадбиркорлар учун бизнес жараёнларини рақамлаштириш ва автоматлаштириш бўйича ихтисослашган.\n\nБу илова сув етказиб бериш бизнесига буюртмаларни бошқариш, етказиб беришни кузатиш ва молиявий ҳисоботларни замонавий технологиялар ёрдамида соддалаштиради.';
 
   @override
   String get aboutShareButton => 'Улашиш';
@@ -1288,10 +1463,12 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get cashReportShow => 'Кўрсатиш';
 
   @override
-  String get cashReportValidationRequired => 'Бошланиш ва тугаш санасини танланг.';
+  String get cashReportValidationRequired =>
+      'Бошланиш ва тугаш санасини танланг.';
 
   @override
-  String get cashReportValidationOrder => 'Бошланиш санаси тугаш санасидан олдин бўлиши керак.';
+  String get cashReportValidationOrder =>
+      'Бошланиш санаси тугаш санасидан олдин бўлиши керак.';
 
   @override
   String get cashReportRangeLabel => 'Давр';
@@ -1361,6 +1538,21 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
 
   @override
   String get themeModeDark => 'Қоронғи';
+
+  @override
+  String get profileDataTitle => 'Профил маълумотлари';
+
+  @override
+  String get profileEditButton => 'Таҳрирлаш';
+
+  @override
+  String get profileSaveButton => 'Ўзгаришларни сақлаш';
+
+  @override
+  String get profileUpdateSuccess => 'Профил муваффақиятли янгиланди';
+
+  @override
+  String get commonCancel => 'Бекор қилиш';
 
   @override
   String get logoutButton => 'Профилдан чиқиш';
@@ -1489,10 +1681,12 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get pinChangeSuccess => 'PIN код муваффақиятли ўзгартирилди.';
 
   @override
-  String get pinChangeError => 'PIN кодни ўзгартириб бўлмади. Жорий PIN кодни текширинг.';
+  String get pinChangeError =>
+      'PIN кодни ўзгартириб бўлмади. Жорий PIN кодни текширинг.';
 
   @override
-  String get pinChangeSameError => 'Янги PIN код жорий PIN коддан фарқли бўлиши керак.';
+  String get pinChangeSameError =>
+      'Янги PIN код жорий PIN коддан фарқли бўлиши керак.';
 
   @override
   String get courierServiceTitle => 'Курерлик хизмати бўйича ҳисоб китоб';
@@ -1504,13 +1698,23 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get courierServiceSelectButton => 'Даврни танлаш';
 
   @override
-  String get courierServiceSelectPrompt => 'Ҳисоботни кўриш учун даврни танланг.';
+  String get courierServiceSelectPrompt =>
+      'Ҳисоботни кўриш учун даврни танланг.';
 
   @override
   String get courierServiceStartBalance => 'Бошланғич баланс';
 
   @override
   String get courierServiceEndBalance => 'Якуний баланс';
+
+  @override
+  String get courierServiceTotalChargedLabel => 'Ҳисобланди';
+
+  @override
+  String get courierServiceTotalPaidLabel => 'Тўланди';
+
+  @override
+  String get courierServiceBalanceLabel => 'Баланс';
 
   @override
   String get courierServiceOperationsTitle => 'Хизмат операциялари';
@@ -1530,7 +1734,7 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
 
 /// The translations for Uzbek, using the Latin script (`uz_Latn`).
 class AppLocalizationsUzLatn extends AppLocalizationsUz {
-  AppLocalizationsUzLatn(): super('uz_Latn');
+  AppLocalizationsUzLatn() : super('uz_Latn');
 
   @override
   String get appTitle => 'Suv Kerak Courier';
@@ -1584,7 +1788,8 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get loginTitle => 'Kuryer kirish';
 
   @override
-  String get loginSubtitle => 'Yetkazib berishni boshlash uchun tizimga kiring.';
+  String get loginSubtitle =>
+      'Yetkazib berishni boshlash uchun tizimga kiring.';
 
   @override
   String get loginPlaceholder => 'Kirish sahifasi tayyorlanmoqda.';
@@ -1638,7 +1843,8 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get forgotPasswordOtpTitle => 'Kodni kiriting';
 
   @override
-  String get forgotPasswordOtpSubtitle => 'Botdan kelgan 4 xonali kodni kiriting.';
+  String get forgotPasswordOtpSubtitle =>
+      'Botdan kelgan 4 xonali kodni kiriting.';
 
   @override
   String get forgotPasswordOtpLabel => 'OTP kodi';
@@ -1677,10 +1883,70 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get loginSuccess => 'Muvaffaqiyatli kirdingiz.';
 
   @override
+  String get profileCompletionTitle => 'Profilingizni to\'ldiring';
+
+  @override
+  String get profileCompletionSubtitle =>
+      'Davom etish uchun quyidagi ma\'lumotlarni kiriting';
+
+  @override
+  String get profileNameLabel => 'To\'liq ism';
+
+  @override
+  String get profileNameHint => 'To\'liq ismingizni kiriting';
+
+  @override
+  String get profileNameValidation => 'Ismingizni kiriting';
+
+  @override
+  String get profilePhoneLabel => 'Telefon raqami';
+
+  @override
+  String get profilePhoneHint => '+998 90 123 45 67';
+
+  @override
+  String get profilePhoneValidation =>
+      'O\'zbek telefon raqamini to\'g\'ri kiriting';
+
+  @override
+  String get profileCarNumberLabel => 'Mashina davlat raqami';
+
+  @override
+  String get profileCarNumberHint => '01 A 123 AA';
+
+  @override
+  String get profileCarNumberValidation =>
+      'Mashina raqamini to\'g\'ri kiriting';
+
+  @override
+  String get profileCarModelLabel => 'Mashina rusumi';
+
+  @override
+  String get profileCarModelHint => 'masalan, Chevrolet Lacetti';
+
+  @override
+  String get profileCarModelValidation => 'Mashina rusumini kiriting';
+
+  @override
+  String get profileSubmitButton => 'Yuborish';
+
+  @override
+  String get profileCheckError => 'Profil holatini tekshirib bo\'lmadi';
+
+  @override
+  String get profileSubmitError => 'Profil ma\'lumotlarini yuborib bo\'lmadi';
+
+  @override
+  String get profileSubmitSuccess => 'Profil muvaffaqiyatli to\'ldirildi';
+
+  @override
   String get comingSoon => 'Tez orada.';
 
   @override
   String get refreshLabel => 'Yangilash';
+
+  @override
+  String get offlineRetryMessage => 'Wi-Fi yo\'q. Qayta urinib ko\'ring.';
 
   @override
   String get commonYes => 'Ha';
@@ -1746,7 +2012,8 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get ordersMapButton => 'Buyurtmalarni xaritada ko\'rsatish';
 
   @override
-  String get ordersPeriodicReportTitle => 'Bajarilgan buyurtmalarni davriy hisoboti';
+  String get ordersPeriodicReportTitle =>
+      'Bajarilgan buyurtmalarni davriy hisoboti';
 
   @override
   String get ordersPendingTitle => 'Bajarilmagan buyurtmalar';
@@ -1794,10 +2061,12 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get ordersLocationServiceDisabled => 'Joylashuv xizmati o\'chirilgan.';
 
   @override
-  String get ordersLocationPermissionDenied => 'Joylashuvingizni ko\'rsatish uchun ruxsat kerak.';
+  String get ordersLocationPermissionDenied =>
+      'Joylashuvingizni ko\'rsatish uchun ruxsat kerak.';
 
   @override
-  String get ordersLocationPermissionPermanentlyDenied => 'Joylashuv ruxsatini sozlamalardan yoqing.';
+  String get ordersLocationPermissionPermanentlyDenied =>
+      'Joylashuv ruxsatini sozlamalardan yoqing.';
 
   @override
   String get ordersLocationUnavailable => 'Joylashuvni aniqlab bo\'lmadi.';
@@ -1851,22 +2120,27 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get ordersMapTitle => 'Xaritada ko\'rish';
 
   @override
-  String get ordersMapOnWayOrderLoadFailed => 'Yo\'lda turgan buyurtmani yuklashda xatolik.';
+  String get ordersMapOnWayOrderLoadFailed =>
+      'Yo\'lda turgan buyurtmani yuklashda xatolik.';
 
   @override
-  String get ordersMapArrivedHintFailed => 'Yetib kelish xabarini yuborishda xatolik.';
+  String get ordersMapArrivedHintFailed =>
+      'Yetib kelish xabarini yuborishda xatolik.';
 
   @override
-  String get ordersMapSetOnWayFailed => 'Yo\'lga chiqqan holatini belgilashda xatolik.';
+  String get ordersMapSetOnWayFailed =>
+      'Yo\'lga chiqqan holatini belgilashda xatolik.';
 
   @override
-  String get ordersMapOrderDetailsLoadFailed => 'Buyurtma ma\'lumotlarini yuklashda xatolik.';
+  String get ordersMapOrderDetailsLoadFailed =>
+      'Buyurtma ma\'lumotlarini yuklashda xatolik.';
 
   @override
   String get ordersMapCompleteOrderFailed => 'Buyurtmani yakunlashda xatolik.';
 
   @override
-  String get ordersMapOpenCallFailed => 'Qo\'ng\'iroq ilovasini ochib bo\'lmadi.';
+  String get ordersMapOpenCallFailed =>
+      'Qo\'ng\'iroq ilovasini ochib bo\'lmadi.';
 
   @override
   String get ordersMapArrivedDialogTitle => 'Yetib keldingizmi?';
@@ -1928,13 +2202,15 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get ordersMapConfirmCompletedTitle => 'Bajarildi?';
 
   @override
-  String get ordersMapLocationServiceDisabled => 'Joylashuv xizmati o\'chirilgan';
+  String get ordersMapLocationServiceDisabled =>
+      'Joylashuv xizmati o\'chirilgan';
 
   @override
   String get ordersMapLocationPermissionDenied => 'Joylashuv ruxsati berilmadi';
 
   @override
-  String get ordersMapLocationPermissionDeniedForever => 'Joylashuv ruxsati butunlay bloklangan (Sozlamalardan yoqing)';
+  String get ordersMapLocationPermissionDeniedForever =>
+      'Joylashuv ruxsati butunlay bloklangan (Sozlamalardan yoqing)';
 
   @override
   String get ordersMapSessionError => 'Sessiya topilmadi';
@@ -1955,7 +2231,8 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get bottleBalanceEmptyPeriodicTitle => 'Taralar davriy hisobi';
 
   @override
-  String get bottleBalanceFullWaterPeriodicTitle => 'Suv to\'la baklar davriy hisobi';
+  String get bottleBalanceFullWaterPeriodicTitle =>
+      'Suv to\'la baklar davriy hisobi';
 
   @override
   String get bottleBalanceSummaryTitle => 'Yakun';
@@ -1985,10 +2262,12 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get bottleBalanceBalanceLabel => 'Qoldiq';
 
   @override
-  String get fullWaterOpeningBalanceLabel => 'Boshlang\'ich suv to\'la baklar qoldig\'i';
+  String get fullWaterOpeningBalanceLabel =>
+      'Boshlang\'ich suv to\'la baklar qoldig\'i';
 
   @override
-  String get fullWaterClosingBalanceLabel => 'Yakuniy suv to\'la baklar qoldig\'i';
+  String get fullWaterClosingBalanceLabel =>
+      'Yakuniy suv to\'la baklar qoldig\'i';
 
   @override
   String get fullWaterTotalIncomeLabel => 'Jami suv to\'la baklar kirimi';
@@ -2006,7 +2285,8 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get menuAbout => 'Tizim haqida';
 
   @override
-  String get aboutDescription => '\"Suv Kerak\" — \"Hisob\" biznes avtomatlashtirish platformasining professional kuryer ilovasi. Kompaniyamiz turli sohalardagi tadbirkorlar uchun biznes jarayonlarini raqamlashtirish va avtomatlashtirish bo\'yicha ixtisoslashgan.\n\nBu ilova suv yetkazib berish biznesiga buyurtmalarni boshqarish, yetkazib berishni kuzatish va moliyaviy hisobotlarni zamonaviy texnologiyalar yordamida soddalashtiradi.';
+  String get aboutDescription =>
+      '\"Suv Kerak\" — \"Hisob\" biznes avtomatlashtirish platformasining professional kuryer ilovasi. Kompaniyamiz turli sohalardagi tadbirkorlar uchun biznes jarayonlarini raqamlashtirish va avtomatlashtirish bo\'yicha ixtisoslashgan.\n\nBu ilova suv yetkazib berish biznesiga buyurtmalarni boshqarish, yetkazib berishni kuzatish va moliyaviy hisobotlarni zamonaviy texnologiyalar yordamida soddalashtiradi.';
 
   @override
   String get aboutShareButton => 'Ulashish';
@@ -2050,10 +2330,12 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get cashReportShow => 'Ko\'rsatish';
 
   @override
-  String get cashReportValidationRequired => 'Boshlanish va tugash sanasini tanlang.';
+  String get cashReportValidationRequired =>
+      'Boshlanish va tugash sanasini tanlang.';
 
   @override
-  String get cashReportValidationOrder => 'Boshlanish sanasi tugash sanasidan oldin bo\'lishi kerak.';
+  String get cashReportValidationOrder =>
+      'Boshlanish sanasi tugash sanasidan oldin bo\'lishi kerak.';
 
   @override
   String get cashReportRangeLabel => 'Davr';
@@ -2123,6 +2405,21 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
 
   @override
   String get themeModeDark => 'Qorong\'i';
+
+  @override
+  String get profileDataTitle => 'Profil ma\'lumotlari';
+
+  @override
+  String get profileEditButton => 'Tahrirlash';
+
+  @override
+  String get profileSaveButton => 'O\'zgarishlarni saqlash';
+
+  @override
+  String get profileUpdateSuccess => 'Profil muvaffaqiyatli yangilandi';
+
+  @override
+  String get commonCancel => 'Bekor qilish';
 
   @override
   String get logoutButton => 'Profildan chiqish';
@@ -2251,10 +2548,12 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get pinChangeSuccess => 'PIN kod muvaffaqiyatli o\'zgartirildi.';
 
   @override
-  String get pinChangeError => 'PIN kodni o\'zgartirib bo\'lmadi. Joriy PIN kodni tekshiring.';
+  String get pinChangeError =>
+      'PIN kodni o\'zgartirib bo\'lmadi. Joriy PIN kodni tekshiring.';
 
   @override
-  String get pinChangeSameError => 'Yangi PIN kod joriy PIN koddan farqli bo\'lishi kerak.';
+  String get pinChangeSameError =>
+      'Yangi PIN kod joriy PIN koddan farqli bo\'lishi kerak.';
 
   @override
   String get courierServiceTitle => 'Kuryerlik xizmati bo\'yicha hisobot';
@@ -2266,13 +2565,23 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get courierServiceSelectButton => 'Davrni tanlash';
 
   @override
-  String get courierServiceSelectPrompt => 'Hisobotni ko\'rish uchun davrni tanlang.';
+  String get courierServiceSelectPrompt =>
+      'Hisobotni ko\'rish uchun davrni tanlang.';
 
   @override
   String get courierServiceStartBalance => 'Boshlang\'ich balans';
 
   @override
   String get courierServiceEndBalance => 'Yakuniy balans';
+
+  @override
+  String get courierServiceTotalChargedLabel => 'Hisoblandi';
+
+  @override
+  String get courierServiceTotalPaidLabel => 'To\'landi';
+
+  @override
+  String get courierServiceBalanceLabel => 'Balans';
 
   @override
   String get courierServiceOperationsTitle => 'Xizmat operatsiyalari';

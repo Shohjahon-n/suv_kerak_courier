@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/storage/app_preferences.dart';
+import '../features/auth/presentation/pages/courier_profile_completion_page.dart';
 import '../features/auth/presentation/pages/forgot_password_otp_page.dart';
 import '../features/auth/presentation/pages/forgot_password_start_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
@@ -21,6 +22,7 @@ import '../features/menu/presentation/pages/orders_page.dart';
 import '../features/menu/presentation/pages/pending_orders_page.dart';
 import '../features/menu/presentation/pages/security_page.dart';
 import '../features/onboarding/presentation/pages/language_selection_page.dart';
+import '../features/settings/presentation/pages/profile_data_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 
 class AppRouter {
@@ -70,13 +72,19 @@ class AppRouter {
           path: '/forgot-password/otp/:courierId',
           name: 'forgot-password-otp',
           builder: (context, state) {
-            final courierId =
-                int.tryParse(state.pathParameters['courierId'] ?? '');
+            final courierId = int.tryParse(
+              state.pathParameters['courierId'] ?? '',
+            );
             if (courierId == null) {
               return const ForgotPasswordStartPage();
             }
             return ForgotPasswordOtpPage(courierId: courierId);
           },
+        ),
+        GoRoute(
+          path: '/profile-completion',
+          name: 'profile-completion',
+          builder: (context, state) => const CourierProfileCompletionPage(),
         ),
         GoRoute(
           path: '/home',
@@ -167,6 +175,11 @@ class AppRouter {
           path: '/settings',
           name: 'settings',
           builder: (context, state) => const SettingsPage(),
+        ),
+        GoRoute(
+          path: '/profile-data',
+          name: 'profile-data',
+          builder: (context, state) => const ProfileDataPage(),
         ),
         GoRoute(
           path: '/security',

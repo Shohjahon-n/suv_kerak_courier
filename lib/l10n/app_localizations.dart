@@ -63,7 +63,8 @@ import 'app_localizations_uz.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,7 +72,8 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -83,12 +85,13 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
@@ -96,7 +99,7 @@ abstract class AppLocalizations {
     Locale('ru'),
     Locale('uz'),
     Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Cyrl'),
-    Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Latn')
+    Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Latn'),
   ];
 
   /// No description provided for @appTitle.
@@ -387,6 +390,114 @@ abstract class AppLocalizations {
   /// **'Logged in successfully.'**
   String get loginSuccess;
 
+  /// No description provided for @profileCompletionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get profileCompletionTitle;
+
+  /// No description provided for @profileCompletionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide the following information to continue'**
+  String get profileCompletionSubtitle;
+
+  /// No description provided for @profileNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get profileNameLabel;
+
+  /// No description provided for @profileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get profileNameHint;
+
+  /// No description provided for @profileNameValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get profileNameValidation;
+
+  /// No description provided for @profilePhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get profilePhoneLabel;
+
+  /// No description provided for @profilePhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'+998 90 123 45 67'**
+  String get profilePhoneHint;
+
+  /// No description provided for @profilePhoneValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid Uzbek phone number'**
+  String get profilePhoneValidation;
+
+  /// No description provided for @profileCarNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Car plate number'**
+  String get profileCarNumberLabel;
+
+  /// No description provided for @profileCarNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'01 A 123 AA'**
+  String get profileCarNumberHint;
+
+  /// No description provided for @profileCarNumberValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid car plate number'**
+  String get profileCarNumberValidation;
+
+  /// No description provided for @profileCarModelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Car model'**
+  String get profileCarModelLabel;
+
+  /// No description provided for @profileCarModelHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Chevrolet Lacetti'**
+  String get profileCarModelHint;
+
+  /// No description provided for @profileCarModelValidation.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter car model'**
+  String get profileCarModelValidation;
+
+  /// No description provided for @profileSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get profileSubmitButton;
+
+  /// No description provided for @profileCheckError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to check profile status'**
+  String get profileCheckError;
+
+  /// No description provided for @profileSubmitError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit profile information'**
+  String get profileSubmitError;
+
+  /// No description provided for @profileSubmitSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile completed successfully'**
+  String get profileSubmitSuccess;
+
   /// No description provided for @comingSoon.
   ///
   /// In en, this message translates to:
@@ -398,6 +509,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refreshLabel;
+
+  /// No description provided for @offlineRetryMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi unavailable. Please try again.'**
+  String get offlineRetryMessage;
 
   /// No description provided for @commonYes.
   ///
@@ -1263,6 +1380,36 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get themeModeDark;
 
+  /// No description provided for @profileDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Data'**
+  String get profileDataTitle;
+
+  /// No description provided for @profileEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get profileEditButton;
+
+  /// No description provided for @profileSaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get profileSaveButton;
+
+  /// No description provided for @profileUpdateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully'**
+  String get profileUpdateSuccess;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get commonCancel;
+
   /// No description provided for @logoutButton.
   ///
   /// In en, this message translates to:
@@ -1563,6 +1710,24 @@ abstract class AppLocalizations {
   /// **'Closing balance'**
   String get courierServiceEndBalance;
 
+  /// No description provided for @courierServiceTotalChargedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Charged'**
+  String get courierServiceTotalChargedLabel;
+
+  /// No description provided for @courierServiceTotalPaidLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get courierServiceTotalPaidLabel;
+
+  /// No description provided for @courierServiceBalanceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get courierServiceBalanceLabel;
+
   /// No description provided for @courierServiceOperationsTitle.
   ///
   /// In en, this message translates to:
@@ -1594,7 +1759,8 @@ abstract class AppLocalizations {
   String get courierServiceCount;
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -1603,36 +1769,42 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'ru', 'uz'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      <String>['en', 'ru', 'uz'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
   // Lookup logic when language+script codes are specified.
   switch (locale.languageCode) {
-    case 'uz': {
-  switch (locale.scriptCode) {
-    case 'Cyrl': return AppLocalizationsUzCyrl();
-case 'Latn': return AppLocalizationsUzLatn();
-   }
-  break;
-   }
+    case 'uz':
+      {
+        switch (locale.scriptCode) {
+          case 'Cyrl':
+            return AppLocalizationsUzCyrl();
+          case 'Latn':
+            return AppLocalizationsUzLatn();
+        }
+        break;
+      }
   }
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
-    case 'ru': return AppLocalizationsRu();
-    case 'uz': return AppLocalizationsUz();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'ru':
+      return AppLocalizationsRu();
+    case 'uz':
+      return AppLocalizationsUz();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

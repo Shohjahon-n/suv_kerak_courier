@@ -14,6 +14,7 @@ import '../core/security/security_gate.dart';
 import '../core/storage/app_preferences.dart';
 import '../core/theme/app_theme.dart';
 import '../core/theme/theme_cubit.dart';
+import '../core/widgets/connectivity_banner.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -71,7 +72,9 @@ class _AppState extends State<App> {
                       talker: getIt<Talker>(),
                       child: child ?? const SizedBox.shrink(),
                     );
-                    return SecurityGate(child: content);
+                    return ConnectivityBanner(
+                      child: SecurityGate(child: content),
+                    );
                   },
                 );
               },

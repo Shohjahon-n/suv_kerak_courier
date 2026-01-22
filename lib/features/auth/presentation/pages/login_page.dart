@@ -65,10 +65,7 @@ class _LoginPageState extends State<LoginPage>
     try {
       final response = await dio.post(
         '/couriers/login/',
-        data: {
-          'kuryer_id': courierId,
-          'password': password,
-        },
+        data: {'kuryer_id': courierId, 'password': password},
       );
       final data = response.data;
       final ok = data is Map && data['ok'] == true;
@@ -91,8 +88,24 @@ class _LoginPageState extends State<LoginPage>
       if (!mounted) {
         return;
       }
+
+      // Check if courier has completed profile
+      final profileComplete = await _checkProfileStatus(
+        responseCourierId ?? courierId,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
       context.read<SecurityCubit>().activateSession();
-      context.go('/home');
+
+      // Navigate based on profile completion status
+      if (profileComplete) {
+        context.go('/home');
+      } else {
+        context.go('/profile-completion');
+      }
     } on DioException catch (error, stackTrace) {
       if (!mounted) {
         return;
@@ -120,6 +133,26 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
+  Future<bool> _checkProfileStatus(int courierId) async {
+    try {
+      final dio = context.read<Dio>();
+      final response = await dio.post(
+        '/couriers/check-courier-parametr/',
+        data: {'kuryer_id': courierId},
+      );
+
+      final data = response.data;
+      if (data is Map) {
+        // If ok is true, profile is complete
+        return data['ok'] == true;
+      }
+      return false;
+    } catch (e) {
+      // On error, assume profile is not complete (safer approach)
+      return false;
+    }
+  }
+
   void _showComingSoon() {
     showToast(AppLocalizations.of(context).comingSoon);
   }
@@ -133,9 +166,7 @@ class _LoginPageState extends State<LoginPage>
       borderRadius: BorderRadius.circular(
         ResponsiveSpacing.borderRadius(context, base: 16),
       ),
-      borderSide: BorderSide(
-        color: colorScheme.outline.withValues(alpha: 0.6),
-      ),
+      borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.6)),
     );
 
     return AuthScaffold(

@@ -33,21 +33,25 @@ class SettingsPage extends StatelessWidget {
         flag: '🇷🇺',
       ),
       _LanguageOption(
-        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Latn'),
+        locale: const Locale.fromSubtags(
+          languageCode: 'uz',
+          scriptCode: 'Latn',
+        ),
         label: l10n.languageUzbekLatin,
         flag: '🇺🇿',
       ),
       _LanguageOption(
-        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Cyrl'),
+        locale: const Locale.fromSubtags(
+          languageCode: 'uz',
+          scriptCode: 'Cyrl',
+        ),
         label: l10n.languageUzbekCyrillic,
         flag: '🇺🇿',
       ),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.settingsTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.settingsTitle)),
       body: ListView(
         padding: ResponsiveSpacing.pagePadding(context),
         children: [
@@ -72,7 +76,9 @@ class SettingsPage extends StatelessWidget {
             padding: ResponsiveSpacing.cardPadding(context),
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
+              borderRadius: BorderRadius.circular(
+                ResponsiveSpacing.borderRadius(context, base: 14),
+              ),
               border: Border.all(
                 color: colorScheme.outline.withValues(alpha: 0.3),
               ),
@@ -183,24 +189,45 @@ class SettingsPage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
+              borderRadius: BorderRadius.circular(
+                ResponsiveSpacing.borderRadius(context, base: 14),
+              ),
               border: Border.all(
                 color: colorScheme.outline.withValues(alpha: 0.3),
               ),
             ),
-            child: ListTile(
-              leading: Icon(
-                Icons.logout,
-                color: colorScheme.error,
-              ),
-              title: Text(
-                l10n.logoutButton,
-                style: textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.error,
-                  fontWeight: FontWeight.w600,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.person_outline,
+                    color: colorScheme.primary,
+                  ),
+                  title: Text(
+                    l10n.profileDataTitle,
+                    style: textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push('/profile-data'),
                 ),
-              ),
-              onTap: () => _logout(context),
+                Divider(
+                  height: 1,
+                  color: colorScheme.outline.withValues(alpha: 0.2),
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout, color: colorScheme.error),
+                  title: Text(
+                    l10n.logoutButton,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.error,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onTap: () => _logout(context),
+                ),
+              ],
             ),
           ),
         ],
@@ -234,10 +261,7 @@ class SettingsPage extends StatelessWidget {
 
   void _showToast(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-      ),
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
 
@@ -329,9 +353,9 @@ class _ChangePinDialogState extends State<_ChangePinDialog> {
 
     // Third step: confirm new PIN
     if (_input == _firstNewPin) {
-      Navigator.of(context).pop(
-        _ChangePinResult(oldPin: _oldPin!, newPin: _input),
-      );
+      Navigator.of(
+        context,
+      ).pop(_ChangePinResult(oldPin: _oldPin!, newPin: _input));
       return;
     }
 
@@ -368,9 +392,9 @@ class _ChangePinDialogState extends State<_ChangePinDialog> {
             Text(
               stepLabel,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                  ),
+                color: colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             const SizedBox(height: 12),
             PinDots(length: _pinLength, filled: _input.length),
@@ -378,17 +402,14 @@ class _ChangePinDialogState extends State<_ChangePinDialog> {
               const SizedBox(height: 10),
               Text(
                 _errorText!,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: colorScheme.error,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colorScheme.error),
                 textAlign: TextAlign.center,
               ),
             ],
             const SizedBox(height: 20),
-            PinKeypad(
-              onDigit: _addDigit,
-              onBackspace: _removeDigit,
-            ),
+            PinKeypad(onDigit: _addDigit, onBackspace: _removeDigit),
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -465,8 +486,9 @@ class _PinSetupDialogState extends State<_PinSetupDialog> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final stepLabel =
-    _isConfirming ? l10n.pinSetupConfirmLabel : l10n.pinSetupLabel;
+    final stepLabel = _isConfirming
+        ? l10n.pinSetupConfirmLabel
+        : l10n.pinSetupLabel;
 
     return Dialog(
       child: Container(
@@ -499,16 +521,13 @@ class _PinSetupDialogState extends State<_PinSetupDialog> {
               const SizedBox(height: 10),
               Text(
                 _errorText!,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.error,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: colorScheme.error),
               ),
             ],
             const SizedBox(height: 20),
-            PinKeypad(
-              onDigit: _addDigit,
-              onBackspace: _removeDigit,
-            ),
+            PinKeypad(onDigit: _addDigit, onBackspace: _removeDigit),
             const SizedBox(height: 16),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -530,9 +549,9 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
     );
   }
 }
@@ -595,16 +614,13 @@ class _LanguageTile extends StatelessWidget {
                 child: Text(
                   option.label,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: colorScheme.onSurface,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               if (selected)
-                Icon(
-                  Icons.check_circle,
-                  color: colorScheme.primary,
-                ),
+                Icon(Icons.check_circle, color: colorScheme.primary),
             ],
           ),
         ),
@@ -630,10 +646,10 @@ class _ToggleTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 14)),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 14),
         ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.3)),
       ),
       child: SwitchListTile.adaptive(
         title: Text(title),

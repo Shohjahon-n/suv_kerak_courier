@@ -54,7 +54,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get languageSelectionTitle => 'Выберите язык';
 
   @override
-  String get languageSelectionSubtitle => 'Выберите язык для приложения курьера.';
+  String get languageSelectionSubtitle =>
+      'Выберите язык для приложения курьера.';
 
   @override
   String get loginTitle => 'Вход курьера';
@@ -90,7 +91,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get forgotPasswordTitle => 'Обновить пароль';
 
   @override
-  String get forgotPasswordSubtitle => 'Введите ID курьера, чтобы получить код.';
+  String get forgotPasswordSubtitle =>
+      'Введите ID курьера, чтобы получить код.';
 
   @override
   String get forgotPasswordCourierIdLabel => 'ID курьера';
@@ -153,10 +155,70 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginSuccess => 'Успешный вход.';
 
   @override
+  String get profileCompletionTitle => 'Заполните профиль';
+
+  @override
+  String get profileCompletionSubtitle =>
+      'Пожалуйста, введите следующую информацию';
+
+  @override
+  String get profileNameLabel => 'Полное имя';
+
+  @override
+  String get profileNameHint => 'Введите ваше полное имя';
+
+  @override
+  String get profileNameValidation => 'Введите ваше имя';
+
+  @override
+  String get profilePhoneLabel => 'Номер телефона';
+
+  @override
+  String get profilePhoneHint => '+998 90 123 45 67';
+
+  @override
+  String get profilePhoneValidation =>
+      'Введите корректный узбекский номер телефона';
+
+  @override
+  String get profileCarNumberLabel => 'Номер автомобиля';
+
+  @override
+  String get profileCarNumberHint => '01 A 123 AA';
+
+  @override
+  String get profileCarNumberValidation =>
+      'Введите корректный номер автомобиля';
+
+  @override
+  String get profileCarModelLabel => 'Модель автомобиля';
+
+  @override
+  String get profileCarModelHint => 'например, Chevrolet Lacetti';
+
+  @override
+  String get profileCarModelValidation => 'Введите модель автомобиля';
+
+  @override
+  String get profileSubmitButton => 'Отправить';
+
+  @override
+  String get profileCheckError => 'Не удалось проверить статус профиля';
+
+  @override
+  String get profileSubmitError => 'Не удалось отправить информацию профиля';
+
+  @override
+  String get profileSubmitSuccess => 'Профиль успешно заполнен';
+
+  @override
   String get comingSoon => 'Скоро будет.';
 
   @override
   String get refreshLabel => 'Обновить';
+
+  @override
+  String get offlineRetryMessage => 'Wi-Fi недоступен. Попробуйте еще раз.';
 
   @override
   String get commonYes => 'Да';
@@ -222,7 +284,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersMapButton => 'Показать заказы на карте';
 
   @override
-  String get ordersPeriodicReportTitle => 'Периодический отчет по выполненным заказам';
+  String get ordersPeriodicReportTitle =>
+      'Периодический отчет по выполненным заказам';
 
   @override
   String get ordersPendingTitle => 'Невыполненные заказы';
@@ -270,13 +333,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersLocationServiceDisabled => 'Службы геолокации отключены.';
 
   @override
-  String get ordersLocationPermissionDenied => 'Разрешение на геолокацию нужно, чтобы показать вашу позицию.';
+  String get ordersLocationPermissionDenied =>
+      'Разрешение на геолокацию нужно, чтобы показать вашу позицию.';
 
   @override
-  String get ordersLocationPermissionPermanentlyDenied => 'Разрешите доступ к геолокации в настройках, чтобы показать вашу позицию.';
+  String get ordersLocationPermissionPermanentlyDenied =>
+      'Разрешите доступ к геолокации в настройках, чтобы показать вашу позицию.';
 
   @override
-  String get ordersLocationUnavailable => 'Не удалось получить вашу геолокацию.';
+  String get ordersLocationUnavailable =>
+      'Не удалось получить вашу геолокацию.';
 
   @override
   String get ordersCourierLabel => 'Вы';
@@ -327,22 +393,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersMapTitle => 'Карта';
 
   @override
-  String get ordersMapOnWayOrderLoadFailed => 'Не удалось загрузить активный заказ.';
+  String get ordersMapOnWayOrderLoadFailed =>
+      'Не удалось загрузить активный заказ.';
 
   @override
-  String get ordersMapArrivedHintFailed => 'Не удалось отправить уведомление о прибытии.';
+  String get ordersMapArrivedHintFailed =>
+      'Не удалось отправить уведомление о прибытии.';
 
   @override
   String get ordersMapSetOnWayFailed => 'Не удалось отметить заказ как в пути.';
 
   @override
-  String get ordersMapOrderDetailsLoadFailed => 'Не удалось загрузить данные заказа.';
+  String get ordersMapOrderDetailsLoadFailed =>
+      'Не удалось загрузить данные заказа.';
 
   @override
   String get ordersMapCompleteOrderFailed => 'Не удалось завершить заказ.';
 
   @override
-  String get ordersMapOpenCallFailed => 'Не удалось открыть приложение для звонка.';
+  String get ordersMapOpenCallFailed =>
+      'Не удалось открыть приложение для звонка.';
 
   @override
   String get ordersMapArrivedDialogTitle => 'Вы прибыли?';
@@ -407,10 +477,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersMapLocationServiceDisabled => 'Служба геолокации отключена';
 
   @override
-  String get ordersMapLocationPermissionDenied => 'Разрешение на геолокацию отклонено';
+  String get ordersMapLocationPermissionDenied =>
+      'Разрешение на геолокацию отклонено';
 
   @override
-  String get ordersMapLocationPermissionDeniedForever => 'Разрешение на геолокацию навсегда отклонено (включите в Настройках)';
+  String get ordersMapLocationPermissionDeniedForever =>
+      'Разрешение на геолокацию навсегда отклонено (включите в Настройках)';
 
   @override
   String get ordersMapSessionError => 'Сессия не найдена';
@@ -431,7 +503,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bottleBalanceEmptyPeriodicTitle => 'Периодический учет тары';
 
   @override
-  String get bottleBalanceFullWaterPeriodicTitle => 'Периодический учет полных бутылей';
+  String get bottleBalanceFullWaterPeriodicTitle =>
+      'Периодический учет полных бутылей';
 
   @override
   String get bottleBalanceSummaryTitle => 'Сводка';
@@ -482,7 +555,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get menuAbout => 'О системе';
 
   @override
-  String get aboutDescription => '\"Suv Kerak\" — профессиональное курьерское приложение в составе платформы автоматизации бизнеса \"Hisob\". Наша компания специализируется на цифровизации и автоматизации бизнес-процессов для предпринимателей различных отраслей.\n\nЭто приложение помогает бизнесу по доставке воды оптимизировать управление заказами, отслеживание доставок и финансовую отчётность с помощью современных технологий.';
+  String get aboutDescription =>
+      '\"Suv Kerak\" — профессиональное курьерское приложение в составе платформы автоматизации бизнеса \"Hisob\". Наша компания специализируется на цифровизации и автоматизации бизнес-процессов для предпринимателей различных отраслей.\n\nЭто приложение помогает бизнесу по доставке воды оптимизировать управление заказами, отслеживание доставок и финансовую отчётность с помощью современных технологий.';
 
   @override
   String get aboutShareButton => 'Отправить';
@@ -526,10 +600,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get cashReportShow => 'Показать';
 
   @override
-  String get cashReportValidationRequired => 'Выберите дату начала и окончания.';
+  String get cashReportValidationRequired =>
+      'Выберите дату начала и окончания.';
 
   @override
-  String get cashReportValidationOrder => 'Дата начала должна быть раньше даты окончания.';
+  String get cashReportValidationOrder =>
+      'Дата начала должна быть раньше даты окончания.';
 
   @override
   String get cashReportRangeLabel => 'Период';
@@ -599,6 +675,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get themeModeDark => 'Темная';
+
+  @override
+  String get profileDataTitle => 'Данные профиля';
+
+  @override
+  String get profileEditButton => 'Редактировать';
+
+  @override
+  String get profileSaveButton => 'Сохранить изменения';
+
+  @override
+  String get profileUpdateSuccess => 'Профиль успешно обновлен';
+
+  @override
+  String get commonCancel => 'Отмена';
 
   @override
   String get logoutButton => 'Выйти из профиля';
@@ -727,7 +818,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get pinChangeSuccess => 'PIN успешно изменён.';
 
   @override
-  String get pinChangeError => 'Не удалось изменить PIN. Проверьте текущий PIN.';
+  String get pinChangeError =>
+      'Не удалось изменить PIN. Проверьте текущий PIN.';
 
   @override
   String get pinChangeSameError => 'Новый PIN должен отличаться от текущего.';
@@ -742,13 +834,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get courierServiceSelectButton => 'Выбрать период';
 
   @override
-  String get courierServiceSelectPrompt => 'Пожалуйста, выберите период для просмотра отчёта.';
+  String get courierServiceSelectPrompt =>
+      'Пожалуйста, выберите период для просмотра отчёта.';
 
   @override
   String get courierServiceStartBalance => 'Начальный баланс';
 
   @override
   String get courierServiceEndBalance => 'Конечный баланс';
+
+  @override
+  String get courierServiceTotalChargedLabel => 'Начислено';
+
+  @override
+  String get courierServiceTotalPaidLabel => 'Оплачено';
+
+  @override
+  String get courierServiceBalanceLabel => 'Баланс';
 
   @override
   String get courierServiceOperationsTitle => 'Операции по услугам';

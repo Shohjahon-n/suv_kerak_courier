@@ -101,8 +101,10 @@ class _CourierServicePageState extends State<CourierServicePage>
         'tugash_sana': dateFormat.format(endDate),
       };
 
-      final response =
-          await dio.post('/boss/courier/service-statement/', data: payload);
+      final response = await dio.post(
+        '/boss/courier/service-statement/',
+        data: payload,
+      );
       final data = response.data;
       CourierServiceReport? report;
       String? errorMessage;
@@ -174,9 +176,7 @@ class _CourierServicePageState extends State<CourierServicePage>
     final dateFormat = DateFormat.yMMMd(locale.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.courierServiceTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.courierServiceTitle)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -223,15 +223,17 @@ class _CourierServicePageState extends State<CourierServicePage>
   ) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final startMessage = _resolveServiceLabel(report.startMessage, l10n);
+    final endMessage = _resolveServiceLabel(report.endMessage, l10n);
 
     final items = <Widget>[
       _MessageInfoCard(
-        message: report.startMessage,
+        message: startMessage,
         color: _parseColor(report.startMessageColor, colorScheme),
       ),
       const SizedBox(height: 12),
       _MessageInfoCard(
-        message: report.endMessage,
+        message: endMessage,
         color: _parseColor(report.endMessageColor, colorScheme),
       ),
       const SizedBox(height: 20),
@@ -265,14 +267,14 @@ class _CourierServicePageState extends State<CourierServicePage>
             foreground: colorScheme.onSecondaryContainer,
           ),
           _SummaryCard(
-            title: l10n.cashReportTotalIncomeLabel,
+            title: l10n.courierServiceTotalChargedLabel,
             value: report.totalIncome.toUzsFormat(),
             icon: Icons.trending_up,
             background: colorScheme.tertiaryContainer,
             foreground: colorScheme.onTertiaryContainer,
           ),
           _SummaryCard(
-            title: l10n.cashReportTotalExpenseLabel,
+            title: l10n.courierServiceTotalPaidLabel,
             value: report.totalExpense.toUzsFormat(),
             icon: Icons.trending_down,
             background: colorScheme.errorContainer,
@@ -302,12 +304,7 @@ class _CourierServicePageState extends State<CourierServicePage>
       );
     } else {
       items.addAll(
-        report.rows.map(
-          (row) => _ServiceRowCard(
-            row: row,
-            l10n: l10n,
-          ),
-        ),
+        report.rows.map((row) => _ServiceRowCard(row: row, l10n: l10n)),
       );
     }
 
@@ -369,10 +366,7 @@ class _MessageCard extends StatelessWidget {
           ),
           if (onRetry != null) ...[
             const SizedBox(height: 16),
-            OutlinedButton(
-              onPressed: onRetry,
-              child: Text(retryLabel),
-            ),
+            OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
           ],
         ],
       ),
@@ -381,10 +375,7 @@ class _MessageCard extends StatelessWidget {
 }
 
 class _MessageInfoCard extends StatelessWidget {
-  const _MessageInfoCard({
-    required this.message,
-    required this.color,
-  });
+  const _MessageInfoCard({required this.message, required this.color});
 
   final String message;
   final Color color;
@@ -481,10 +472,7 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _ServiceRowCard extends StatelessWidget {
-  const _ServiceRowCard({
-    required this.row,
-    required this.l10n,
-  });
+  const _ServiceRowCard({required this.row, required this.l10n});
 
   final CourierServiceRow row;
   final AppLocalizations l10n;
@@ -495,6 +483,7 @@ class _ServiceRowCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final dateLabel = row.date;
     final timeLabel = row.time.trim().isEmpty ? '' : ' · ${row.time}';
+    final operationLabel = _resolveServiceLabel(row.operation, l10n);
 
     return Container(
       margin: EdgeInsets.only(
@@ -516,7 +505,7 @@ class _ServiceRowCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  row.operation,
+                  operationLabel,
                   style: textTheme.titleSmall?.copyWith(
                     color: colorScheme.onSurface,
                     fontWeight: FontWeight.w600,
@@ -543,14 +532,17 @@ class _ServiceRowCard extends StatelessWidget {
           KeyValueRow(
             icon: Icons.receipt_long_outlined,
             label: l10n.courierServiceOrderNumber,
-            value: row.orderNumber.isEmpty ? l10n.notAvailable : row.orderNumber,
+            value: row.orderNumber.isEmpty
+                ? l10n.notAvailable
+                : row.orderNumber,
             iconColor: colorScheme.onSurfaceVariant,
             labelStyle: textTheme.bodySmall?.copyWith(
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
             ),
-            valueStyle:
-                textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+            valueStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface,
+            ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           KeyValueRow(
@@ -562,8 +554,9 @@ class _ServiceRowCard extends StatelessWidget {
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
             ),
-            valueStyle:
-                textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+            valueStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface,
+            ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           KeyValueRow(
@@ -575,8 +568,9 @@ class _ServiceRowCard extends StatelessWidget {
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
             ),
-            valueStyle:
-                textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+            valueStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface,
+            ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           KeyValueRow(
@@ -588,11 +582,37 @@ class _ServiceRowCard extends StatelessWidget {
               color: colorScheme.onSurfaceVariant,
               fontWeight: FontWeight.w600,
             ),
-            valueStyle:
-                textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+            valueStyle: textTheme.bodyMedium?.copyWith(
+              color: colorScheme.onSurface,
+            ),
           ),
         ],
       ),
     );
   }
+}
+
+String _resolveServiceLabel(String value, AppLocalizations l10n) {
+  final trimmed = value.trim();
+  if (trimmed.isEmpty) {
+    return l10n.notAvailable;
+  }
+  if (_isBalanceOperation(trimmed)) {
+    return l10n.courierServiceBalanceLabel;
+  }
+  return trimmed;
+}
+
+bool _isBalanceOperation(String value) {
+  final normalized = value.toLowerCase().replaceAll(RegExp(r'\s+'), ' ').trim();
+
+  // Check for Cyrillic version: "Хизмат ҳаққи ҳисобланди"
+  final isCyrillic =
+      normalized.contains('хизмат') && normalized.contains('ҳисобланди');
+
+  // Check for Latin version: "Xizmat haqqi hisoblandi"
+  final isLatin =
+      normalized.contains('xizmat') && normalized.contains('hisoblandi');
+
+  return isCyrillic || isLatin;
 }

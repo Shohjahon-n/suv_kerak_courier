@@ -54,7 +54,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageSelectionTitle => 'Choose your language';
 
   @override
-  String get languageSelectionSubtitle => 'Select the language for the courier app.';
+  String get languageSelectionSubtitle =>
+      'Select the language for the courier app.';
 
   @override
   String get loginTitle => 'Courier Login';
@@ -90,7 +91,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPasswordTitle => 'Update password';
 
   @override
-  String get forgotPasswordSubtitle => 'Enter your courier ID to receive a code.';
+  String get forgotPasswordSubtitle =>
+      'Enter your courier ID to receive a code.';
 
   @override
   String get forgotPasswordCourierIdLabel => 'Courier ID';
@@ -114,7 +116,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPasswordOtpTitle => 'Enter code';
 
   @override
-  String get forgotPasswordOtpSubtitle => 'Enter the 4-digit code sent by the bot.';
+  String get forgotPasswordOtpSubtitle =>
+      'Enter the 4-digit code sent by the bot.';
 
   @override
   String get forgotPasswordOtpLabel => 'OTP code';
@@ -153,10 +156,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginSuccess => 'Logged in successfully.';
 
   @override
+  String get profileCompletionTitle => 'Complete your profile';
+
+  @override
+  String get profileCompletionSubtitle =>
+      'Please provide the following information to continue';
+
+  @override
+  String get profileNameLabel => 'Full name';
+
+  @override
+  String get profileNameHint => 'Enter your full name';
+
+  @override
+  String get profileNameValidation => 'Enter your name';
+
+  @override
+  String get profilePhoneLabel => 'Phone number';
+
+  @override
+  String get profilePhoneHint => '+998 90 123 45 67';
+
+  @override
+  String get profilePhoneValidation => 'Enter valid Uzbek phone number';
+
+  @override
+  String get profileCarNumberLabel => 'Car plate number';
+
+  @override
+  String get profileCarNumberHint => '01 A 123 AA';
+
+  @override
+  String get profileCarNumberValidation => 'Enter valid car plate number';
+
+  @override
+  String get profileCarModelLabel => 'Car model';
+
+  @override
+  String get profileCarModelHint => 'e.g., Chevrolet Lacetti';
+
+  @override
+  String get profileCarModelValidation => 'Enter car model';
+
+  @override
+  String get profileSubmitButton => 'Submit';
+
+  @override
+  String get profileCheckError => 'Failed to check profile status';
+
+  @override
+  String get profileSubmitError => 'Failed to submit profile information';
+
+  @override
+  String get profileSubmitSuccess => 'Profile completed successfully';
+
+  @override
   String get comingSoon => 'Coming soon.';
 
   @override
   String get refreshLabel => 'Refresh';
+
+  @override
+  String get offlineRetryMessage => 'Wi-Fi unavailable. Please try again.';
 
   @override
   String get commonYes => 'Yes';
@@ -270,10 +331,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ordersLocationServiceDisabled => 'Location services are disabled.';
 
   @override
-  String get ordersLocationPermissionDenied => 'Location permission is required to show your position.';
+  String get ordersLocationPermissionDenied =>
+      'Location permission is required to show your position.';
 
   @override
-  String get ordersLocationPermissionPermanentlyDenied => 'Enable location permission in settings to show your position.';
+  String get ordersLocationPermissionPermanentlyDenied =>
+      'Enable location permission in settings to show your position.';
 
   @override
   String get ordersLocationUnavailable => 'Unable to get your location.';
@@ -327,13 +390,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ordersMapTitle => 'Map view';
 
   @override
-  String get ordersMapOnWayOrderLoadFailed => 'Failed to load the active order.';
+  String get ordersMapOnWayOrderLoadFailed =>
+      'Failed to load the active order.';
 
   @override
-  String get ordersMapArrivedHintFailed => 'Failed to send arrival notification.';
+  String get ordersMapArrivedHintFailed =>
+      'Failed to send arrival notification.';
 
   @override
-  String get ordersMapSetOnWayFailed => 'Failed to mark the order as on the way.';
+  String get ordersMapSetOnWayFailed =>
+      'Failed to mark the order as on the way.';
 
   @override
   String get ordersMapOrderDetailsLoadFailed => 'Failed to load order details.';
@@ -410,7 +476,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ordersMapLocationPermissionDenied => 'Location permission denied';
 
   @override
-  String get ordersMapLocationPermissionDeniedForever => 'Location permission denied forever (enable in Settings)';
+  String get ordersMapLocationPermissionDeniedForever =>
+      'Location permission denied forever (enable in Settings)';
 
   @override
   String get ordersMapSessionError => 'Session not found';
@@ -431,7 +498,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bottleBalanceEmptyPeriodicTitle => 'Periodic empty bottle report';
 
   @override
-  String get bottleBalanceFullWaterPeriodicTitle => 'Periodic full water report';
+  String get bottleBalanceFullWaterPeriodicTitle =>
+      'Periodic full water report';
 
   @override
   String get bottleBalanceSummaryTitle => 'Summary';
@@ -482,7 +550,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get menuAbout => 'About system';
 
   @override
-  String get aboutDescription => '\"Suv Kerak\" is a professional courier application, part of the \"Hisob\" business automation platform. Our company specializes in digitalization and automation of business processes for entrepreneurs in various industries.\n\nThis app helps water distribution businesses streamline order management, delivery tracking, and financial reporting with modern technology solutions.';
+  String get aboutDescription =>
+      '\"Suv Kerak\" is a professional courier application, part of the \"Hisob\" business automation platform. Our company specializes in digitalization and automation of business processes for entrepreneurs in various industries.\n\nThis app helps water distribution businesses streamline order management, delivery tracking, and financial reporting with modern technology solutions.';
 
   @override
   String get aboutShareButton => 'Share';
@@ -599,6 +668,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeModeDark => 'Dark';
+
+  @override
+  String get profileDataTitle => 'Profile Data';
+
+  @override
+  String get profileEditButton => 'Edit';
+
+  @override
+  String get profileSaveButton => 'Save Changes';
+
+  @override
+  String get profileUpdateSuccess => 'Profile updated successfully';
+
+  @override
+  String get commonCancel => 'Cancel';
 
   @override
   String get logoutButton => 'Log out';
@@ -730,7 +814,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pinChangeError => 'Failed to change PIN. Check your current PIN.';
 
   @override
-  String get pinChangeSameError => 'New PIN must be different from current PIN.';
+  String get pinChangeSameError =>
+      'New PIN must be different from current PIN.';
 
   @override
   String get courierServiceTitle => 'Courier Service Statement';
@@ -742,13 +827,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courierServiceSelectButton => 'Select period';
 
   @override
-  String get courierServiceSelectPrompt => 'Please select a date range to view the report.';
+  String get courierServiceSelectPrompt =>
+      'Please select a date range to view the report.';
 
   @override
   String get courierServiceStartBalance => 'Opening balance';
 
   @override
   String get courierServiceEndBalance => 'Closing balance';
+
+  @override
+  String get courierServiceTotalChargedLabel => 'Charged';
+
+  @override
+  String get courierServiceTotalPaidLabel => 'Paid';
+
+  @override
+  String get courierServiceBalanceLabel => 'Balance';
 
   @override
   String get courierServiceOperationsTitle => 'Service operations';
