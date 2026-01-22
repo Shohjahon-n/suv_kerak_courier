@@ -148,8 +148,9 @@ class _LoginPageState extends State<LoginPage>
       }
       return false;
     } catch (e) {
-      // On error, assume profile is not complete (safer approach)
-      return false;
+      // On network error, assume profile exists (send to home)
+      // This is safer - user can access app even if profile check fails
+      return true;
     }
   }
 

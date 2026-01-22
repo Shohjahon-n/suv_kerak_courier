@@ -158,207 +158,201 @@ class _CourierProfileCompletionPageState
       borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.6)),
     );
 
-    return PopScope(
-      canPop: false,
-      child: Scaffold(
-        backgroundColor: colorScheme.surfaceContainerHighest.withValues(
-          alpha: 0.95,
-        ),
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: ResponsiveSpacing.pagePadding(context),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 520),
-                child: AuthFormCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.badge_outlined,
-                        size: ResponsiveSpacing.iconSize(context, base: 48),
-                        color: colorScheme.primary,
+    return Scaffold(
+      backgroundColor: colorScheme.surfaceContainerHighest.withValues(
+        alpha: 0.95,
+      ),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: ResponsiveSpacing.pagePadding(context),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 520),
+              child: AuthFormCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.badge_outlined,
+                      size: ResponsiveSpacing.iconSize(context, base: 48),
+                      color: colorScheme.primary,
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 16),
+                    ),
+                    Text(
+                      l10n.profileCompletionTitle,
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            color: colorScheme.onSurface,
+                          ),
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 8),
+                    ),
+                    Text(
+                      l10n.profileCompletionSubtitle,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
                       ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 16),
-                      ),
-                      Text(
-                        l10n.profileCompletionTitle,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: colorScheme.onSurface,
-                            ),
-                      ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 8),
-                      ),
-                      Text(
-                        l10n.profileCompletionSubtitle,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.onSurfaceVariant,
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 24),
+                    ),
+                    TextField(
+                      controller: _nameController,
+                      focusNode: _nameFocus,
+                      enabled: !_isLoading,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: InputDecoration(
+                        labelText: l10n.profileNameLabel,
+                        hintText: l10n.profileNameHint,
+                        prefixIcon: const Icon(Icons.person_outline),
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: inputBorder,
+                        enabledBorder: inputBorder,
+                        focusedBorder: inputBorder.copyWith(
+                          borderSide: BorderSide(
+                            color: colorScheme.primary,
+                            width: 1.4,
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 24),
+                      onSubmitted: (_) {
+                        _phoneFocus.requestFocus();
+                      },
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 16),
+                    ),
+                    TextField(
+                      controller: _phoneController,
+                      focusNode: _phoneFocus,
+                      enabled: !_isLoading,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [UzPhoneInputFormatter()],
+                      decoration: InputDecoration(
+                        labelText: l10n.profilePhoneLabel,
+                        hintText: l10n.profilePhoneHint,
+                        prefixIcon: const Icon(Icons.phone_outlined),
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: inputBorder,
+                        enabledBorder: inputBorder,
+                        focusedBorder: inputBorder.copyWith(
+                          borderSide: BorderSide(
+                            color: colorScheme.primary,
+                            width: 1.4,
+                          ),
+                        ),
                       ),
-                      TextField(
-                        controller: _nameController,
-                        focusNode: _nameFocus,
-                        enabled: !_isLoading,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.name,
-                        textCapitalization: TextCapitalization.words,
-                        decoration: InputDecoration(
-                          labelText: l10n.profileNameLabel,
-                          hintText: l10n.profileNameHint,
-                          prefixIcon: const Icon(Icons.person_outline),
-                          filled: true,
-                          fillColor: colorScheme.surface,
-                          border: inputBorder,
-                          enabledBorder: inputBorder,
-                          focusedBorder: inputBorder.copyWith(
-                            borderSide: BorderSide(
-                              color: colorScheme.primary,
-                              width: 1.4,
+                      onSubmitted: (_) {
+                        _carNumberFocus.requestFocus();
+                      },
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 16),
+                    ),
+                    TextField(
+                      controller: _carNumberController,
+                      focusNode: _carNumberFocus,
+                      enabled: !_isLoading,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.text,
+                      inputFormatters: [CarPlateInputFormatter()],
+                      textCapitalization: TextCapitalization.characters,
+                      decoration: InputDecoration(
+                        labelText: l10n.profileCarNumberLabel,
+                        hintText: l10n.profileCarNumberHint,
+                        prefixIcon: const Icon(Icons.directions_car_outlined),
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: inputBorder,
+                        enabledBorder: inputBorder,
+                        focusedBorder: inputBorder.copyWith(
+                          borderSide: BorderSide(
+                            color: colorScheme.primary,
+                            width: 1.4,
+                          ),
+                        ),
+                      ),
+                      onSubmitted: (_) {
+                        _carModelFocus.requestFocus();
+                      },
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 16),
+                    ),
+                    TextField(
+                      controller: _carModelController,
+                      focusNode: _carModelFocus,
+                      enabled: !_isLoading,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        labelText: l10n.profileCarModelLabel,
+                        hintText: l10n.profileCarModelHint,
+                        prefixIcon: const Icon(Icons.directions_car),
+                        filled: true,
+                        fillColor: colorScheme.surface,
+                        border: inputBorder,
+                        enabledBorder: inputBorder,
+                        focusedBorder: inputBorder.copyWith(
+                          borderSide: BorderSide(
+                            color: colorScheme.primary,
+                            width: 1.4,
+                          ),
+                        ),
+                      ),
+                      onSubmitted: (_) => _submit(),
+                    ),
+                    SizedBox(
+                      height: ResponsiveSpacing.spacing(context, base: 24),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _submit,
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                            vertical: ResponsiveSpacing.spacing(
+                              context,
+                              base: 14,
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              ResponsiveSpacing.borderRadius(context, base: 16),
                             ),
                           ),
                         ),
-                        onSubmitted: (_) {
-                          _phoneFocus.requestFocus();
-                        },
-                      ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 16),
-                      ),
-                      TextField(
-                        controller: _phoneController,
-                        focusNode: _phoneFocus,
-                        enabled: !_isLoading,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.phone,
-                        inputFormatters: [UzPhoneInputFormatter()],
-                        decoration: InputDecoration(
-                          labelText: l10n.profilePhoneLabel,
-                          hintText: l10n.profilePhoneHint,
-                          prefixIcon: const Icon(Icons.phone_outlined),
-                          filled: true,
-                          fillColor: colorScheme.surface,
-                          border: inputBorder,
-                          enabledBorder: inputBorder,
-                          focusedBorder: inputBorder.copyWith(
-                            borderSide: BorderSide(
-                              color: colorScheme.primary,
-                              width: 1.4,
-                            ),
-                          ),
-                        ),
-                        onSubmitted: (_) {
-                          _carNumberFocus.requestFocus();
-                        },
-                      ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 16),
-                      ),
-                      TextField(
-                        controller: _carNumberController,
-                        focusNode: _carNumberFocus,
-                        enabled: !_isLoading,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.text,
-                        inputFormatters: [CarPlateInputFormatter()],
-                        textCapitalization: TextCapitalization.characters,
-                        decoration: InputDecoration(
-                          labelText: l10n.profileCarNumberLabel,
-                          hintText: l10n.profileCarNumberHint,
-                          prefixIcon: const Icon(Icons.directions_car_outlined),
-                          filled: true,
-                          fillColor: colorScheme.surface,
-                          border: inputBorder,
-                          enabledBorder: inputBorder,
-                          focusedBorder: inputBorder.copyWith(
-                            borderSide: BorderSide(
-                              color: colorScheme.primary,
-                              width: 1.4,
-                            ),
-                          ),
-                        ),
-                        onSubmitted: (_) {
-                          _carModelFocus.requestFocus();
-                        },
-                      ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 16),
-                      ),
-                      TextField(
-                        controller: _carModelController,
-                        focusNode: _carModelFocus,
-                        enabled: !_isLoading,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          labelText: l10n.profileCarModelLabel,
-                          hintText: l10n.profileCarModelHint,
-                          prefixIcon: const Icon(Icons.directions_car),
-                          filled: true,
-                          fillColor: colorScheme.surface,
-                          border: inputBorder,
-                          enabledBorder: inputBorder,
-                          focusedBorder: inputBorder.copyWith(
-                            borderSide: BorderSide(
-                              color: colorScheme.primary,
-                              width: 1.4,
-                            ),
-                          ),
-                        ),
-                        onSubmitted: (_) => _submit(),
-                      ),
-                      SizedBox(
-                        height: ResponsiveSpacing.spacing(context, base: 24),
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _isLoading ? null : _submit,
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                              vertical: ResponsiveSpacing.spacing(
-                                context,
-                                base: 14,
-                              ),
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                ResponsiveSpacing.borderRadius(
+                        child: _isLoading
+                            ? SizedBox(
+                                height: ResponsiveSpacing.iconSize(
                                   context,
-                                  base: 16,
+                                  base: 20,
                                 ),
-                              ),
-                            ),
-                          ),
-                          child: _isLoading
-                              ? SizedBox(
-                                  height: ResponsiveSpacing.iconSize(
-                                    context,
-                                    base: 20,
+                                width: ResponsiveSpacing.iconSize(
+                                  context,
+                                  base: 20,
+                                ),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    colorScheme.onPrimary,
                                   ),
-                                  width: ResponsiveSpacing.iconSize(
-                                    context,
-                                    base: 20,
-                                  ),
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                      colorScheme.onPrimary,
-                                    ),
-                                  ),
-                                )
-                              : Text(l10n.profileSubmitButton),
-                        ),
+                                ),
+                              )
+                            : Text(l10n.profileSubmitButton),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
