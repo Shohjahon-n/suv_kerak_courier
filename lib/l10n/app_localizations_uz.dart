@@ -847,10 +847,10 @@ class AppLocalizationsUz extends AppLocalizations {
   String get courierServiceEndBalance => 'Yakuniy balans';
 
   @override
-  String get courierServiceTotalChargedLabel => 'Hisoblandi';
+  String get courierServiceTotalChargedLabel => 'Jami hisoblandi';
 
   @override
-  String get courierServiceTotalPaidLabel => 'To\'landi';
+  String get courierServiceTotalPaidLabel => 'Jami to\'landi';
 
   @override
   String get courierServiceBalanceLabel => 'Balans';
@@ -868,7 +868,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get courierServicePaid => 'To\'landi';
 
   @override
-  String get courierServiceCount => 'Xizmatlar soni';
+  String get courierServiceCount => 'Suv soni';
 }
 
 /// The translations for Uzbek, using the Cyrillic script (`uz_Cyrl`).
@@ -1028,7 +1028,7 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
       'Давом этиш учун қуйидаги маълумотларни киритинг';
 
   @override
-  String get profileNameLabel => 'Тўлиқ исм';
+  String get profileNameLabel => 'Тўлиқ исм фамилия';
 
   @override
   String get profileNameHint => 'Тўлиқ исмингизни киритинг';
@@ -1708,10 +1708,10 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get courierServiceEndBalance => 'Якуний баланс';
 
   @override
-  String get courierServiceTotalChargedLabel => 'Ҳисобланди';
+  String get courierServiceTotalChargedLabel => 'Жами ҳисобланди';
 
   @override
-  String get courierServiceTotalPaidLabel => 'Тўланди';
+  String get courierServiceTotalPaidLabel => 'Жами тўланди';
 
   @override
   String get courierServiceBalanceLabel => 'Баланс';
@@ -1729,7 +1729,7 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
   String get courierServicePaid => 'Тўланди';
 
   @override
-  String get courierServiceCount => 'Хизматлар сони';
+  String get courierServiceCount => 'Сув сони';
 }
 
 /// The translations for Uzbek, using the Latin script (`uz_Latn`).
@@ -1890,7 +1890,7 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
       'Davom etish uchun quyidagi ma\'lumotlarni kiriting';
 
   @override
-  String get profileNameLabel => 'To\'liq ism';
+  String get profileNameLabel => 'To\'liq ism familiya';
 
   @override
   String get profileNameHint => 'To\'liq ismingizni kiriting';
@@ -2575,10 +2575,10 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get courierServiceEndBalance => 'Yakuniy balans';
 
   @override
-  String get courierServiceTotalChargedLabel => 'Hisoblandi';
+  String get courierServiceTotalChargedLabel => 'Jami hisoblandi';
 
   @override
-  String get courierServiceTotalPaidLabel => 'To\'landi';
+  String get courierServiceTotalPaidLabel => 'Jami to\'landi';
 
   @override
   String get courierServiceBalanceLabel => 'Balans';
@@ -2596,5 +2596,5 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
   String get courierServicePaid => 'To\'landi';
 
   @override
-  String get courierServiceCount => 'Xizmatlar soni';
+  String get courierServiceCount => 'Suv soni';
 }

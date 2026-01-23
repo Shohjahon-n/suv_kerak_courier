@@ -50,7 +50,7 @@
   "loginSuccess": "Успешный вход.",
   "profileCompletionTitle": "Заполните профиль",
   "profileCompletionSubtitle": "Пожалуйста, введите следующую информацию",
-  "profileNameLabel": "Полное имя",
+  "profileNameLabel": "Полное имя фамилия",
   "profileNameHint": "Введите ваше полное имя",
   "profileNameValidation": "Введите ваше имя",
   "profilePhoneLabel": "Номер телефона",
@@ -268,12 +268,12 @@
   "courierServiceSelectPrompt": "Пожалуйста, выберите период для просмотра отчёта.",
   "courierServiceStartBalance": "Начальный баланс",
   "courierServiceEndBalance": "Конечный баланс",
-  "courierServiceTotalChargedLabel": "Начислено",
-  "courierServiceTotalPaidLabel": "Оплачено",
+  "courierServiceTotalChargedLabel": "Всего начислено",
+  "courierServiceTotalPaidLabel": "Всего оплачено",
   "courierServiceBalanceLabel": "Баланс",
   "courierServiceOperationsTitle": "Операции по услугам",
   "courierServiceOrderNumber": "Номер заказа",
   "courierServiceCharged": "Начислено",
   "courierServicePaid": "Оплачено",
-  "courierServiceCount": "Количество услуг"
+  "courierServiceCount": "Количество воды"
 }

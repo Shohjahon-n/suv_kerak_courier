@@ -162,7 +162,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Пожалуйста, введите следующую информацию';
 
   @override
-  String get profileNameLabel => 'Полное имя';
+  String get profileNameLabel => 'Полное имя фамилия';
 
   @override
   String get profileNameHint => 'Введите ваше полное имя';
@@ -844,10 +844,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get courierServiceEndBalance => 'Конечный баланс';
 
   @override
-  String get courierServiceTotalChargedLabel => 'Начислено';
+  String get courierServiceTotalChargedLabel => 'Всего начислено';
 
   @override
-  String get courierServiceTotalPaidLabel => 'Оплачено';
+  String get courierServiceTotalPaidLabel => 'Всего оплачено';
 
   @override
   String get courierServiceBalanceLabel => 'Баланс';
@@ -865,5 +865,5 @@ class AppLocalizationsRu extends AppLocalizations {
   String get courierServicePaid => 'Оплачено';
 
   @override
-  String get courierServiceCount => 'Количество услуг';
+  String get courierServiceCount => 'Количество воды';
 }

@@ -268,12 +268,12 @@
   "courierServiceSelectPrompt": "Please select a date range to view the report.",
   "courierServiceStartBalance": "Opening balance",
   "courierServiceEndBalance": "Closing balance",
-  "courierServiceTotalChargedLabel": "Charged",
-  "courierServiceTotalPaidLabel": "Paid",
+  "courierServiceTotalChargedLabel": "Total charged",
+  "courierServiceTotalPaidLabel": "Total paid",
   "courierServiceBalanceLabel": "Balance",
   "courierServiceOperationsTitle": "Service operations",
   "courierServiceOrderNumber": "Order number",
   "courierServiceCharged": "Charged",
   "courierServicePaid": "Paid",
-  "courierServiceCount": "Service count"
+  "courierServiceCount": "Water count"
 }

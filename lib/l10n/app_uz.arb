@@ -268,12 +268,12 @@
   "courierServiceSelectPrompt": "Hisobotni ko'rish uchun davrni tanlang.",
   "courierServiceStartBalance": "Boshlang'ich balans",
   "courierServiceEndBalance": "Yakuniy balans",
-  "courierServiceTotalChargedLabel": "Hisoblandi",
-  "courierServiceTotalPaidLabel": "To'landi",
+  "courierServiceTotalChargedLabel": "Jami hisoblandi",
+  "courierServiceTotalPaidLabel": "Jami to'landi",
   "courierServiceBalanceLabel": "Balans",
   "courierServiceOperationsTitle": "Xizmat operatsiyalari",
   "courierServiceOrderNumber": "Buyurtma raqami",
   "courierServiceCharged": "Hisoblandi",
   "courierServicePaid": "To'landi",
-  "courierServiceCount": "Xizmatlar soni"
+  "courierServiceCount": "Suv soni"
 }

@@ -1713,13 +1713,13 @@ abstract class AppLocalizations {
   /// No description provided for @courierServiceTotalChargedLabel.
   ///
   /// In en, this message translates to:
-  /// **'Charged'**
+  /// **'Total charged'**
   String get courierServiceTotalChargedLabel;
 
   /// No description provided for @courierServiceTotalPaidLabel.
   ///
   /// In en, this message translates to:
-  /// **'Paid'**
+  /// **'Total paid'**
   String get courierServiceTotalPaidLabel;
 
   /// No description provided for @courierServiceBalanceLabel.
@@ -1755,7 +1755,7 @@ abstract class AppLocalizations {
   /// No description provided for @courierServiceCount.
   ///
   /// In en, this message translates to:
-  /// **'Service count'**
+  /// **'Water count'**
   String get courierServiceCount;
 }
 

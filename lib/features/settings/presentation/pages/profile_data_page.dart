@@ -233,122 +233,190 @@ class _ProfileDataPageState extends State<ProfileDataPage>
                   SizedBox(
                     height: ResponsiveSpacing.spacing(context, base: 24),
                   ),
-                  TextField(
-                    controller: _nameController,
-                    focusNode: _nameFocus,
-                    enabled: _isEditing,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.name,
-                    textCapitalization: TextCapitalization.words,
-                    decoration: InputDecoration(
-                      labelText: l10n.profileNameLabel,
-                      hintText: l10n.profileNameHint,
-                      prefixIcon: const Icon(Icons.person_outline),
-                      filled: true,
-                      fillColor: _isEditing
-                          ? colorScheme.surface
-                          : colorScheme.surfaceContainerHighest,
-                      border: inputBorder,
-                      enabledBorder: inputBorder,
-                      disabledBorder: inputBorder,
-                      focusedBorder: inputBorder.copyWith(
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1.4,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.profileNameLabel,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                    onSubmitted: (_) => _phoneFocus.requestFocus(),
+                      SizedBox(
+                        height: ResponsiveSpacing.spacing(context, base: 8),
+                      ),
+                      TextField(
+                        controller: _nameController,
+                        focusNode: _nameFocus,
+                        enabled: _isEditing,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.name,
+                        textCapitalization: TextCapitalization.words,
+                        decoration: InputDecoration(
+                          hintText: l10n.profileNameHint,
+                          prefixIcon: const Icon(Icons.person_outline),
+                          filled: true,
+                          fillColor: _isEditing
+                              ? colorScheme.surface
+                              : colorScheme.surfaceContainerHighest,
+                          border: inputBorder,
+                          enabledBorder: inputBorder,
+                          disabledBorder: inputBorder,
+                          focusedBorder: inputBorder.copyWith(
+                            borderSide: BorderSide(
+                              color: colorScheme.primary,
+                              width: 1.4,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                        ),
+                        onSubmitted: (_) => _phoneFocus.requestFocus(),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: ResponsiveSpacing.spacing(context, base: 16),
                   ),
-                  TextField(
-                    controller: _phoneController,
-                    focusNode: _phoneFocus,
-                    enabled: _isEditing,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [UzPhoneInputFormatter()],
-                    decoration: InputDecoration(
-                      labelText: l10n.profilePhoneLabel,
-                      hintText: l10n.profilePhoneHint,
-                      prefixIcon: const Icon(Icons.phone_outlined),
-                      filled: true,
-                      fillColor: _isEditing
-                          ? colorScheme.surface
-                          : colorScheme.surfaceContainerHighest,
-                      border: inputBorder,
-                      enabledBorder: inputBorder,
-                      disabledBorder: inputBorder,
-                      focusedBorder: inputBorder.copyWith(
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1.4,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.profilePhoneLabel,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                    onSubmitted: (_) => _carNumberFocus.requestFocus(),
+                      SizedBox(
+                        height: ResponsiveSpacing.spacing(context, base: 8),
+                      ),
+                      TextField(
+                        controller: _phoneController,
+                        focusNode: _phoneFocus,
+                        enabled: _isEditing,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.phone,
+                        inputFormatters: [UzPhoneInputFormatter()],
+                        decoration: InputDecoration(
+                          hintText: l10n.profilePhoneHint,
+                          prefixIcon: const Icon(Icons.phone_outlined),
+                          filled: true,
+                          fillColor: _isEditing
+                              ? colorScheme.surface
+                              : colorScheme.surfaceContainerHighest,
+                          border: inputBorder,
+                          enabledBorder: inputBorder,
+                          disabledBorder: inputBorder,
+                          focusedBorder: inputBorder.copyWith(
+                            borderSide: BorderSide(
+                              color: colorScheme.primary,
+                              width: 1.4,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                        ),
+                        onSubmitted: (_) => _carNumberFocus.requestFocus(),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: ResponsiveSpacing.spacing(context, base: 16),
                   ),
-                  TextField(
-                    controller: _carNumberController,
-                    focusNode: _carNumberFocus,
-                    enabled: _isEditing,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    inputFormatters: [CarPlateInputFormatter()],
-                    textCapitalization: TextCapitalization.characters,
-                    decoration: InputDecoration(
-                      labelText: l10n.profileCarNumberLabel,
-                      hintText: l10n.profileCarNumberHint,
-                      prefixIcon: const Icon(Icons.directions_car_outlined),
-                      filled: true,
-                      fillColor: _isEditing
-                          ? colorScheme.surface
-                          : colorScheme.surfaceContainerHighest,
-                      border: inputBorder,
-                      enabledBorder: inputBorder,
-                      disabledBorder: inputBorder,
-                      focusedBorder: inputBorder.copyWith(
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1.4,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.profileCarNumberLabel,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                    onSubmitted: (_) => _carModelFocus.requestFocus(),
+                      SizedBox(
+                        height: ResponsiveSpacing.spacing(context, base: 8),
+                      ),
+                      TextField(
+                        controller: _carNumberController,
+                        focusNode: _carNumberFocus,
+                        enabled: _isEditing,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.text,
+                        inputFormatters: [CarPlateInputFormatter()],
+                        textCapitalization: TextCapitalization.characters,
+                        decoration: InputDecoration(
+                          hintText: l10n.profileCarNumberHint,
+                          prefixIcon: const Icon(Icons.directions_car_outlined),
+                          filled: true,
+                          fillColor: _isEditing
+                              ? colorScheme.surface
+                              : colorScheme.surfaceContainerHighest,
+                          border: inputBorder,
+                          enabledBorder: inputBorder,
+                          disabledBorder: inputBorder,
+                          focusedBorder: inputBorder.copyWith(
+                            borderSide: BorderSide(
+                              color: colorScheme.primary,
+                              width: 1.4,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                        ),
+                        onSubmitted: (_) => _carModelFocus.requestFocus(),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: ResponsiveSpacing.spacing(context, base: 16),
                   ),
-                  TextField(
-                    controller: _carModelController,
-                    focusNode: _carModelFocus,
-                    enabled: _isEditing,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: l10n.profileCarModelLabel,
-                      hintText: l10n.profileCarModelHint,
-                      prefixIcon: const Icon(Icons.directions_car),
-                      filled: true,
-                      fillColor: _isEditing
-                          ? colorScheme.surface
-                          : colorScheme.surfaceContainerHighest,
-                      border: inputBorder,
-                      enabledBorder: inputBorder,
-                      disabledBorder: inputBorder,
-                      focusedBorder: inputBorder.copyWith(
-                        borderSide: BorderSide(
-                          color: colorScheme.primary,
-                          width: 1.4,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.profileCarModelLabel,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
                         ),
                       ),
-                    ),
-                    onSubmitted: (_) => _saveProfile(),
+                      SizedBox(
+                        height: ResponsiveSpacing.spacing(context, base: 8),
+                      ),
+                      TextField(
+                        controller: _carModelController,
+                        focusNode: _carModelFocus,
+                        enabled: _isEditing,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: l10n.profileCarModelHint,
+                          prefixIcon: const Icon(Icons.directions_car),
+                          filled: true,
+                          fillColor: _isEditing
+                              ? colorScheme.surface
+                              : colorScheme.surfaceContainerHighest,
+                          border: inputBorder,
+                          enabledBorder: inputBorder,
+                          disabledBorder: inputBorder,
+                          focusedBorder: inputBorder.copyWith(
+                            borderSide: BorderSide(
+                              color: colorScheme.primary,
+                              width: 1.4,
+                            ),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                        ),
+                        onSubmitted: (_) => _saveProfile(),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: ResponsiveSpacing.spacing(context, base: 24),

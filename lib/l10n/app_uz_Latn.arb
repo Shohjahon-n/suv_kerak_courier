@@ -50,7 +50,7 @@
   "loginSuccess": "Muvaffaqiyatli kirdingiz.",
   "profileCompletionTitle": "Profilingizni to'ldiring",
   "profileCompletionSubtitle": "Davom etish uchun quyidagi ma'lumotlarni kiriting",
-  "profileNameLabel": "To'liq ism",
+  "profileNameLabel": "To'liq ism familiya",
   "profileNameHint": "To'liq ismingizni kiriting",
   "profileNameValidation": "Ismingizni kiriting",
   "profilePhoneLabel": "Telefon raqami",
@@ -268,12 +268,12 @@
   "courierServiceSelectPrompt": "Hisobotni ko'rish uchun davrni tanlang.",
   "courierServiceStartBalance": "Boshlang'ich balans",
   "courierServiceEndBalance": "Yakuniy balans",
-  "courierServiceTotalChargedLabel": "Hisoblandi",
-  "courierServiceTotalPaidLabel": "To'landi",
+  "courierServiceTotalChargedLabel": "Jami hisoblandi",
+  "courierServiceTotalPaidLabel": "Jami to'landi",
   "courierServiceBalanceLabel": "Balans",
   "courierServiceOperationsTitle": "Xizmat operatsiyalari",
   "courierServiceOrderNumber": "Buyurtma raqami",
   "courierServiceCharged": "Hisoblandi",
   "courierServicePaid": "To'landi",
-  "courierServiceCount": "Xizmatlar soni"
+  "courierServiceCount": "Suv soni"
 }

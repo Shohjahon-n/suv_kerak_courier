@@ -50,7 +50,7 @@
   "loginSuccess": "Муваффақиятли кирдингиз.",
   "profileCompletionTitle": "Профилингизни тўлдиринг",
   "profileCompletionSubtitle": "Давом этиш учун қуйидаги маълумотларни киритинг",
-  "profileNameLabel": "Тўлиқ исм",
+  "profileNameLabel": "Тўлиқ исм фамилия",
   "profileNameHint": "Тўлиқ исмингизни киритинг",
   "profileNameValidation": "Исмингизни киритинг",
   "profilePhoneLabel": "Телефон рақами",
@@ -268,12 +268,12 @@
   "courierServiceSelectPrompt": "Ҳисоботни кўриш учун даврни танланг.",
   "courierServiceStartBalance": "Бошланғич баланс",
   "courierServiceEndBalance": "Якуний баланс",
-  "courierServiceTotalChargedLabel": "Ҳисобланди",
-  "courierServiceTotalPaidLabel": "Тўланди",
+  "courierServiceTotalChargedLabel": "Жами ҳисобланди",
+  "courierServiceTotalPaidLabel": "Жами тўланди",
   "courierServiceBalanceLabel": "Баланс",
   "courierServiceOperationsTitle": "Хизмат операциялари",
   "courierServiceOrderNumber": "Буюртма рақами",
   "courierServiceCharged": "Ҳисобланди",
   "courierServicePaid": "Тўланди",
-  "courierServiceCount": "Хизматлар сони"
+  "courierServiceCount": "Сув сони"
 }

@@ -837,10 +837,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courierServiceEndBalance => 'Closing balance';
 
   @override
-  String get courierServiceTotalChargedLabel => 'Charged';
+  String get courierServiceTotalChargedLabel => 'Total charged';
 
   @override
-  String get courierServiceTotalPaidLabel => 'Paid';
+  String get courierServiceTotalPaidLabel => 'Total paid';
 
   @override
   String get courierServiceBalanceLabel => 'Balance';
@@ -858,5 +858,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courierServicePaid => 'Paid';
 
   @override
-  String get courierServiceCount => 'Service count';
+  String get courierServiceCount => 'Water count';
 }
