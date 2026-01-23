@@ -63,7 +63,7 @@ class _ProfileDataPageState extends State<ProfileDataPage>
     try {
       final dio = context.read<Dio>();
       final response = await dio.post(
-        '/couriers/check-courier-parametr/',
+        '/couriers/get-profile/',
         data: {'kuryer_id': courierId},
       );
 
