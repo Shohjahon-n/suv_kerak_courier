@@ -41,7 +41,8 @@ class KeyValueRow extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final shouldStack = constraints.maxWidth < stackBreakpoint ||
+        final shouldStack =
+            constraints.maxWidth < stackBreakpoint ||
             textScale >= stackTextScale;
         if (shouldStack) {
           return Row(

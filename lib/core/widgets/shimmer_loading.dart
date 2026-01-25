@@ -3,11 +3,7 @@ import 'package:shimmer/shimmer.dart';
 
 /// Base shimmer effect wrapper
 class ShimmerWrapper extends StatelessWidget {
-  const ShimmerWrapper({
-    required this.child,
-    super.key,
-    this.enabled = true,
-  });
+  const ShimmerWrapper({required this.child, super.key, this.enabled = true});
 
   final Widget child;
   final bool enabled;
@@ -56,11 +52,7 @@ class ShimmerCard extends StatelessWidget {
 
 /// Shimmer placeholder for grid items
 class ShimmerGridItem extends StatelessWidget {
-  const ShimmerGridItem({
-    super.key,
-    this.height = 140,
-    this.borderRadius = 16,
-  });
+  const ShimmerGridItem({super.key, this.height = 140, this.borderRadius = 16});
 
   final double height;
   final double borderRadius;
@@ -133,11 +125,7 @@ class DashboardShimmer extends StatelessWidget {
 
 /// Shimmer loading for list items
 class ListShimmer extends StatelessWidget {
-  const ListShimmer({
-    super.key,
-    this.itemCount = 5,
-    this.itemHeight = 100,
-  });
+  const ListShimmer({super.key, this.itemCount = 5, this.itemHeight = 100});
 
   final int itemCount;
   final double itemHeight;

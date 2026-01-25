@@ -13,10 +13,7 @@ import '../../../../core/widgets/responsive_spacing.dart';
 import '../widgets/auth_scaffold.dart';
 
 class ForgotPasswordOtpPage extends StatefulWidget {
-  const ForgotPasswordOtpPage({
-    super.key,
-    required this.courierId,
-  });
+  const ForgotPasswordOtpPage({super.key, required this.courierId});
 
   final int courierId;
 
@@ -58,10 +55,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage>
     try {
       final response = await dio.post(
         '/bots/kuryer/forgot-password/verify/',
-        data: {
-          'kuryer_id': widget.courierId,
-          'code': code,
-        },
+        data: {'kuryer_id': widget.courierId, 'code': code},
       );
       final data = response.data;
       final ok = data is Map && data['ok'] == true;
@@ -124,10 +118,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage>
 
   Future<void> _openBot() async {
     final l10n = AppLocalizations.of(context);
-    final ok = await launchUrl(
-      _botUri,
-      mode: LaunchMode.externalApplication,
-    );
+    final ok = await launchUrl(_botUri, mode: LaunchMode.externalApplication);
     if (!ok && mounted) {
       showToast(l10n.forgotPasswordOpenBotFailed);
     }
@@ -142,9 +133,7 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage>
       borderRadius: BorderRadius.circular(
         ResponsiveSpacing.borderRadius(context, base: 16),
       ),
-      borderSide: BorderSide(
-        color: colorScheme.outline.withValues(alpha: 0.6),
-      ),
+      borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.6)),
     );
 
     return AuthScaffold(
@@ -158,9 +147,9 @@ class _ForgotPasswordOtpPageState extends State<ForgotPasswordOtpPage>
       ),
       extra: Text(
         '${l10n.loginCourierIdLabel}: ${widget.courierId}',
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
+        style: Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(color: colorScheme.onSurfaceVariant),
       ),
       form: AuthFormCard(
         child: Column(

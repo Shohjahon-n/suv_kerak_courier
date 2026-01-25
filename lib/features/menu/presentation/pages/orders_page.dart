@@ -70,9 +70,7 @@ class _OrdersPageState extends State<OrdersPage>
     final dateFormat = DateFormat.yMMMd(locale.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.menuOrders),
-      ),
+      appBar: AppBar(title: Text(l10n.menuOrders)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -104,7 +102,9 @@ class _OrdersPageState extends State<OrdersPage>
               foreground: colorScheme.onTertiaryContainer,
               onTap: () => context.push('/orders/map'),
             ),
-            SizedBox(height: ResponsiveSpacing.verticalSpacing(context, base: 24)),
+            SizedBox(
+              height: ResponsiveSpacing.verticalSpacing(context, base: 24),
+            ),
             SectionTitle(title: l10n.ordersPeriodicReportTitle),
             SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
             DateRangeCard(
@@ -191,9 +191,9 @@ class _ActionCard extends StatelessWidget {
                 child: Text(
                   title,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: foreground,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: foreground,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               Icon(

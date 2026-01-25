@@ -171,9 +171,7 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
         : _titleFor(request.kind, l10n);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: request == null
           ? _EmptySelection(message: l10n.cashReportValidationRequired)
           : _buildBody(context, request, l10n),
@@ -194,10 +192,7 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
         '${dateFormat.format(request.range.start)} - ${dateFormat.format(request.range.end)}';
 
     final content = <Widget>[
-      _RangeCard(
-        title: l10n.cashReportRangeLabel,
-        value: rangeLabel,
-      ),
+      _RangeCard(title: l10n.cashReportRangeLabel, value: rangeLabel),
       const SizedBox(height: 16),
     ];
 
@@ -367,11 +362,8 @@ class _BottleBalanceResultPageState extends State<BottleBalanceResultPage> {
     } else {
       items.addAll(
         report.rows.map(
-          (row) => _BottleRowCard(
-            row: row,
-            l10n: l10n,
-            numberFormat: numberFormat,
-          ),
+          (row) =>
+              _BottleRowCard(row: row, l10n: l10n, numberFormat: numberFormat),
         ),
       );
     }
@@ -483,7 +475,9 @@ class _RangeCard extends StatelessWidget {
       padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 16),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -491,17 +485,17 @@ class _RangeCard extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
-                  fontWeight: FontWeight.w600,
-                ),
+              color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             value,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
@@ -529,10 +523,10 @@ class _MessageCard extends StatelessWidget {
       padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 16),
         ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -542,15 +536,12 @@ class _MessageCard extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
           if (onRetry != null) ...[
             const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: onRetry,
-              child: Text(retryLabel),
-            ),
+            OutlinedButton(onPressed: onRetry, child: Text(retryLabel)),
           ],
         ],
       ),
@@ -574,19 +565,22 @@ class _BottleRowCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final dateLabel = _buildDateLabel();
-    final operation =
-        row.operation.isNotEmpty ? row.operation : l10n.notAvailable;
+    final operation = row.operation.isNotEmpty
+        ? row.operation
+        : l10n.notAvailable;
     final balanceLabel = numberFormat.format(row.balance);
 
     return Container(
-      margin: EdgeInsets.only(bottom: ResponsiveSpacing.spacing(context, base: 12)),
+      margin: EdgeInsets.only(
+        bottom: ResponsiveSpacing.spacing(context, base: 12),
+      ),
       padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 16),
         ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -655,19 +649,22 @@ class _FullWaterRowCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final dateLabel = _buildDateLabel();
-    final operation =
-        row.operation.isNotEmpty ? row.operation : l10n.notAvailable;
+    final operation = row.operation.isNotEmpty
+        ? row.operation
+        : l10n.notAvailable;
     final balanceLabel = numberFormat.format(row.balance);
 
     return Container(
-      margin: EdgeInsets.only(bottom: ResponsiveSpacing.spacing(context, base: 12)),
+      margin: EdgeInsets.only(
+        bottom: ResponsiveSpacing.spacing(context, base: 12),
+      ),
       padding: ResponsiveSpacing.largePadding(context),
       decoration: BoxDecoration(
         color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.2),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 16),
         ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -742,7 +739,9 @@ class _SummaryCard extends StatelessWidget {
       padding: ResponsiveSpacing.cardPadding(context),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(ResponsiveSpacing.borderRadius(context, base: 16)),
+        borderRadius: BorderRadius.circular(
+          ResponsiveSpacing.borderRadius(context, base: 16),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -926,10 +925,7 @@ class _HeaderRow extends StatelessWidget {
 }
 
 class _ResponsivePillRow extends StatelessWidget {
-  const _ResponsivePillRow({
-    required this.leading,
-    required this.trailing,
-  });
+  const _ResponsivePillRow({required this.leading, required this.trailing});
 
   final Widget leading;
   final Widget trailing;
@@ -943,11 +939,7 @@ class _ResponsivePillRow extends StatelessWidget {
         if (shouldStack) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              leading,
-              const SizedBox(height: 12),
-              trailing,
-            ],
+            children: [leading, const SizedBox(height: 12), trailing],
           );
         }
         return Row(

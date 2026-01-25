@@ -1,7 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:talker/talker.dart';
 
+import '../constants/api_endpoints.dart';
 import '../storage/app_preferences.dart';
+
+/// Holds a queued request and its error handler
+class _QueuedRequest {
+  _QueuedRequest(this.requestOptions, this.handler);
+
+  final RequestOptions requestOptions;
+  final ErrorInterceptorHandler handler;
+}
 
 /// Interceptor that adds Authorization header to all requests
 /// and handles token refresh on 401 responses
@@ -12,9 +21,9 @@ class AuthInterceptor extends Interceptor {
 
   final AppPreferences _preferences;
   final Talker _talker;
-  Dio? _dio;
+  late final Dio _dio;
   bool _isRefreshing = false;
-  final List<RequestOptions> _requestsQueue = [];
+  final List<_QueuedRequest> _requestsQueue = [];
 
   /// Set the Dio instance after creation to avoid circular dependency
   void setDio(Dio dio) {
@@ -49,8 +58,6 @@ class AuthInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $accessToken';
 
       _talker.info('  ✅ Added Bearer token to: ${options.path}');
-      _talker.debug('  Token preview: ${accessToken.substring(0, 20)}...');
-      _talker.debug('  Headers after: ${options.headers}');
     } else {
       _talker.warning('  ⚠️  No access token for: ${options.path}');
     }
@@ -71,7 +78,7 @@ class AuthInterceptor extends Interceptor {
 
       // If already refreshing, queue this request
       if (_isRefreshing) {
-        _requestsQueue.add(err.requestOptions);
+        _requestsQueue.add(_QueuedRequest(err.requestOptions, handler));
         return;
       }
 
@@ -94,28 +101,25 @@ class AuthInterceptor extends Interceptor {
           await _preferences.setRefreshToken(newTokens['refresh']);
 
           // Retry the failed request with new token
-          if (_dio != null) {
-            final options = err.requestOptions;
-            options.headers['Authorization'] = 'Bearer ${newTokens['access']}';
+          final options = err.requestOptions;
+          options.headers['Authorization'] = 'Bearer ${newTokens['access']}';
 
-            final response = await _dio!.fetch(options);
-            handler.resolve(response);
-          } else {
-            handler.next(err);
-            return;
-          }
+          final response = await _dio.fetch(options);
+          handler.resolve(response);
 
           // Retry queued requests
           await _retryQueuedRequests(newTokens['access']!);
         } else {
-          // Refresh failed, clear session
+          // Refresh failed, clear session and reject all queued requests
           _talker.error('Token refresh failed');
           await _preferences.clearSession();
+          _rejectQueuedRequests(err);
           handler.next(err);
         }
       } catch (e, stackTrace) {
         _talker.error('Error during token refresh', e, stackTrace);
         await _preferences.clearSession();
+        _rejectQueuedRequests(err);
         handler.next(err);
       } finally {
         _isRefreshing = false;
@@ -128,14 +132,9 @@ class AuthInterceptor extends Interceptor {
 
   /// Refresh access token using refresh token
   Future<Map<String, String>?> _refreshToken(String refreshToken) async {
-    if (_dio == null) {
-      _talker.error('Dio instance not set in AuthInterceptor');
-      return null;
-    }
-
     try {
-      final response = await _dio!.post(
-        '/auth/token/refresh/',
+      final response = await _dio.post(
+        ApiEndpoints.tokenRefresh,
         data: {'refresh': refreshToken},
         options: Options(
           headers: {'Authorization': null}, // Remove auth header
@@ -158,23 +157,49 @@ class AuthInterceptor extends Interceptor {
 
   /// Retry queued requests with new access token
   Future<void> _retryQueuedRequests(String newAccessToken) async {
-    if (_dio == null) return;
-
-    for (final options in _requestsQueue) {
+    for (final queuedRequest in _requestsQueue) {
       try {
+        final options = queuedRequest.requestOptions;
         options.headers['Authorization'] = 'Bearer $newAccessToken';
-        await _dio!.fetch(options);
+        final response = await _dio.fetch(options);
+        queuedRequest.handler.resolve(response);
       } catch (e) {
-        _talker.error('Failed to retry queued request: ${options.path}', e);
+        _talker.error(
+          'Failed to retry queued request: ${queuedRequest.requestOptions.path}',
+          e,
+        );
+        // Reject the queued request with the error
+        if (e is DioException) {
+          queuedRequest.handler.reject(e);
+        } else {
+          queuedRequest.handler.reject(
+            DioException(
+              requestOptions: queuedRequest.requestOptions,
+              error: e,
+            ),
+          );
+        }
       }
+    }
+  }
+
+  /// Reject all queued requests when token refresh fails
+  void _rejectQueuedRequests(DioException originalError) {
+    for (final queuedRequest in _requestsQueue) {
+      _talker.warning(
+        'Rejecting queued request due to token refresh failure: '
+        '${queuedRequest.requestOptions.path}',
+      );
+      queuedRequest.handler.reject(originalError);
     }
   }
 
   /// Check if the endpoint is an auth endpoint (no token needed)
   bool _isAuthEndpoint(String path) {
-    return path.contains('/auth/login') ||
-        path.contains('/auth/register') ||
-        path.contains('/auth/token/refresh') ||
-        path.contains('/auth/forgot-password');
+    return path.contains(ApiEndpoints.login) ||
+        path.contains(ApiEndpoints.tokenRefresh) ||
+        path.contains(ApiEndpoints.forgotPasswordStart) ||
+        path.contains(ApiEndpoints.forgotPasswordVerify) ||
+        path.contains('/auth/register');
   }
 }

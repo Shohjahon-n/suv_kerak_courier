@@ -102,9 +102,7 @@ class _CashReportPageState extends State<CashReportPage>
     final dateFormat = DateFormat.yMMMd(locale.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.menuCashReport),
-      ),
+      appBar: AppBar(title: Text(l10n.menuCashReport)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -120,14 +118,10 @@ class _CashReportPageState extends State<CashReportPage>
               startDate: _periodStart,
               endDate: _periodEnd,
               dateFormat: dateFormat,
-              onPickStart: () => _pickDate(
-                kind: CashReportKind.periodic,
-                isStart: true,
-              ),
-              onPickEnd: () => _pickDate(
-                kind: CashReportKind.periodic,
-                isStart: false,
-              ),
+              onPickStart: () =>
+                  _pickDate(kind: CashReportKind.periodic, isStart: true),
+              onPickEnd: () =>
+                  _pickDate(kind: CashReportKind.periodic, isStart: false),
               onSubmit: (_periodStart != null && _periodEnd != null)
                   ? () => _openReport(CashReportKind.periodic)
                   : null,
@@ -143,10 +137,8 @@ class _CashReportPageState extends State<CashReportPage>
               startDate: _onlineStart,
               endDate: _onlineEnd,
               dateFormat: dateFormat,
-              onPickStart: () => _pickDate(
-                kind: CashReportKind.onlinePayments,
-                isStart: true,
-              ),
+              onPickStart: () =>
+                  _pickDate(kind: CashReportKind.onlinePayments, isStart: true),
               onPickEnd: () => _pickDate(
                 kind: CashReportKind.onlinePayments,
                 isStart: false,

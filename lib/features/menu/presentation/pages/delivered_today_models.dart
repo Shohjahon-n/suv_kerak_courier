@@ -16,7 +16,13 @@ class DeliveredTodayResponse extends Equatable {
   final List<DeliveredTodayItem> items;
 
   @override
-  List<Object> get props => [businessId, courierId, count, totalWaterCount, items];
+  List<Object> get props => [
+    businessId,
+    courierId,
+    count,
+    totalWaterCount,
+    items,
+  ];
 
   factory DeliveredTodayResponse.fromJson(Map<String, dynamic> json) {
     final items = (json['items'] as List<dynamic>? ?? [])
@@ -67,19 +73,19 @@ class DeliveredTodayItem extends Equatable {
 
   @override
   List<Object> get props => [
-        orderDate,
-        orderTime,
-        address,
-        note,
-        buyerId,
-        orderNumber,
-        waterCount,
-        locationRaw,
-        paymentStatus,
-        onlinePayments,
-        courierName,
-        courierPhone,
-      ];
+    orderDate,
+    orderTime,
+    address,
+    note,
+    buyerId,
+    orderNumber,
+    waterCount,
+    locationRaw,
+    paymentStatus,
+    onlinePayments,
+    courierName,
+    courierPhone,
+  ];
 
   factory DeliveredTodayItem.fromJson(Map<String, dynamic> json) {
     return DeliveredTodayItem(

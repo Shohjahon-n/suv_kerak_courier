@@ -102,6 +102,10 @@
   "ordersPaymentStatusLabel": "Статус оплаты",
   "ordersLocationLabel": "Локация",
   "ordersAddressLabel": "Адрес",
+  "ordersCallCustomerButton": "Позвонить",
+  "ordersAcceptOrderButton": "Принять",
+  "ordersPhoneNotAvailable": "Номер телефона недоступен",
+  "ordersCallAppFailed": "Не удалось открыть приложение для звонков",
   "ordersEmptyState": "Пока нет заказов.",
   "ordersSessionMissing": "Не найден ID бизнеса.",
   "ordersLoadFailed": "Не удалось загрузить заказы.",
@@ -275,5 +279,17 @@
   "courierServiceOrderNumber": "Номер заказа",
   "courierServiceCharged": "Начислено",
   "courierServicePaid": "Оплачено",
-  "courierServiceCount": "Количество воды"
+  "courierServiceCount": "Количество воды",
+  "commonConfirm": "Подтвердить",
+  "ordersAcceptTitle": "Принять заказ",
+  "ordersAcceptConfirm": "Принять заказ {orderNum}?",
+  "@ordersAcceptConfirm": {
+    "placeholders": {
+      "orderNum": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersAcceptSuccess": "Заказ успешно принят",
+  "ordersAcceptFailed": "Не удалось принять заказ"
 }

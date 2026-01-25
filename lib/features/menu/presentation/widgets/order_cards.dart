@@ -74,11 +74,15 @@ class OrderCard extends StatelessWidget {
     required this.item,
     required this.l10n,
     required this.numberFormat,
+    this.onAccept,
+    this.onCall,
   });
 
   final PendingOrderItem item;
   final AppLocalizations l10n;
   final NumberFormat numberFormat;
+  final VoidCallback? onAccept;
+  final VoidCallback? onCall;
 
   @override
   Widget build(BuildContext context) {
@@ -88,11 +92,14 @@ class OrderCard extends StatelessWidget {
     final waterLabel = numberFormat.format(item.waterCount);
     final location = item.parseLocation();
     final locationLabel = location?.format();
-    final address = item.address.trim().isEmpty ? l10n.notAvailable : item.address;
+    final address = item.address.trim().isEmpty
+        ? l10n.notAvailable
+        : item.address;
     final note = item.note.trim().isEmpty ? l10n.notAvailable : item.note;
     final status = item.paymentStatus.trim().isEmpty
         ? l10n.notAvailable
         : item.paymentStatus;
+    final showActions = !item.isOnWay && (onAccept != null || onCall != null);
 
     return Container(
       margin: EdgeInsets.only(
@@ -157,6 +164,34 @@ class OrderCard extends StatelessWidget {
               icon: Icons.place_outlined,
               label: l10n.ordersLocationLabel,
               value: locationLabel,
+            ),
+          ],
+          if (showActions) ...[
+            SizedBox(height: ResponsiveSpacing.spacing(context, base: 16)),
+            Row(
+              children: [
+                if (onCall != null)
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: onCall,
+                      icon: const Icon(Icons.phone_outlined),
+                      label: Text(l10n.ordersCallCustomerButton),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                if (onAccept != null && onCall != null)
+                  SizedBox(width: ResponsiveSpacing.spacing(context, base: 8)),
+                if (onAccept != null)
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: onAccept,
+                      icon: const Icon(Icons.check),
+                      label: Text(l10n.ordersAcceptOrderButton),
+                    ),
+                  ),
+              ],
             ),
           ],
         ],
@@ -353,7 +388,9 @@ class DeliveredTodayOrderCard extends StatelessWidget {
     final waterLabel = numberFormat.format(item.waterCount);
     final location = item.parseLocation();
     final locationLabel = location?.format();
-    final address = item.address.trim().isEmpty ? l10n.notAvailable : item.address;
+    final address = item.address.trim().isEmpty
+        ? l10n.notAvailable
+        : item.address;
     final note = item.note.trim().isEmpty ? l10n.notAvailable : item.note;
     final status = item.paymentStatus.trim().isEmpty
         ? l10n.notAvailable

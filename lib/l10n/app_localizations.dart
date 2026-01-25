@@ -714,6 +714,30 @@ abstract class AppLocalizations {
   /// **'Address'**
   String get ordersAddressLabel;
 
+  /// No description provided for @ordersCallCustomerButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get ordersCallCustomerButton;
+
+  /// No description provided for @ordersAcceptOrderButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get ordersAcceptOrderButton;
+
+  /// No description provided for @ordersPhoneNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number not available'**
+  String get ordersPhoneNotAvailable;
+
+  /// No description provided for @ordersCallAppFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to open phone app'**
+  String get ordersCallAppFailed;
+
   /// No description provided for @ordersEmptyState.
   ///
   /// In en, this message translates to:
@@ -1757,6 +1781,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Water count'**
   String get courierServiceCount;
+
+  /// No description provided for @commonConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get commonConfirm;
+
+  /// No description provided for @ordersAcceptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Order'**
+  String get ordersAcceptTitle;
+
+  /// No description provided for @ordersAcceptConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept order {orderNum}?'**
+  String ordersAcceptConfirm(String orderNum);
+
+  /// No description provided for @ordersAcceptSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Order accepted successfully'**
+  String get ordersAcceptSuccess;
+
+  /// No description provided for @ordersAcceptFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to accept order'**
+  String get ordersAcceptFailed;
 }
 
 class _AppLocalizationsDelegate

@@ -102,6 +102,10 @@
   "ordersPaymentStatusLabel": "To'lov holati",
   "ordersLocationLabel": "Lokatsiya",
   "ordersAddressLabel": "Manzil",
+  "ordersCallCustomerButton": "Qo'ng'iroq qilish",
+  "ordersAcceptOrderButton": "Qabul qilish",
+  "ordersPhoneNotAvailable": "Telefon raqami mavjud emas",
+  "ordersCallAppFailed": "Qo'ng'iroq ilovasini ochib bo'lmadi",
   "ordersEmptyState": "Hozircha buyurtmalar yo'q.",
   "ordersSessionMissing": "Biznes ID topilmadi.",
   "ordersLoadFailed": "Buyurtmalarni yuklashda xatolik.",
@@ -275,5 +279,17 @@
   "courierServiceOrderNumber": "Buyurtma raqami",
   "courierServiceCharged": "Hisoblandi",
   "courierServicePaid": "To'landi",
-  "courierServiceCount": "Suv soni"
+  "courierServiceCount": "Suv soni",
+  "commonConfirm": "Tasdiqlash",
+  "ordersAcceptTitle": "Buyurtmani qabul qilish",
+  "ordersAcceptConfirm": "{orderNum} buyurtmasini qabul qilasizmi?",
+  "@ordersAcceptConfirm": {
+    "placeholders": {
+      "orderNum": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersAcceptSuccess": "Buyurtma muvaffaqiyatli qabul qilindi",
+  "ordersAcceptFailed": "Buyurtmani qabul qilishda xatolik"
 }

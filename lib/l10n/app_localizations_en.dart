@@ -319,6 +319,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ordersAddressLabel => 'Address';
 
   @override
+  String get ordersCallCustomerButton => 'Call';
+
+  @override
+  String get ordersAcceptOrderButton => 'Accept';
+
+  @override
+  String get ordersPhoneNotAvailable => 'Phone number not available';
+
+  @override
+  String get ordersCallAppFailed => 'Failed to open phone app';
+
+  @override
   String get ordersEmptyState => 'No orders yet.';
 
   @override
@@ -859,4 +871,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get courierServiceCount => 'Water count';
+
+  @override
+  String get commonConfirm => 'Confirm';
+
+  @override
+  String get ordersAcceptTitle => 'Accept Order';
+
+  @override
+  String ordersAcceptConfirm(String orderNum) {
+    return 'Accept order $orderNum?';
+  }
+
+  @override
+  String get ordersAcceptSuccess => 'Order accepted successfully';
+
+  @override
+  String get ordersAcceptFailed => 'Failed to accept order';
 }

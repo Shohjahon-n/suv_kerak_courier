@@ -102,9 +102,7 @@ class _BottleBalancePageState extends State<BottleBalancePage>
     final dateFormat = DateFormat.yMMMd(locale.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.menuBottleBalance),
-      ),
+      appBar: AppBar(title: Text(l10n.menuBottleBalance)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -143,14 +141,10 @@ class _BottleBalancePageState extends State<BottleBalancePage>
               startDate: _fullStart,
               endDate: _fullEnd,
               dateFormat: dateFormat,
-              onPickStart: () => _pickDate(
-                kind: BottleBalanceKind.fullWater,
-                isStart: true,
-              ),
-              onPickEnd: () => _pickDate(
-                kind: BottleBalanceKind.fullWater,
-                isStart: false,
-              ),
+              onPickStart: () =>
+                  _pickDate(kind: BottleBalanceKind.fullWater, isStart: true),
+              onPickEnd: () =>
+                  _pickDate(kind: BottleBalanceKind.fullWater, isStart: false),
               onSubmit: (_fullStart != null && _fullEnd != null)
                   ? () => _openReport(BottleBalanceKind.fullWater)
                   : null,

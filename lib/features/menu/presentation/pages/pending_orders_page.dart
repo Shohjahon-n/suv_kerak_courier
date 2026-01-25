@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/utils/error_handler.dart';
 import '../../../../core/widgets/adaptive_grid.dart';
@@ -58,7 +60,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage>
     try {
       final dio = context.read<Dio>();
       final response = await dio.post(
-        '/orders/pending-orders/',
+        ApiEndpoints.pendingOrders,
         data: {'business_id': businessId},
       );
       final data = response.data;
@@ -116,13 +118,133 @@ class _PendingOrdersPageState extends State<PendingOrdersPage>
     }
   }
 
+  Future<void> _handleAccept(PendingOrderItem item) async {
+    final l10n = AppLocalizations.of(context);
+    final preferences = context.read<AppPreferences>();
+    final courierId = preferences.readCourierId();
+
+    if (courierId == null) {
+      showToast(l10n.ordersSessionMissing);
+      return;
+    }
+
+    // Show confirmation dialog
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.ordersAcceptTitle),
+        content: Text(l10n.ordersAcceptConfirm(item.orderNumber)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.commonConfirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) {
+      return;
+    }
+
+    // Show loading indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final dio = context.read<Dio>();
+      final response = await dio.post(
+        ApiEndpoints.markOnWay,
+        data: {
+          'business_id': courierId,
+          'label': item.orderNumber,
+          'ilova': ApiEndpoints.appIdentifier,
+        },
+      );
+
+      if (!mounted) return;
+
+      // Close loading dialog
+      Navigator.of(context).pop();
+
+      final data = response.data;
+      if (data is Map) {
+        final ok = data['ok'];
+        final detail = stringValue(data, 'detail');
+
+        if (ok == true) {
+          showToast(l10n.ordersAcceptSuccess);
+          // Reload the orders list
+          await _load();
+        } else {
+          showToast(detail ?? l10n.ordersAcceptFailed);
+        }
+      } else {
+        showToast(l10n.ordersAcceptFailed);
+      }
+    } on DioException catch (error, stackTrace) {
+      if (!mounted) return;
+
+      // Close loading dialog
+      Navigator.of(context).pop();
+
+      handleError(
+        error,
+        stackTrace: stackTrace,
+        customMessage: l10n.ordersAcceptFailed,
+        showSnackbar: true,
+      );
+    } catch (error, stackTrace) {
+      if (!mounted) return;
+
+      // Close loading dialog
+      Navigator.of(context).pop();
+
+      handleError(
+        error,
+        stackTrace: stackTrace,
+        customMessage: l10n.ordersAcceptFailed,
+        showSnackbar: true,
+      );
+    }
+  }
+
+  Future<void> _handleCallCustomer(PendingOrderItem item) async {
+    final l10n = AppLocalizations.of(context);
+    final phoneNumber = item.buyerPhone.trim();
+
+    if (phoneNumber.isEmpty) {
+      showToast(l10n.ordersPhoneNotAvailable);
+      return;
+    }
+
+    final uri = Uri(scheme: 'tel', path: phoneNumber);
+
+    try {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        if (!mounted) return;
+        showToast(l10n.ordersCallAppFailed);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showToast(l10n.ordersCallAppFailed);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.ordersPendingTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.ordersPendingTitle)),
       body: SafeArea(
         top: false,
         child: RefreshIndicator(
@@ -228,9 +350,7 @@ class _PendingOrdersPageState extends State<PendingOrdersPage>
     final slivers = <Widget>[
       SliverPadding(
         padding: padding,
-        sliver: SliverList(
-          delegate: SliverChildListDelegate(headerWidgets),
-        ),
+        sliver: SliverList(delegate: SliverChildListDelegate(headerWidgets)),
       ),
       SliverPadding(
         padding: EdgeInsets.fromLTRB(
@@ -240,17 +360,16 @@ class _PendingOrdersPageState extends State<PendingOrdersPage>
           padding.bottom,
         ),
         sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final item = data.items[index];
-              return OrderCard(
-                item: item,
-                l10n: l10n,
-                numberFormat: numberFormat,
-              );
-            },
-            childCount: data.items.length,
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final item = data.items[index];
+            return OrderCard(
+              item: item,
+              l10n: l10n,
+              numberFormat: numberFormat,
+              onAccept: () => _handleAccept(item),
+              onCall: () => _handleCallCustomer(item),
+            );
+          }, childCount: data.items.length),
         ),
       ),
     ];

@@ -102,6 +102,10 @@
   "ordersPaymentStatusLabel": "Тўлов ҳолати",
   "ordersLocationLabel": "Локация",
   "ordersAddressLabel": "Манзил",
+  "ordersCallCustomerButton": "Қўнғироқ қилиш",
+  "ordersAcceptOrderButton": "Қабул қилиш",
+  "ordersPhoneNotAvailable": "Телефон рақами мавжуд эмас",
+  "ordersCallAppFailed": "Қўнғироқ иловасини очиб бўлмади",
   "ordersEmptyState": "Ҳозирча буюртмалар йўқ.",
   "ordersSessionMissing": "Бизнес ID топилмади.",
   "ordersLoadFailed": "Буюртмаларни юклашда хатолик.",
@@ -275,5 +279,17 @@
   "courierServiceOrderNumber": "Буюртма рақами",
   "courierServiceCharged": "Ҳисобланди",
   "courierServicePaid": "Тўланди",
-  "courierServiceCount": "Сув сони"
+  "courierServiceCount": "Сув сони",
+  "commonConfirm": "Тасдиқлаш",
+  "ordersAcceptTitle": "Буюртмани қабул қилиш",
+  "ordersAcceptConfirm": "{orderNum} буюртмасини қабул қиласизми?",
+  "@ordersAcceptConfirm": {
+    "placeholders": {
+      "orderNum": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersAcceptSuccess": "Буюртма муваффақиятли қабул қилинди",
+  "ordersAcceptFailed": "Буюртмани қабул қилишда хатолик"
 }

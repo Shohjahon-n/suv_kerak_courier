@@ -321,6 +321,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get ordersAddressLabel => 'Адрес';
 
   @override
+  String get ordersCallCustomerButton => 'Позвонить';
+
+  @override
+  String get ordersAcceptOrderButton => 'Принять';
+
+  @override
+  String get ordersPhoneNotAvailable => 'Номер телефона недоступен';
+
+  @override
+  String get ordersCallAppFailed => 'Не удалось открыть приложение для звонков';
+
+  @override
   String get ordersEmptyState => 'Пока нет заказов.';
 
   @override
@@ -866,4 +878,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get courierServiceCount => 'Количество воды';
+
+  @override
+  String get commonConfirm => 'Подтвердить';
+
+  @override
+  String get ordersAcceptTitle => 'Принять заказ';
+
+  @override
+  String ordersAcceptConfirm(String orderNum) {
+    return 'Принять заказ $orderNum?';
+  }
+
+  @override
+  String get ordersAcceptSuccess => 'Заказ успешно принят';
+
+  @override
+  String get ordersAcceptFailed => 'Не удалось принять заказ';
 }

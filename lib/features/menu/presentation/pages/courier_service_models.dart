@@ -2,9 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class CourierServiceRequest extends Equatable {
-  const CourierServiceRequest({
-    required this.range,
-  });
+  const CourierServiceRequest({required this.range});
 
   final DateTimeRange range;
 
@@ -45,25 +43,27 @@ class CourierServiceReport extends Equatable {
 
   @override
   List<Object> get props => [
-        ok,
-        businessId,
-        courierId,
-        courierName,
-        startCashBalance,
-        startMessage,
-        startMessageColor,
-        endCashBalance,
-        endMessage,
-        endMessageColor,
-        totalIncome,
-        totalExpense,
-        rows,
-      ];
+    ok,
+    businessId,
+    courierId,
+    courierName,
+    startCashBalance,
+    startMessage,
+    startMessageColor,
+    endCashBalance,
+    endMessage,
+    endMessageColor,
+    totalIncome,
+    totalExpense,
+    rows,
+  ];
 
   factory CourierServiceReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
         .whereType<Map>()
-        .map((row) => CourierServiceRow.fromJson(Map<String, dynamic>.from(row)))
+        .map(
+          (row) => CourierServiceRow.fromJson(Map<String, dynamic>.from(row)),
+        )
         .toList();
     return CourierServiceReport(
       ok: json['ok'] == true,
@@ -142,15 +142,15 @@ class CourierServiceRow extends Equatable {
 
   @override
   List<Object> get props => [
-        date,
-        time,
-        operation,
-        orderNumber,
-        charged,
-        paid,
-        cashBalance,
-        serviceCount,
-      ];
+    date,
+    time,
+    operation,
+    orderNumber,
+    charged,
+    paid,
+    cashBalance,
+    serviceCount,
+  ];
 
   factory CourierServiceRow.fromJson(Map<String, dynamic> json) {
     return CourierServiceRow(

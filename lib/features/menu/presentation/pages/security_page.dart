@@ -19,16 +19,13 @@ class SecurityPage extends StatefulWidget {
 }
 
 class _SecurityPageState extends State<SecurityPage> {
-  final TextEditingController _oldPasswordController =
-      TextEditingController();
-  final TextEditingController _newPasswordController =
-      TextEditingController();
+  final TextEditingController _oldPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final TextEditingController _oldPinController = TextEditingController();
   final TextEditingController _newPinController = TextEditingController();
-  final TextEditingController _confirmPinController =
-      TextEditingController();
+  final TextEditingController _confirmPinController = TextEditingController();
 
   final FocusNode _oldPasswordFocus = FocusNode();
   final FocusNode _newPasswordFocus = FocusNode();
@@ -68,9 +65,7 @@ class _SecurityPageState extends State<SecurityPage> {
     final newPassword = _newPasswordController.text;
     final confirmPassword = _confirmPasswordController.text;
 
-    if (oldPassword.isEmpty ||
-        newPassword.isEmpty ||
-        confirmPassword.isEmpty) {
+    if (oldPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
       _showToast(l10n.securityValidationRequired);
       return;
     }
@@ -173,9 +168,7 @@ class _SecurityPageState extends State<SecurityPage> {
       _clearPinInputs();
       _showToast(detail ?? l10n.securityPinUpdated);
     } on DioException catch (error) {
-      _showToast(
-        _extractErrorDetail(error) ?? l10n.securityPinUpdateFailed,
-      );
+      _showToast(_extractErrorDetail(error) ?? l10n.securityPinUpdateFailed);
     } catch (_) {
       _showToast(l10n.securityPinUpdateFailed);
     } finally {
@@ -208,10 +201,7 @@ class _SecurityPageState extends State<SecurityPage> {
       _showToast(l10n.aboutUpdateUnavailable);
       return;
     }
-    final ok = await launchUrl(
-      uri,
-      mode: LaunchMode.externalApplication,
-    );
+    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
     if (!ok && mounted) {
       _showToast(l10n.aboutUpdateUnavailable);
     }
@@ -297,10 +287,7 @@ class _SecurityPageState extends State<SecurityPage> {
 
   void _showToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-      ),
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
 
@@ -344,9 +331,7 @@ class _SecurityPageState extends State<SecurityPage> {
 
     final inputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(16),
-      borderSide: BorderSide(
-        color: colorScheme.outline.withValues(alpha: 0.6),
-      ),
+      borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.6)),
     );
 
     InputDecoration decoration({
@@ -362,19 +347,14 @@ class _SecurityPageState extends State<SecurityPage> {
         border: inputBorder,
         enabledBorder: inputBorder,
         focusedBorder: inputBorder.copyWith(
-          borderSide: BorderSide(
-            color: colorScheme.primary,
-            width: 1.4,
-          ),
+          borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
         ),
         suffixIcon: suffixIcon,
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.menuSecurity),
-      ),
+      appBar: AppBar(title: Text(l10n.menuSecurity)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -435,8 +415,9 @@ class _SecurityPageState extends State<SecurityPage> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed:
-                        _isPasswordLoading ? null : _submitPasswordChange,
+                    onPressed: _isPasswordLoading
+                        ? null
+                        : _submitPasswordChange,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -481,7 +462,7 @@ class _SecurityPageState extends State<SecurityPage> {
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           obscureText: _obscurePin,
-                          inputFormatters:  [
+                          inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(4),
                           ],
@@ -509,7 +490,7 @@ class _SecurityPageState extends State<SecurityPage> {
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           obscureText: _obscurePin,
-                          inputFormatters:  [
+                          inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(4),
                           ],
@@ -527,7 +508,7 @@ class _SecurityPageState extends State<SecurityPage> {
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
                           obscureText: _obscurePin,
-                          inputFormatters:  [
+                          inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(4),
                           ],
@@ -554,8 +535,7 @@ class _SecurityPageState extends State<SecurityPage> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor:
-                                          AlwaysStoppedAnimation<Color>(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
                                         colorScheme.onPrimary,
                                       ),
                                     ),
@@ -574,8 +554,7 @@ class _SecurityPageState extends State<SecurityPage> {
           _FormCard(
             child: LayoutBuilder(
               builder: (context, constraints) {
-                final textScale =
-                    MediaQuery.textScalerOf(context).scale(1.0);
+                final textScale = MediaQuery.textScalerOf(context).scale(1.0);
                 final stackButtons =
                     constraints.maxWidth < 360 || textScale >= 1.3;
 
@@ -603,10 +582,7 @@ class _SecurityPageState extends State<SecurityPage> {
                       vertical: 12,
                     ),
                   ),
-                  icon: const Icon(
-                    Icons.system_update_alt_outlined,
-                    size: 20,
-                  ),
+                  icon: const Icon(Icons.system_update_alt_outlined, size: 20),
                   label: Flexible(
                     child: Text(
                       l10n.aboutUpdateButton,
@@ -651,9 +627,9 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
     );
   }
 }
@@ -671,9 +647,7 @@ class _FormCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
             color: colorScheme.shadow.withValues(alpha: 0.08),

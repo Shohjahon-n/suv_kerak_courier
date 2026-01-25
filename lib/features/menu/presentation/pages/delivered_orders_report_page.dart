@@ -141,9 +141,7 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
         : l10n.ordersPeriodicReportTitle;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: request == null
           ? SafeArea(
               top: false,
@@ -222,10 +220,7 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
 
     final data = _data!;
     final headerWidgets = <Widget>[
-      _RangeCard(
-        title: l10n.cashReportRangeLabel,
-        value: rangeLabel,
-      ),
+      _RangeCard(title: l10n.cashReportRangeLabel, value: rangeLabel),
       SizedBox(height: ResponsiveSpacing.spacing(context, base: 16)),
       SectionTitle(title: l10n.ordersSummaryTitle),
       SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
@@ -259,9 +254,7 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
     final slivers = <Widget>[
       SliverPadding(
         padding: padding,
-        sliver: SliverList(
-          delegate: SliverChildListDelegate(headerWidgets),
-        ),
+        sliver: SliverList(delegate: SliverChildListDelegate(headerWidgets)),
       ),
       SliverPadding(
         padding: EdgeInsets.fromLTRB(
@@ -271,17 +264,14 @@ class _DeliveredOrdersReportPageState extends State<DeliveredOrdersReportPage>
           padding.bottom,
         ),
         sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final item = data.items[index];
-              return OrderCard(
-                item: item,
-                l10n: l10n,
-                numberFormat: numberFormat,
-              );
-            },
-            childCount: data.items.length,
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final item = data.items[index];
+            return OrderCard(
+              item: item,
+              l10n: l10n,
+              numberFormat: numberFormat,
+            );
+          }, childCount: data.items.length),
         ),
       ),
     ];
@@ -331,17 +321,17 @@ class _RangeCard extends StatelessWidget {
           Text(
             title,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
-                  fontWeight: FontWeight.w600,
-                ),
+              color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+              fontWeight: FontWeight.w600,
+            ),
           ),
           SizedBox(height: ResponsiveSpacing.spacing(context, base: 6)),
           Text(
             value,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                  fontWeight: FontWeight.w700,
-                ),
+              color: colorScheme.onPrimaryContainer,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),

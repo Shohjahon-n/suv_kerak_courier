@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:talker/talker.dart';
 
+import '../../../../core/constants/api_endpoints.dart';
 import '../../../../core/storage/app_preferences.dart';
 import '../models/login_response.dart';
 
@@ -17,15 +18,15 @@ class AuthRepository {
   final AppPreferences _preferences;
   final Talker _talker;
 
-  /// Login with phone and password
+  /// Login with courier ID and password
   Future<LoginResponse> login({
-    required String phone,
+    required int courierId,
     required String password,
   }) async {
     try {
       final response = await _dio.post(
-        '/auth/login/',
-        data: {'phone': phone, 'password': password},
+        ApiEndpoints.login,
+        data: {'kuryer_id': courierId, 'password': password},
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -53,8 +54,6 @@ class AuthRepository {
   /// Save login session to storage
   Future<void> _saveSession(LoginResponse response) async {
     _talker.info('💾 Saving session to storage...');
-    _talker.debug('  Access Token: ${response.access.substring(0, 20)}...');
-    _talker.debug('  Refresh Token: ${response.refresh.substring(0, 20)}...');
     _talker.debug('  Courier ID: ${response.kuryerId}');
     _talker.debug('  Business ID: ${response.businessId}');
 
@@ -63,17 +62,11 @@ class AuthRepository {
     await _preferences.setCourierId(response.kuryerId);
     await _preferences.setBusinessId(response.businessId);
 
-    // Optionally save user JSON for profile data
+    // Save user JSON for profile data
     final userJson = response.toJson();
     await _preferences.setUserJson(userJson.toString());
 
-    // Verify tokens were saved
-    final savedAccessToken = _preferences.readAccessToken();
-    final savedRefreshToken = _preferences.readRefreshToken();
-
     _talker.info('✅ Session saved successfully');
-    _talker.debug('  Verified Access Token: ${savedAccessToken != null}');
-    _talker.debug('  Verified Refresh Token: ${savedRefreshToken != null}');
   }
 
   /// Logout - clear session

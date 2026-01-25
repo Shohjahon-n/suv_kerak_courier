@@ -102,6 +102,10 @@
   "ordersPaymentStatusLabel": "Payment status",
   "ordersLocationLabel": "Location",
   "ordersAddressLabel": "Address",
+  "ordersCallCustomerButton": "Call",
+  "ordersAcceptOrderButton": "Accept",
+  "ordersPhoneNotAvailable": "Phone number not available",
+  "ordersCallAppFailed": "Failed to open phone app",
   "ordersEmptyState": "No orders yet.",
   "ordersSessionMissing": "Business ID not found.",
   "ordersLoadFailed": "Failed to load orders.",
@@ -275,5 +279,17 @@
   "courierServiceOrderNumber": "Order number",
   "courierServiceCharged": "Charged",
   "courierServicePaid": "Paid",
-  "courierServiceCount": "Water count"
+  "courierServiceCount": "Water count",
+  "commonConfirm": "Confirm",
+  "ordersAcceptTitle": "Accept Order",
+  "ordersAcceptConfirm": "Accept order {orderNum}?",
+  "@ordersAcceptConfirm": {
+    "placeholders": {
+      "orderNum": {
+        "type": "String"
+      }
+    }
+  },
+  "ordersAcceptSuccess": "Order accepted successfully",
+  "ordersAcceptFailed": "Failed to accept order"
 }

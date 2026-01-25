@@ -34,9 +34,9 @@ class AdaptiveGrid extends StatelessWidget {
       builder: (context, constraints) {
         final maxWidth = constraints.maxWidth;
         final targetWidth = minItemWidth * effectiveScale;
-        final rawColumns = ((maxWidth + crossAxisSpacing) /
-                (targetWidth + crossAxisSpacing))
-            .floor();
+        final rawColumns =
+            ((maxWidth + crossAxisSpacing) / (targetWidth + crossAxisSpacing))
+                .floor();
         final isSmallScreen = screenWidth < 360;
         final columns = (isSmallScreen && preferSingleColumnOnSmall)
             ? 1
@@ -48,8 +48,8 @@ class AdaptiveGrid extends StatelessWidget {
         final smallScreenBoost = screenWidth < 360
             ? (columns == 1 ? 1.0 : 1.15)
             : screenWidth < 400
-                ? 1.08
-                : 1.0;
+            ? 1.08
+            : 1.0;
         final textScaleAdjustment = effectiveScale > 1.0
             ? 1.0 + ((effectiveScale - 1.0) * 0.3)
             : 1.0;

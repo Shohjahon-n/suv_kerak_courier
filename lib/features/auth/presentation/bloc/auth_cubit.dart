@@ -15,13 +15,13 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthRepository _authRepository;
   final Talker _talker;
 
-  /// Login with phone and password
-  Future<void> login({required String phone, required String password}) async {
+  /// Login with courier ID and password
+  Future<void> login({required int courierId, required String password}) async {
     emit(state.copyWith(status: AuthStatus.loading));
 
     try {
       final response = await _authRepository.login(
-        phone: phone,
+        courierId: courierId,
         password: password,
       );
 

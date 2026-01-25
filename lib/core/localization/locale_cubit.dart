@@ -6,11 +6,7 @@ import '../storage/app_preferences.dart';
 
 class LocaleCubit extends Cubit<Locale> {
   LocaleCubit(this._preferences)
-      : super(
-          _resolveLocale(
-            WidgetsBinding.instance.platformDispatcher.locale,
-          ),
-        ) {
+    : super(_resolveLocale(WidgetsBinding.instance.platformDispatcher.locale)) {
     _loadSavedLocale();
   }
 

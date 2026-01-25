@@ -65,8 +65,10 @@ class AuthScaffold extends StatelessWidget {
                             if (leading != null) ...[
                               leading!,
                               SizedBox(
-                                height:
-                                    ResponsiveSpacing.spacing(context, base: 12),
+                                height: ResponsiveSpacing.spacing(
+                                  context,
+                                  base: 12,
+                                ),
                               ),
                             ],
                             Text(
@@ -77,8 +79,10 @@ class AuthScaffold extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height:
-                                  ResponsiveSpacing.spacing(context, base: 12),
+                              height: ResponsiveSpacing.spacing(
+                                context,
+                                base: 12,
+                              ),
                             ),
                             Text(
                               subtitle,
@@ -118,10 +122,7 @@ class AuthScaffold extends StatelessWidget {
 }
 
 class AuthFormCard extends StatelessWidget {
-  const AuthFormCard({
-    super.key,
-    required this.child,
-  });
+  const AuthFormCard({super.key, required this.child});
 
   final Widget child;
 

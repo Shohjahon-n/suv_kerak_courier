@@ -19,7 +19,9 @@ class PendingOrdersResponse extends Equatable {
   factory PendingOrdersResponse.fromJson(Map<String, dynamic> json) {
     final items = (json['items'] as List<dynamic>? ?? [])
         .whereType<Map>()
-        .map((item) => PendingOrderItem.fromJson(Map<String, dynamic>.from(item)))
+        .map(
+          (item) => PendingOrderItem.fromJson(Map<String, dynamic>.from(item)),
+        )
         .toList();
     return PendingOrdersResponse(
       businessId: _toInt(json['business_id']) ?? 0,
@@ -41,6 +43,8 @@ class PendingOrderItem extends Equatable {
     required this.waterCount,
     required this.locationRaw,
     required this.paymentStatus,
+    required this.buyerPhone,
+    required this.orderStatus,
   });
 
   final String orderDate;
@@ -52,19 +56,32 @@ class PendingOrderItem extends Equatable {
   final int waterCount;
   final String locationRaw;
   final String paymentStatus;
+  final String buyerPhone;
+  final String orderStatus;
 
   @override
   List<Object> get props => [
-        orderDate,
-        orderTime,
-        address,
-        note,
-        buyerId,
-        orderNumber,
-        waterCount,
-        locationRaw,
-        paymentStatus,
-      ];
+    orderDate,
+    orderTime,
+    address,
+    note,
+    buyerId,
+    orderNumber,
+    waterCount,
+    locationRaw,
+    paymentStatus,
+    buyerPhone,
+    orderStatus,
+  ];
+
+  bool get isOnWay {
+    final status = orderStatus.toLowerCase().trim();
+    return status == 'yo\'lda' ||
+        status == 'yolda' ||
+        status == 'йўлда' ||
+        status == 'on way' ||
+        status == 'on the way';
+  }
 
   factory PendingOrderItem.fromJson(Map<String, dynamic> json) {
     return PendingOrderItem(
@@ -77,6 +94,8 @@ class PendingOrderItem extends Equatable {
       waterCount: _toInt(json['suv_soni']) ?? 0,
       locationRaw: json['location']?.toString() ?? '',
       paymentStatus: json['tulov_statusi']?.toString() ?? '',
+      buyerPhone: json['buyurtmachi_tel']?.toString() ?? '',
+      orderStatus: json['buyurtma_statusi']?.toString() ?? '',
     );
   }
 
@@ -86,10 +105,7 @@ class PendingOrderItem extends Equatable {
 }
 
 class ParsedLocation extends Equatable {
-  const ParsedLocation({
-    required this.latitude,
-    required this.longitude,
-  });
+  const ParsedLocation({required this.latitude, required this.longitude});
 
   final double? latitude;
   final double? longitude;
@@ -110,8 +126,9 @@ class ParsedLocation extends Equatable {
     if (raw == null || raw.trim().isEmpty) {
       return null;
     }
-    final match =
-        RegExp(r'POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)').firstMatch(raw);
+    final match = RegExp(
+      r'POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)',
+    ).firstMatch(raw);
     if (match == null) {
       return null;
     }

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PinDots extends StatelessWidget {
-  const PinDots({
-    super.key,
-    required this.length,
-    required this.filled,
-  });
+  const PinDots({super.key, required this.length, required this.filled});
 
   final int length;
   final int filled;
@@ -15,27 +11,24 @@ class PinDots extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        length,
-            (index) {
-          final isFilled = index < filled;
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            width: 14,
-            height: 14,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isFilled ? colorScheme.primary : colorScheme.surface,
-              border: Border.all(
-                color: isFilled
-                    ? colorScheme.primary
-                    : colorScheme.outline.withValues(alpha: 0.6),
-              ),
+      children: List.generate(length, (index) {
+        final isFilled = index < filled;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          margin: const EdgeInsets.symmetric(horizontal: 6),
+          width: 14,
+          height: 14,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isFilled ? colorScheme.primary : colorScheme.surface,
+            border: Border.all(
+              color: isFilled
+                  ? colorScheme.primary
+                  : colorScheme.outline.withValues(alpha: 0.6),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }
@@ -124,12 +117,12 @@ class _PinKeyButton extends StatelessWidget {
     final child = isBackspace
         ? Icon(Icons.backspace_outlined, color: foreground)
         : Text(
-      digit ?? '',
-      style: textTheme.titleLarge?.copyWith(
-        color: foreground,
-        fontWeight: FontWeight.w600,
-      ),
-    );
+            digit ?? '',
+            style: textTheme.titleLarge?.copyWith(
+              color: foreground,
+              fontWeight: FontWeight.w600,
+            ),
+          );
 
     return Opacity(
       opacity: enabled ? 1 : 0.5,

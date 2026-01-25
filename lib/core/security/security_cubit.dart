@@ -25,8 +25,7 @@ class SecurityState extends Equatable {
   final bool isUnlocked;
   final bool isAuthenticating;
 
-  bool get requiresAuth =>
-      sessionActive && (pinEnabled || biometricEnabled);
+  bool get requiresAuth => sessionActive && (pinEnabled || biometricEnabled);
 
   SecurityState copyWith({
     bool? sessionActive,
@@ -46,12 +45,12 @@ class SecurityState extends Equatable {
 
   @override
   List<Object?> get props => [
-        sessionActive,
-        pinEnabled,
-        biometricEnabled,
-        isUnlocked,
-        isAuthenticating,
-      ];
+    sessionActive,
+    pinEnabled,
+    biometricEnabled,
+    isUnlocked,
+    isAuthenticating,
+  ];
 }
 
 class SecurityCubit extends Cubit<SecurityState> {
@@ -60,8 +59,8 @@ class SecurityCubit extends Cubit<SecurityState> {
     this._dio,
     this._talker, {
     LocalAuthentication? localAuth,
-  })  : _localAuth = localAuth ?? LocalAuthentication(),
-        super(_initialState(_preferences));
+  }) : _localAuth = localAuth ?? LocalAuthentication(),
+       super(_initialState(_preferences));
 
   final AppPreferences _preferences;
   final Dio _dio;
@@ -96,12 +95,7 @@ class SecurityCubit extends Cubit<SecurityState> {
 
   void activateSession() {
     final sessionActive = _preferences.hasSession;
-    emit(
-      state.copyWith(
-        sessionActive: sessionActive,
-        isUnlocked: true,
-      ),
-    );
+    emit(state.copyWith(sessionActive: sessionActive, isUnlocked: true));
   }
 
   void reset() {
@@ -185,11 +179,7 @@ class SecurityCubit extends Cubit<SecurityState> {
         );
       } catch (error, stackTrace) {
         // If backend fails, don't proceed
-        _talker.error(
-          'Failed to change PIN on backend',
-          error,
-          stackTrace,
-        );
+        _talker.error('Failed to change PIN on backend', error, stackTrace);
         return false;
       }
     }
@@ -203,8 +193,7 @@ class SecurityCubit extends Cubit<SecurityState> {
   Future<void> disablePin() async {
     await _preferences.setPinEnabled(false);
     await _preferences.setPinHash(null);
-    final requiresAuth =
-        state.sessionActive && state.biometricEnabled;
+    final requiresAuth = state.sessionActive && state.biometricEnabled;
     emit(
       state.copyWith(
         pinEnabled: false,
@@ -215,8 +204,7 @@ class SecurityCubit extends Cubit<SecurityState> {
 
   Future<void> setBiometricEnabled(bool enabled) async {
     await _preferences.setBiometricEnabled(enabled);
-    final requiresAuth =
-        state.sessionActive && (state.pinEnabled || enabled);
+    final requiresAuth = state.sessionActive && (state.pinEnabled || enabled);
     emit(
       state.copyWith(
         biometricEnabled: enabled,
@@ -231,11 +219,7 @@ class SecurityCubit extends Cubit<SecurityState> {
       final supported = await _localAuth.isDeviceSupported();
       return canCheck && supported;
     } catch (error, stackTrace) {
-      _talker.error(
-        'Error checking biometric availability',
-        error,
-        stackTrace,
-      );
+      _talker.error('Error checking biometric availability', error, stackTrace);
       return false;
     }
   }
@@ -245,9 +229,7 @@ class SecurityCubit extends Cubit<SecurityState> {
     try {
       final didAuthenticate = await _localAuth.authenticate(
         localizedReason: reason,
-        options: const AuthenticationOptions(
-          biometricOnly: true,
-        ),
+        options: const AuthenticationOptions(biometricOnly: true),
       );
       if (didAuthenticate) {
         emit(state.copyWith(isUnlocked: true, isAuthenticating: false));

@@ -54,9 +54,7 @@ class _ForgotPasswordStartPageState extends State<ForgotPasswordStartPage>
     try {
       final response = await dio.post(
         '/bots/kuryer/forgot-password/start/',
-        data: {
-          'kuryer_id': courierId,
-        },
+        data: {'kuryer_id': courierId},
       );
       final data = response.data;
       final ok = data is Map && data['ok'] == true;
@@ -110,9 +108,7 @@ class _ForgotPasswordStartPageState extends State<ForgotPasswordStartPage>
       borderRadius: BorderRadius.circular(
         ResponsiveSpacing.borderRadius(context, base: 16),
       ),
-      borderSide: BorderSide(
-        color: colorScheme.outline.withValues(alpha: 0.6),
-      ),
+      borderSide: BorderSide(color: colorScheme.outline.withValues(alpha: 0.6)),
     );
 
     return AuthScaffold(

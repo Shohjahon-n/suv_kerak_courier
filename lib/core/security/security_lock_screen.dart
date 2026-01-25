@@ -107,9 +107,7 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
       _showToast(l10n.biometricUnavailable);
       return;
     }
-    final ok = await cubit.authenticateWithBiometrics(
-      l10n.biometricReason,
-    );
+    final ok = await cubit.authenticateWithBiometrics(l10n.biometricReason);
     if (!mounted) {
       return;
     }
@@ -120,10 +118,7 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
 
   void _showToast(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        behavior: SnackBarBehavior.floating,
-      ),
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
 
@@ -137,10 +132,12 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
       builder: (context, state) {
         final showPin = state.pinEnabled;
         final showBiometric = state.biometricEnabled;
-        final title =
-            showPin ? l10n.pinUnlockTitle : l10n.securityBiometricTitle;
-        final subtitle =
-            showPin ? l10n.pinUnlockSubtitle : l10n.biometricReason;
+        final title = showPin
+            ? l10n.pinUnlockTitle
+            : l10n.securityBiometricTitle;
+        final subtitle = showPin
+            ? l10n.pinUnlockSubtitle
+            : l10n.biometricReason;
 
         return PopScope(
           canPop: false,
@@ -207,10 +204,7 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
                             ),
                             if (showPin) ...[
                               const SizedBox(height: 20),
-                              PinDots(
-                                length: _pinLength,
-                                filled: _pin.length,
-                              ),
+                              PinDots(length: _pinLength, filled: _pin.length),
                               if (_errorText != null) ...[
                                 const SizedBox(height: 10),
                                 Text(
@@ -231,7 +225,8 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
                               SizedBox(
                                 width: double.infinity,
                                 child: FilledButton(
-                                  onPressed: (_pin.length == _pinLength &&
+                                  onPressed:
+                                      (_pin.length == _pinLength &&
                                           !_isSubmitting &&
                                           !state.isAuthenticating)
                                       ? _submitPin
@@ -254,8 +249,8 @@ class _SecurityLockScreenState extends State<SecurityLockScreen> {
                                           strokeWidth: 2,
                                           valueColor:
                                               AlwaysStoppedAnimation<Color>(
-                                            colorScheme.primary,
-                                          ),
+                                                colorScheme.primary,
+                                              ),
                                         ),
                                       )
                                     : const Icon(Icons.fingerprint),

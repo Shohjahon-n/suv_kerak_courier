@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-enum BottleBalanceKind {
-  emptyBottles,
-  fullWater,
-}
+enum BottleBalanceKind { emptyBottles, fullWater }
 
 int? _toInt(dynamic value) {
   if (value is int) {
@@ -20,10 +17,7 @@ int? _toInt(dynamic value) {
 }
 
 class BottleBalanceRequest extends Equatable {
-  const BottleBalanceRequest({
-    required this.kind,
-    required this.range,
-  });
+  const BottleBalanceRequest({required this.kind, required this.range});
 
   final BottleBalanceKind kind;
   final DateTimeRange range;
@@ -57,16 +51,16 @@ class BottleBalancePeriodReport extends Equatable {
 
   @override
   List<Object> get props => [
-        ok,
-        courierId,
-        startDate,
-        endDate,
-        openingBalance,
-        closingBalance,
-        totalIncome,
-        totalExpense,
-        rows,
-      ];
+    ok,
+    courierId,
+    startDate,
+    endDate,
+    openingBalance,
+    closingBalance,
+    totalIncome,
+    totalExpense,
+    rows,
+  ];
 
   factory BottleBalancePeriodReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
@@ -144,16 +138,16 @@ class FullWaterPeriodReport extends Equatable {
 
   @override
   List<Object> get props => [
-        ok,
-        courierId,
-        startDate,
-        endDate,
-        openingBalance,
-        closingBalance,
-        totalIncome,
-        totalExpense,
-        rows,
-      ];
+    ok,
+    courierId,
+    startDate,
+    endDate,
+    openingBalance,
+    closingBalance,
+    totalIncome,
+    totalExpense,
+    rows,
+  ];
 
   factory FullWaterPeriodReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])

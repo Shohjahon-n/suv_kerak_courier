@@ -5,7 +5,7 @@ import '../storage/app_preferences.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit(this._preferences)
-      : super(_preferences.readThemeMode() ?? ThemeMode.light);
+    : super(_preferences.readThemeMode() ?? ThemeMode.light);
 
   final AppPreferences _preferences;
 

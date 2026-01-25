@@ -321,6 +321,18 @@ class AppLocalizationsUz extends AppLocalizations {
   String get ordersAddressLabel => 'Manzil';
 
   @override
+  String get ordersCallCustomerButton => 'Qo\'ng\'iroq qilish';
+
+  @override
+  String get ordersAcceptOrderButton => 'Qabul qilish';
+
+  @override
+  String get ordersPhoneNotAvailable => 'Telefon raqami mavjud emas';
+
+  @override
+  String get ordersCallAppFailed => 'Qo\'ng\'iroq ilovasini ochib bo\'lmadi';
+
+  @override
   String get ordersEmptyState => 'Hozircha buyurtmalar yo\'q.';
 
   @override
@@ -869,6 +881,23 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get courierServiceCount => 'Suv soni';
+
+  @override
+  String get commonConfirm => 'Confirm';
+
+  @override
+  String get ordersAcceptTitle => 'Accept Order';
+
+  @override
+  String ordersAcceptConfirm(String orderNum) {
+    return 'Accept order $orderNum?';
+  }
+
+  @override
+  String get ordersAcceptSuccess => 'Order accepted successfully';
+
+  @override
+  String get ordersAcceptFailed => 'Failed to accept order';
 }
 
 /// The translations for Uzbek, using the Cyrillic script (`uz_Cyrl`).
@@ -1183,6 +1212,18 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
 
   @override
   String get ordersAddressLabel => 'Манзил';
+
+  @override
+  String get ordersCallCustomerButton => 'Қўнғироқ қилиш';
+
+  @override
+  String get ordersAcceptOrderButton => 'Қабул қилиш';
+
+  @override
+  String get ordersPhoneNotAvailable => 'Телефон рақами мавжуд эмас';
+
+  @override
+  String get ordersCallAppFailed => 'Қўнғироқ иловасини очиб бўлмади';
 
   @override
   String get ordersEmptyState => 'Ҳозирча буюртмалар йўқ.';
@@ -1730,6 +1771,23 @@ class AppLocalizationsUzCyrl extends AppLocalizationsUz {
 
   @override
   String get courierServiceCount => 'Сув сони';
+
+  @override
+  String get commonConfirm => 'Тасдиқлаш';
+
+  @override
+  String get ordersAcceptTitle => 'Буюртмани қабул қилиш';
+
+  @override
+  String ordersAcceptConfirm(String orderNum) {
+    return '$orderNum буюртмасини қабул қиласизми?';
+  }
+
+  @override
+  String get ordersAcceptSuccess => 'Буюртма муваффақиятли қабул қилинди';
+
+  @override
+  String get ordersAcceptFailed => 'Буюртмани қабул қилишда хатолик';
 }
 
 /// The translations for Uzbek, using the Latin script (`uz_Latn`).
@@ -2047,6 +2105,18 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
 
   @override
   String get ordersAddressLabel => 'Manzil';
+
+  @override
+  String get ordersCallCustomerButton => 'Qo\'ng\'iroq qilish';
+
+  @override
+  String get ordersAcceptOrderButton => 'Qabul qilish';
+
+  @override
+  String get ordersPhoneNotAvailable => 'Telefon raqami mavjud emas';
+
+  @override
+  String get ordersCallAppFailed => 'Qo\'ng\'iroq ilovasini ochib bo\'lmadi';
 
   @override
   String get ordersEmptyState => 'Hozircha buyurtmalar yo\'q.';
@@ -2597,4 +2667,21 @@ class AppLocalizationsUzLatn extends AppLocalizationsUz {
 
   @override
   String get courierServiceCount => 'Suv soni';
+
+  @override
+  String get commonConfirm => 'Tasdiqlash';
+
+  @override
+  String get ordersAcceptTitle => 'Buyurtmani qabul qilish';
+
+  @override
+  String ordersAcceptConfirm(String orderNum) {
+    return '$orderNum buyurtmasini qabul qilasizmi?';
+  }
+
+  @override
+  String get ordersAcceptSuccess => 'Buyurtma muvaffaqiyatli qabul qilindi';
+
+  @override
+  String get ordersAcceptFailed => 'Buyurtmani qabul qilishda xatolik';
 }

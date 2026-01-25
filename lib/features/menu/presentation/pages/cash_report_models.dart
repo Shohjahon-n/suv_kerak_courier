@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 enum CashReportKind { periodic, onlinePayments }
 
 class CashReportRequest extends Equatable {
-  const CashReportRequest({
-    required this.kind,
-    required this.range,
-  });
+  const CashReportRequest({required this.kind, required this.range});
 
   final CashReportKind kind;
   final DateTimeRange range;
@@ -43,17 +40,17 @@ class CashPeriodReport extends Equatable {
 
   @override
   List<Object> get props => [
-        ok,
-        businessId,
-        courierId,
-        startDate,
-        endDate,
-        openingBalance,
-        closingBalance,
-        totalIncome,
-        totalExpense,
-        rows,
-      ];
+    ok,
+    businessId,
+    courierId,
+    startDate,
+    endDate,
+    openingBalance,
+    closingBalance,
+    totalIncome,
+    totalExpense,
+    rows,
+  ];
 
   factory CashPeriodReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
@@ -131,7 +128,15 @@ class CashPeriodRow extends Equatable {
   final String balance;
 
   @override
-  List<Object> get props => [date, time, operation, courierName, income, expense, balance];
+  List<Object> get props => [
+    date,
+    time,
+    operation,
+    courierName,
+    income,
+    expense,
+    balance,
+  ];
 
   factory CashPeriodRow.fromJson(Map<String, dynamic> json) {
     return CashPeriodRow(
@@ -164,7 +169,14 @@ class OnlinePaymentReport extends Equatable {
   final List<OnlinePaymentRow> rows;
 
   @override
-  List<Object> get props => [ok, businessId, startDate, endDate, totalAmount, rows];
+  List<Object> get props => [
+    ok,
+    businessId,
+    startDate,
+    endDate,
+    totalAmount,
+    rows,
+  ];
 
   factory OnlinePaymentReport.fromJson(Map<String, dynamic> json) {
     final rows = (json['rows'] as List<dynamic>? ?? [])
@@ -200,7 +212,14 @@ class OnlinePaymentRow extends Equatable {
   final String amount;
 
   @override
-  List<Object> get props => [date, time, orderNumber, buyer, paymentSystem, amount];
+  List<Object> get props => [
+    date,
+    time,
+    orderNumber,
+    buyer,
+    paymentSystem,
+    amount,
+  ];
 
   factory OnlinePaymentRow.fromJson(Map<String, dynamic> json) {
     return OnlinePaymentRow(

@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:suv_kerak_courier/l10n/app_localizations.dart';
 
 import '../../../../core/security/security_cubit.dart';
-import '../../../../core/storage/app_preferences.dart';
 import '../../../../core/utils/error_handler.dart';
 import '../../../../core/widgets/responsive_spacing.dart';
+import '../../data/repositories/auth_repository.dart';
 import '../widgets/auth_scaffold.dart';
 
 class LoginPage extends StatefulWidget {
@@ -57,49 +57,33 @@ class _LoginPageState extends State<LoginPage>
       return;
     }
 
-    final dio = context.read<Dio>();
-    final preferences = context.read<AppPreferences>();
+    final authRepository = context.read<AuthRepository>();
 
     setState(() => _isLoading = true);
 
     try {
-      final response = await dio.post(
-        '/couriers/login/',
-        data: {'kuryer_id': courierId, 'password': password},
+      // Login using AuthRepository - it handles token storage automatically
+      final loginResponse = await authRepository.login(
+        courierId: courierId,
+        password: password,
       );
-      final data = response.data;
-      final ok = data is Map && data['ok'] == true;
-      final detail = stringValue(data, 'detail');
 
       if (!mounted) {
         return;
       }
-      if (!ok) {
-        showToast(detail ?? l10n.loginErrorGeneric);
-        return;
-      }
 
-      final responseCourierId = intValue(data['kuryer_id']);
-      final responseBusinessId = intValue(data['business_id']);
-      final accessToken = stringValue(data, 'access');
-      final refreshToken = stringValue(data, 'refresh');
-
-      // Save tokens
-      await preferences.setAccessToken(accessToken);
-      await preferences.setRefreshToken(refreshToken);
-
-      // Save user data
-      await preferences.setCourierId(responseCourierId ?? courierId);
-      await preferences.setBusinessId(responseBusinessId);
-
-      if (!mounted) {
+      // Check if login was successful
+      if (!loginResponse.ok) {
+        showToast(
+          loginResponse.detail.isNotEmpty
+              ? loginResponse.detail
+              : l10n.loginErrorGeneric,
+        );
         return;
       }
 
       // Check if courier has completed profile
-      final profileComplete = await _checkProfileStatus(
-        responseCourierId ?? courierId,
-      );
+      final profileComplete = await _checkProfileStatus(loginResponse.kuryerId);
 
       if (!mounted) {
         return;

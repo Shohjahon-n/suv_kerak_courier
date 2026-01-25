@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -49,8 +50,14 @@ class ErrorHandler {
       final talker = context.read<Talker>();
       talker.error(customMessage ?? 'Error occurred', error, stackTrace);
     } catch (_) {
-      // Talker not available in context, log to debug console
-      debugPrint('Error: ${customMessage ?? error.toString()}');
+      // Talker not available in context, fallback to console logging
+      // ignore: avoid_print
+      if (kDebugMode) {
+        print('Error: ${customMessage ?? error.toString()}');
+        if (stackTrace != null) {
+          print('StackTrace: $stackTrace');
+        }
+      }
     }
 
     // Show snackbar if requested
@@ -69,9 +76,7 @@ class ErrorHandler {
 
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(content: Text(message)),
-      );
+      ..showSnackBar(SnackBar(content: Text(message)));
   }
 }
 
