@@ -81,7 +81,14 @@ class _LoginPageState extends State<LoginPage>
 
       final responseCourierId = intValue(data['kuryer_id']);
       final responseBusinessId = intValue(data['business_id']);
+      final accessToken = stringValue(data, 'access');
+      final refreshToken = stringValue(data, 'refresh');
 
+      // Save tokens
+      await preferences.setAccessToken(accessToken);
+      await preferences.setRefreshToken(refreshToken);
+
+      // Save user data
       await preferences.setCourierId(responseCourierId ?? courierId);
       await preferences.setBusinessId(responseBusinessId);
 

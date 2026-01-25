@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
+import '../../features/auth/data/repositories/auth_repository.dart';
+import '../../features/auth/presentation/bloc/auth_cubit.dart';
 import '../../features/home/presentation/bloc/home_cubit.dart';
 import '../localization/locale_cubit.dart';
 import '../logging/app_logger.dart';
@@ -17,6 +19,9 @@ final getIt = GetIt.instance;
 Future<void> setupServiceLocator({Talker? talker}) async {
   // Register core services as singletons
   await _registerCoreServices(talker: talker);
+
+  // Register repositories
+  _registerRepositories();
 
   // Register Cubits as factories
   _registerCubits();
@@ -36,7 +41,10 @@ Future<void> _registerCoreServices({Talker? talker}) async {
   // Network
   if (!getIt.isRegistered<Dio>()) {
     getIt.registerLazySingleton<Dio>(
-      () => DioClient.create(talker: getIt<Talker>()),
+      () => DioClient.create(
+        talker: getIt<Talker>(),
+        preferences: getIt<AppPreferences>(),
+      ),
     );
   }
 
@@ -47,32 +55,40 @@ Future<void> _registerCoreServices({Talker? talker}) async {
   }
 }
 
+/// Register repositories as singletons
+void _registerRepositories() {
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepository(
+      dio: getIt<Dio>(),
+      preferences: getIt<AppPreferences>(),
+      talker: getIt<Talker>(),
+    ),
+  );
+}
+
 /// Register Cubits as factories (new instance each time)
 void _registerCubits() {
   // Global Cubits
-  getIt.registerFactory<ThemeCubit>(
-    () => ThemeCubit(getIt<AppPreferences>()),
-  );
+  getIt.registerFactory<ThemeCubit>(() => ThemeCubit(getIt<AppPreferences>()));
 
   getIt.registerFactory<LocaleCubit>(
     () => LocaleCubit(getIt<AppPreferences>()),
   );
 
   getIt.registerFactory<SecurityCubit>(
-    () => SecurityCubit(
-      getIt<AppPreferences>(),
-      getIt<Dio>(),
-      getIt<Talker>(),
-    ),
+    () => SecurityCubit(getIt<AppPreferences>(), getIt<Dio>(), getIt<Talker>()),
   );
 
   // Feature Cubits
-  getIt.registerFactory<HomeCubit>(
-    () => HomeCubit(
-      getIt<Dio>(),
-      getIt<AppPreferences>(),
-      getIt<Talker>(),
+  getIt.registerFactory<AuthCubit>(
+    () => AuthCubit(
+      authRepository: getIt<AuthRepository>(),
+      talker: getIt<Talker>(),
     ),
+  );
+
+  getIt.registerFactory<HomeCubit>(
+    () => HomeCubit(getIt<Dio>(), getIt<AppPreferences>(), getIt<Talker>()),
   );
 }
 

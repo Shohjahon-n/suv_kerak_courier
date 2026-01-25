@@ -4,11 +4,16 @@ import 'package:talker/talker.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 
 import '../constants/app_constants.dart';
+import '../storage/app_preferences.dart';
+import 'auth_interceptor.dart';
 
 class DioClient {
   DioClient._();
 
-  static Dio create({required Talker talker}) {
+  static Dio create({
+    required Talker talker,
+    required AppPreferences preferences,
+  }) {
     final logNetwork = kDebugMode;
     final dio = Dio(
       BaseOptions(
@@ -18,6 +23,19 @@ class DioClient {
       ),
     );
 
+    // Create auth interceptor
+    final authInterceptor = AuthInterceptor(
+      preferences: preferences,
+      talker: talker,
+    );
+
+    // Add auth interceptor first (before logging)
+    dio.interceptors.add(authInterceptor);
+
+    // Set Dio instance after adding interceptor to avoid circular dependency
+    authInterceptor.setDio(dio);
+
+    // Add logging interceptor
     dio.interceptors.add(
       TalkerDioLogger(
         talker: talker,
