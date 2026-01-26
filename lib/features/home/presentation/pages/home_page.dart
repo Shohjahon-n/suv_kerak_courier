@@ -245,18 +245,19 @@ class HomeView extends StatelessWidget {
           FutureBuilder<PackageInfo>(
             future: _packageInfoFuture,
             builder: (context, snapshot) {
-              final version =
-                  snapshot.hasData ? _formatVersion(snapshot.data!) : '--';
+              final version = snapshot.hasData
+                  ? _formatVersion(snapshot.data!)
+                  : '--';
               return Align(
                 alignment: Alignment.center,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: colorScheme.surfaceContainerHighest
-                        .withValues(alpha: 0.5),
+                    color: colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.5,
+                    ),
                     borderRadius: BorderRadius.circular(999),
                     border: Border.all(
-                      color:
-                          colorScheme.outlineVariant.withValues(alpha: 0.3),
+                      color: colorScheme.outlineVariant.withValues(alpha: 0.3),
                     ),
                   ),
                   child: Padding(
@@ -268,11 +269,12 @@ class HomeView extends StatelessWidget {
                       l10n.homeDevelopedBy(version),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.7),
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.3,
-                          ),
+                        color: colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.7,
+                        ),
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.3,
+                      ),
                     ),
                   ),
                 ),

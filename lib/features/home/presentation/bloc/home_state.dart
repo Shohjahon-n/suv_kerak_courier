@@ -63,13 +63,13 @@ class HomeDashboard extends Equatable {
 
   @override
   List<Object?> get props => [
-        courierId,
-        lastActiveAt,
-        cashBalance,
-        fullWaterRemaining,
-        emptyBottleCount,
-        ordersCompletedToday,
-      ];
+    courierId,
+    lastActiveAt,
+    cashBalance,
+    fullWaterRemaining,
+    emptyBottleCount,
+    ordersCompletedToday,
+  ];
 }
 
 class HomeState extends Equatable {
@@ -96,8 +96,9 @@ class HomeState extends Equatable {
       status: status ?? this.status,
       dashboard: dashboard ?? this.dashboard,
       messageKey: clearMessage ? null : (messageKey ?? this.messageKey),
-      messageDetail:
-          clearMessage ? null : (messageDetail ?? this.messageDetail),
+      messageDetail: clearMessage
+          ? null
+          : (messageDetail ?? this.messageDetail),
     );
   }
 

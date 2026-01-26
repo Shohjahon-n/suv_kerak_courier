@@ -27,9 +27,7 @@ class StatusMessageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           ResponsiveSpacing.borderRadius(context, base: 16),
         ),
-        border: Border.all(
-          color: colorScheme.outline.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: colorScheme.outline.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -39,15 +37,12 @@ class StatusMessageCard extends StatelessWidget {
             message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
           if (actionLabel != null && onAction != null) ...[
             SizedBox(height: ResponsiveSpacing.spacing(context, base: 12)),
-            OutlinedButton(
-              onPressed: onAction,
-              child: Text(actionLabel!),
-            ),
+            OutlinedButton(onPressed: onAction, child: Text(actionLabel!)),
           ],
         ],
       ),

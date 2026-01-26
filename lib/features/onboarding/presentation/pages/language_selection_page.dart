@@ -44,12 +44,18 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
         flag: '🇷🇺',
       ),
       _LanguageOption(
-        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Latn'),
+        locale: const Locale.fromSubtags(
+          languageCode: 'uz',
+          scriptCode: 'Latn',
+        ),
         label: l10n.languageUzbekLatin,
         flag: '🇺🇿',
       ),
       _LanguageOption(
-        locale: const Locale.fromSubtags(languageCode: 'uz', scriptCode: 'Cyrl'),
+        locale: const Locale.fromSubtags(
+          languageCode: 'uz',
+          scriptCode: 'Cyrl',
+        ),
         label: l10n.languageUzbekCyrillic,
         flag: '🇺🇿',
       ),
@@ -104,11 +110,11 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                     padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 1.15,
-                    ),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 1.15,
+                        ),
                     itemCount: options.length,
                     itemBuilder: (context, index) {
                       final option = options[index];
@@ -148,10 +154,7 @@ class _LanguageOption {
 }
 
 class _LanguageCard extends StatelessWidget {
-  const _LanguageCard({
-    required this.option,
-    required this.onTap,
-  });
+  const _LanguageCard({required this.option, required this.onTap});
 
   final _LanguageOption option;
   final VoidCallback? onTap;
@@ -186,18 +189,15 @@ class _LanguageCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    option.flag,
-                    style: const TextStyle(fontSize: 34),
-                  ),
+                  Text(option.flag, style: const TextStyle(fontSize: 34)),
                   const SizedBox(height: 12),
                   Text(
                     option.label,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: colorScheme.onSurface,
-                        ),
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 ],
               ),

@@ -7,7 +7,7 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this._dio, this._preferences, this._talker)
-      : super(const HomeState()) {
+    : super(const HomeState()) {
     load();
   }
 
@@ -48,8 +48,7 @@ class HomeCubit extends Cubit<HomeState> {
         return;
       }
 
-      final dashboard =
-          HomeDashboard.fromJson(Map<String, dynamic>.from(data));
+      final dashboard = HomeDashboard.fromJson(Map<String, dynamic>.from(data));
       emit(
         state.copyWith(
           status: HomeStatus.success,
@@ -58,11 +57,7 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     } on DioException catch (error, stackTrace) {
-      _talker.error(
-        'Failed to load dashboard data',
-        error,
-        stackTrace,
-      );
+      _talker.error('Failed to load dashboard data', error, stackTrace);
       final detail = _extractErrorDetail(error);
       emit(
         state.copyWith(

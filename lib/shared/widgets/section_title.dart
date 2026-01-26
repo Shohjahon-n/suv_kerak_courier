@@ -19,18 +19,15 @@ class SectionTitle extends StatelessWidget {
       textAlign: textAlign,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w700,
-          ),
+      style: Theme.of(
+        context,
+      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
     );
 
     if (padding == null) {
       return textWidget;
     }
 
-    return Padding(
-      padding: padding!,
-      child: textWidget,
-    );
+    return Padding(padding: padding!, child: textWidget);
   }
 }
