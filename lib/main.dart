@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,11 +29,17 @@ Future<void> main() async {
       );
 
       // Setup Crashlytics
-      if (kReleaseMode) {
-        // Production: send crashes to Firebase
-        FlutterError.onError =
-            FirebaseCrashlytics.instance.recordFlutterFatalError;
-      }
+      FlutterError.onError =
+          FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+      // Pass all uncaught asynchronous errors to Crashlytics
+      PlatformDispatcher.instance.onError = (error, stack) {
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+        return true;
+      };
+
+      // Send test log to Firebase to activate Crashlytics
+      await FirebaseCrashlytics.instance.log('App started successfully');
 
       // Initialize Sentry
       await SentryFlutter.init((options) {
