@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "455819965180",
+    "project_id": "suv-kerak-courier",
+    "storage_bucket": "suv-kerak-courier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455819965180:android:517bdc3ebcfb5eb01c9d79",
+        "android_client_info": {
+          "package_name": "com.example.suv_kerak_courier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCy_0Iz4HKYrzgcgeeeDE9vUu_jWCBWv0Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
