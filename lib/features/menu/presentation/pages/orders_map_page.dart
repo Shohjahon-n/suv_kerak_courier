@@ -126,18 +126,18 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
         if (!mounted) return;
         setState(() {
           _orderDetail = {
-            "order_num": res.data["order"]["order_num"],
-            "manzil": "",
-            "suv_soni": "",
-            ...res.data["finish"],
-            "lng": res.data["finish"]["lon"],
+            'order_num': res.data['order']['order_num'],
+            'manzil': '',
+            'suv_soni': '',
+            ...(res.data['finish'] as Map<String, dynamic>),
+            'lng': res.data['finish']['lon'],
           };
           _onWayData = {
-            "order_num": res.data["order"]["order_num"],
-            "manzil": "",
-            "suv_soni": "",
-            ...res.data["finish"],
-            "lng": res.data["finish"]["lon"],
+            'order_num': res.data['order']['order_num'],
+            'manzil': '',
+            'suv_soni': '',
+            ...(res.data['finish'] as Map<String, dynamic>),
+            'lng': res.data['finish']['lon'],
           };
           _loading = true;
           _arrivalDialogShown = false;
@@ -195,7 +195,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
       if (!mounted) return;
       setState(() {
-        _phone = res.data["phone"] ?? "";
+        _phone = (res.data['phone'] as String?) ?? '';
         _loading = false;
       });
     } catch (e, stackTrace) {
@@ -385,7 +385,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
 
       if (!mounted) return;
       setState(() {
-        _orders = res.data["orders"] ?? [];
+        _orders = (res.data['orders'] as List<dynamic>?) ?? [];
       });
 
       if (_myLocation != null && _orders.isNotEmpty && _isFirstLoad) {
@@ -633,13 +633,14 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
       );
 
       if (!mounted) return;
+      final data = res.data as Map<String, dynamic>;
       setState(() {
-        _orderDetailPay = res.data;
+        _orderDetailPay = data;
         _loading = false;
       });
 
       if (!mounted) return;
-      await _showInfoTableModal(res.data);
+      await _showInfoTableModal(data);
     } catch (e, stackTrace) {
       if (mounted) {
         setState(() {
@@ -1015,10 +1016,10 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
             onTap: () {
               if (!_ready) {
                 setState(() {
-                  _orderDetail = order;
+                  _orderDetail = order as Map<String, dynamic>;
                   _showDetail = true;
                   _onWayData = {};
-                  _phone = "";
+                  _phone = '';
                   _arrivalDialogShown = false;
                 });
               }
@@ -1356,7 +1357,7 @@ class _OrdersMapPageState extends State<OrdersMapPage> {
                     ),
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      _orderDetail["manzil"] ?? "",
+                      (_orderDetail['manzil'] as String?) ?? '',
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),
