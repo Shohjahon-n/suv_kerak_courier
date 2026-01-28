@@ -30,20 +30,19 @@ Future<void> main() async {
       // Setup Crashlytics
       if (kReleaseMode) {
         // Production: send crashes to Firebase
-        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+        FlutterError.onError =
+            FirebaseCrashlytics.instance.recordFlutterFatalError;
       }
 
       // Initialize Sentry
-      await SentryFlutter.init(
-        (options) {
-          options.dsn = const String.fromEnvironment(
-            'SENTRY_DSN',
-            defaultValue: '', // Bo'sh qoldiring, keyin to'ldiramiz
-          );
-          options.tracesSampleRate = 1.0;
-          options.environment = kReleaseMode ? 'production' : 'development';
-        },
-      );
+      await SentryFlutter.init((options) {
+        options.dsn = const String.fromEnvironment(
+          'SENTRY_DSN',
+          defaultValue: '', // Bo'sh qoldiring, keyin to'ldiramiz
+        );
+        options.tracesSampleRate = 1.0;
+        options.environment = kReleaseMode ? 'production' : 'development';
+      });
 
       // Initialize dependency injection
       await setupServiceLocator(talker: talker);
@@ -63,7 +62,11 @@ Future<void> main() async {
 
       // Send to Crashlytics in release mode
       if (kReleaseMode) {
-        FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+        FirebaseCrashlytics.instance.recordError(
+          error,
+          stackTrace,
+          fatal: true,
+        );
       }
 
       // Send to Sentry
