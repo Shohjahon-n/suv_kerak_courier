@@ -4,8 +4,10 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
+  firebase_core
   geolocator_windows
   local_auth_windows
+  sentry_flutter
   share_plus
   url_launcher_windows
 )
